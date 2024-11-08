@@ -13,9 +13,9 @@ https://nasa-ammos.github.io/aerie-docs/scheduling-and-constraints/declarative/c
 https://nasa-ammos.github.io/aerie-docs/scheduling-and-constraints/declarative/constraints/examples/
 https://nasa-ammos.github.io/aerie-docs/scheduling-and-constraints/declarative/scheduling/introduction/
 https://nasa-ammos.github.io/aerie-docs/scheduling-and-constraints/declarative/scheduling/goals/
-https://nasa-ammos.github.io/aerie-docs/scheduling-and-constraints/declarative/scheduling/run-scheduling/
 https://nasa-ammos.github.io/aerie-docs/scheduling-and-constraints/declarative/scheduling/global-conditions/
 https://nasa-ammos.github.io/aerie-docs/scheduling-and-constraints/declarative/scheduling/temporal-subset/
+https://nasa-ammos.github.io/aerie-docs/scheduling-and-constraints/execution/
 https://nasa-ammos.github.io/aerie-docs/command-expansion/introduction/
 https://nasa-ammos.github.io/aerie-docs/command-expansion/upload-command-dictionary/
 https://nasa-ammos.github.io/aerie-docs/command-expansion/expansion-rules/
