@@ -16,9 +16,9 @@ jobs:
           node-version: 'lts/*'
       - name: Install Prince
         run: |
-          curl https://www.princexml.com/download/prince-15-linux-generic-x86_64.tar.gz -O
-          tar zxf prince-15-linux-generic-x86_64.tar.gz
-          cd prince-15-linux-generic-x86_64
+          curl https://www.princexml.com/download/prince-15.4.1-linux-generic-x86_64.tar.gz -O
+          tar zxf prince-15.4.1-linux-generic-x86_64.tar.gz
+          cd prince-15.4.1-linux-generic-x86_64
           yes "" | sudo ./install.sh
       - name: Generate PDFs
         run: sh ./generate-pdfs/generate-pdfs.sh
