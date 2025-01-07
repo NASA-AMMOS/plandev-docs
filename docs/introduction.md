@@ -43,3 +43,7 @@ Understand Aerie in **5 minutes** by trying it out!
    Note that the fast track deployment is not configured to connect to an authentication and authorization provider, therefore any credentials are accepted.
 
 1. Head over to the planning documentation to learn how to [upload a mission model](../planning/upload-mission-model).
+
+## Cleanup
+
+Aerie is an actively developed application suite with interdepenencies between the server, the web ui, and the database schema. New capabilities may require ensuring that all parts of the application are on the same version. Breaking changes are stated in the release notes. If the above fast track instructions worked previously, but are now seeing an inconsistent schema consult the [developer docs](https://github.com/NASA-AMMOS/aerie/blob/develop/docs/DEVELOPER.md) for instructions on clearing container images. For long running hosts see [Production Deployment](https://nasa-ammos.github.io/aerie-docs/deployment/production-deployment/) for an overview of the data migration process.

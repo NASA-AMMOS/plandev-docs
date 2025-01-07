@@ -1,6 +1,6 @@
 # Advanced - UI Custom Base Path
 
-This document lists the instructions for building an aerie-ui Docker image with a [custom base path](https://kit.svelte.dev/docs/configuration#paths). While the default path and resulting application URL are usually a good fit, some installations may choose a custom path to provide consistency with other non-Aerie applications that the mission is using. Alternately, this could be part of a configuration that supports running multiple instances of Aerie UI on the same machine.
+This document lists the instructions for building an aerie-ui Docker image with a [custom base path](https://kit.svelte.dev/docs/configuration#paths). While the default path and resulting application URL are usually a good fit, some installations may choose a custom path to support deployment behind a gateway, to provide consistency with other non-Aerie applications that the mission is using, or this could be part of a configuration that supports running multiple instances of Aerie UI on the same machine.
 
 ### Building
 
