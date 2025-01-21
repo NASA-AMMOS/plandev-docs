@@ -147,8 +147,7 @@ Set it to the following:
 
 ```json
 {
-  "headers" :
-  {
+  "headers": {
     "x-hasura-admin-secret": "<YOUR_ADMIN_SECRET>",
     "x-hasura-user-id": "<YOUR_AERIE_USERNAME>",
     "x-hasura-role": "viewer"
@@ -168,11 +167,11 @@ If you do not know the admin secret for your venue, you can instead run a pre-re
   <summary><b>For Aerie versions before v2.2.0</b></summary>
 
 1. Access the Global Environment by clicking on "No Environment" -> "Environments..." in the top-right of the page.
-Set it to the following:
+   Set it to the following:
+
 ```json
 {
-  "headers" :
-  {
+  "headers": {
     "Authorization": "Bearer {{user}}",
     "x-hasura-role": "viewer"
   }
@@ -181,20 +180,21 @@ Set it to the following:
 
 2. In the Query Window, click on Pre-request. Select Enable Pre-request script.
 
-
 3. Enter the following pre-request script:
+
 ```js
 // Fetch a new token from the Gateway
 const res = await altair.helpers.request(
   'POST',
   '/auth/login', // AUTH ENDPOINT OF THE DEPLOYMENT
   {
-    body: { "username": "<YOUR_AERIE_USERNAME>", "password": "<YOUR_AERIE_PASSWORD>"}, // CREDENTIALS TO LOG IN AS
-    headers: {"Content-Type": "application/json"}
-  });
-if(res.success) {
+    body: { username: '<YOUR_AERIE_USERNAME>', password: '<YOUR_AERIE_PASSWORD>' }, // CREDENTIALS TO LOG IN AS
+    headers: { 'Content-Type': 'application/json' },
+  },
+);
+if (res.success) {
   const token = res.token;
-  await altair.helpers.setEnvironment("user", token);
+  await altair.helpers.setEnvironment('user', token);
 } else {
   altair.log(res);
 }
@@ -222,9 +222,10 @@ const res = await altair.helpers.request(
   'POST',
   '/auth/login', // AUTH ENDPOINT OF THE DEPLOYMENT
   {
-    body: { "username": "<YOUR_AERIE_USERNAME>", "password": "<YOUR_AERIE_PASSWORD>"}, // CREDENTIALS TO LOG IN AS
-    headers: {"Content-Type": "application/json"}
-  });
+    body: { username: '<YOUR_AERIE_USERNAME>', password: '<YOUR_AERIE_PASSWORD>' }, // CREDENTIALS TO LOG IN AS
+    headers: { 'Content-Type': 'application/json' },
+  },
+);
 ```
 
 Replace `<YOUR_AERIE_USERNAME>` and `<YOUR_AERIE_PASSWORD>` with the username and password you use to sign in to Aerie.
@@ -234,6 +235,7 @@ By default, you will make queries using the `viewer` role. If you want to use a 
 select `Set Headers` from the top of the left-side sidebar and update the header `x-hasura-role` to a different role you are permitted to use.
 
 To see the list of your permitted roles, use the following query:
+
 ```gql
 {
   users_and_roles {
@@ -253,11 +255,14 @@ You can query the API in Python using the [requests](https://pypi.org/project/re
 
 ```python
 import json
+import os
 import requests
+
+token = os.getenv('AERIE_TOKEN')
 
 response = requests.post(
   url='http://localhost:8080/v1/graphql', # Change from 'localhost' as needed.
-  headers={ 'Authorization': 'Bearer YOUR_TOKEN_HERE' }, # See 'Authorization' section above to get this.
+  headers={ 'Authorization': f'Bearer {token}' }, # See 'Authorization' section above to get this.
   json={ 'query': 'query { plan { id } }' }
 )
 
