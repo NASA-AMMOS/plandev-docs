@@ -180,6 +180,7 @@ const sidebars = {
         'mission-modeling/advanced-incons',
         'mission-modeling/advanced-the-merlin-interface',
         'mission-modeling/activity-types/durations',
+        'mission-modeling/testing-and-debugging',
       ],
     },
     {
@@ -299,6 +300,7 @@ const sidebars = {
               items: ['scheduling-and-constraints/procedural/constraints/examples'],
             },
             'scheduling-and-constraints/procedural/parameters-and-invocations',
+            'scheduling-and-constraints/procedural/debugging',
             // 'scheduling-and-constraints/procedural/running-externally'
           ],
         },
