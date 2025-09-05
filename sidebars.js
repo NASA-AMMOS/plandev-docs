@@ -22,8 +22,7 @@ const sidebars = {
           items: [
             'api/examples/planning/collaboration',
             'api/examples/planning/anchors',
-            'api/examples/planning/snapshots',
-            'api/examples/planning/external-events',
+            'api/examples/planning/snapshots'
           ],
         },
         'api/examples/simulation',
@@ -32,6 +31,7 @@ const sidebars = {
         'api/examples/activity-presets',
         'api/examples/advanced-extensions',
         'api/examples/tags',
+        'api/examples/external-events',
       ],
     },
   ],
@@ -114,6 +114,7 @@ const sidebars = {
             'tutorials/external-events/creating-an-external-source',
             'tutorials/external-events/uploading-an-external-source',
             'tutorials/external-events/associating-derivation-groups',
+            'tutorials/external-events/creating-a-scheduling-goal-with-external-events',
           ],
         },
       ],
@@ -194,7 +195,15 @@ const sidebars = {
         'planning/create-plan-and-simulate',
         'planning/external-datasets',
         'planning/activity-directive-metadata',
-        'planning/external-events',
+        {
+          type: 'category',
+          label: 'External Events',
+          link: {
+            id: 'planning/external-events/introduction',
+            type: 'doc',
+          },
+          items: ['planning/external-events/external-events-attributes'],
+        },
         {
           type: 'category',
           label: 'Collaboration',
