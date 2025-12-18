@@ -4,9 +4,9 @@ A **mission model configuration** enables mission modelers to set initial missio
 
 ## Declaration
 
-To use a mission model configuration the `@WithConfiguration` annotation must be used within the mission model's [package-info.java](./introduction.mdx#the-package-infojava-file) to register the configuration with Aerie.
+To use a mission model configuration the `@WithConfiguration` annotation must be used within the mission model's [package-info.java](./introduction.mdx#the-package-infojava-file) to register the configuration with PlanDev.
 
-For example, the Aerie mission model template [package-info.java](https://github.com/NASA-AMMOS/aerie-mission-model-template/blob/main/src/main/java/missionmodel/package-info.java) makes use of this annotation:
+For example, the PlanDev mission model template [package-info.java](https://github.com/NASA-AMMOS/aerie-mission-model-template/blob/main/src/main/java/missionmodel/package-info.java) makes use of this annotation:
 
 ```java
 @MissionModel(model = Mission.class)
@@ -59,7 +59,7 @@ public record Configuration(Path initialDataPath) {
 }
 ```
 
-See the Aerie [mission model examples directory](https://github.com/NASA-AMMOS/aerie/tree/develop/examples) for a demonstration of each possible style of configuration definitions:
+See the PlanDev [mission model examples directory](https://github.com/NASA-AMMOS/aerie/tree/develop/examples) for a demonstration of each possible style of configuration definitions:
 
 1. [foo-missionmodel](https://github.com/NASA-AMMOS/aerie/blob/develop/examples/foo-missionmodel/src/main/java/gov/nasa/jpl/aerie/foomissionmodel/Configuration.java) - Uses standard `@Parameter` configuration annotations
 1. [banananation](https://github.com/NASA-AMMOS/aerie/blob/develop/examples/banananation/src/main/java/gov/nasa/jpl/aerie/banananation/Configuration.java) - Uses the `@Template` annotation to define a default Configuration object (shown above)

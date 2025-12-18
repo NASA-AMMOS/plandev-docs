@@ -1,7 +1,7 @@
-# Advanced - Database Migrations pre-Aerie v3.3.0
+# Advanced - Database Migrations pre-PlanDev v3.3.0
 
 :::info Note
-For Aerie deployments AFTER to v3.3.0, please reference [this page](../advanced-database-migrations)
+For PlanDev deployments AFTER to v3.3.0, please reference [this page](../advanced-database-migrations)
 for accurate information as to how the migration script works.
 :::
 
@@ -16,7 +16,7 @@ Additional Python package requirements can be installed by running the following
 python -m pip install -r requirements.txt
 ```
 
-Once the prerequisite software has been installed, the script can be executed by running the following command from inside the Aerie [deployment](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment) directory:
+Once the prerequisite software has been installed, the script can be executed by running the following command from inside the PlanDev [deployment](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment) directory:
 
 ```sh
 python aerie_db_migration.py
@@ -33,7 +33,7 @@ The script expects all migration files present on the server to also exist on th
 ## Arguments
 
 <details closed>
-  <summary><b>For Aerie deployments before v2.8.0</b></summary>
+  <summary><b>For PlanDev deployments before v2.8.0</b></summary>
 
 `aerie_db_migration` takes the following command line arguments:
 
@@ -48,8 +48,8 @@ aerie_db_migration.py [-h] (-a | -r) [--all] [-db DB_NAMES [DB_NAMES ...]] [-p H
 | `-r`, `--revert`                                                         | Revert migration steps to specified databases.                                                                               |
 | `--all`                                                                  | Apply (Revert) _ALL_ unapplied (applied) migration steps to specified databases.                                             |
 | `-db DB_NAMES [DB_NAMES ...]`, <br/>`--db-names DB_NAMES [DB_NAMES ...]` | List of databases to migrate. Migrates all available databases if unspecified.                                               |
-| `-p HASURA_PATH`, `--hasura-path HASURA_PATH`                            | The path to the directory containing the `config.yaml` for Aerie. Defaults to `./hasura`                                     |
-| `-e ENV_PATH`, `--env-path ENV_PATH`                                     | The path to the `.env` file used to deploy Aerie. **Must** define `AERIE_USERNAME` and `AERIE_PASSWORD`. Defaults to `.env`. |
+| `-p HASURA_PATH`, `--hasura-path HASURA_PATH`                            | The path to the directory containing the `config.yaml` for PlanDev. Defaults to `./hasura`                                     |
+| `-e ENV_PATH`, `--env-path ENV_PATH`                                     | The path to the `.env` file used to deploy PlanDev. **Must** define `AERIE_USERNAME` and `AERIE_PASSWORD`. Defaults to `.env`. |
 | `-n NETWORK_LOCATION`, `--network-location NETWORK_LOCATION`             | The network location of the database. Defaults to `localhost`.                                                               |
 
 It is necessary to at least specify `--apply` or `--revert`.
@@ -69,8 +69,8 @@ aerie_db_migration.py [-h] (-a | -r) [--all] [-p HASURA_PATH] [-e ENV_PATH] [-n 
 | `-a`, `--apply`                                              | Apply migration steps to the database.                                                                                       |
 | `-r`, `--revert`                                             | Revert migration steps to the database.                                                                                      |
 | `--all`                                                      | Apply (Revert) _ALL_ unapplied (applied) migration steps to the database.                                                    |
-| `-p HASURA_PATH`, `--hasura-path HASURA_PATH`                | The path to the directory containing the `config.yaml` for Aerie. Defaults to `./hasura`                                     |
-| `-e ENV_PATH`, `--env-path ENV_PATH`                         | The path to the `.env` file used to deploy Aerie. **Must** define `AERIE_USERNAME` and `AERIE_PASSWORD`. Defaults to `.env`. |
+| `-p HASURA_PATH`, `--hasura-path HASURA_PATH`                | The path to the directory containing the `config.yaml` for PlanDev. Defaults to `./hasura`                                     |
+| `-e ENV_PATH`, `--env-path ENV_PATH`                         | The path to the `.env` file used to deploy PlanDev. **Must** define `AERIE_USERNAME` and `AERIE_PASSWORD`. Defaults to `.env`. |
 | `-n NETWORK_LOCATION`, `--network-location NETWORK_LOCATION` | The network location of the database. Defaults to `localhost`.                                                               |
 
 It is necessary to at least specify `--apply` or `--revert`.
@@ -82,14 +82,14 @@ that `aerie_db_migration.py` is being run from, then it is necessary to specify 
 ## Migrating a Database
 
 <details closed>
-  <summary><b>For Aerie deployments before v2.8.0</b></summary>
+  <summary><b>For PlanDev deployments before v2.8.0</b></summary>
 
 If `--all` has been specified, then `aerie_db_migration.py` will automatically apply or revert all applicable changes to the specified databases (or all available databases if none are specified). It will then output the details of each change applied, followed by the overall status. For example:
 
 ```sh
-> aerie_db_migration.py -a -db AerieMerlin --all
+> aerie_db_migration.py -a -db PlanDevMerlin --all
 ###########
-AerieMerlin
+PlanDevMerlin
 ###########
 VERSION        TYPE  NAME
 1667319761264  up    test_migration
@@ -101,7 +101,7 @@ INFO Metadata is consistent
 Database Status
 ###############
 
-Database: AerieMerlin
+Database: PlanDevMerlin
 VERSION        NAME            SOURCE STATUS  DATABASE STATUS
 1667319761264  test_migration  Present        Present
 ```
@@ -110,21 +110,21 @@ Otherwise, `aerie_db_migration` will enter a step-by-step mode, where you first 
 to apply each available migration step. For example:
 
 ```sh
-> aerie_db_migration.py -a -db AerieMerlin
+> aerie_db_migration.py -a -db PlanDevMerlin
 ###############################
 AERIE DATABASE MIGRATION HELPER
 ###############################
 
 0) Quit the migration helper
 
-1) Database: AerieMerlin
+1) Database: PlanDevMerlin
 VERSION        NAME            SOURCE STATUS  DATABASE STATUS
 1667319761264  test_migration  Present        Not Present
 
 Select a database to migrate (0-1): 1
 
 ###########
-AerieMerlin
+PlanDevMerlin
 ###########
 
 MIGRATION STEPS AVAILABLE:

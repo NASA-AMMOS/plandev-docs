@@ -6,7 +6,7 @@ const isDev = process.env.NODE_ENV === 'development';
 
 /** @type {import('@docusaurus/types').Config} */
 const config = {
-  baseUrl: '/aerie-docs',
+  baseUrl: '/plandev-docs',
   favicon: 'img/favicon.ico',
   i18n: {
     defaultLocale: 'en',
@@ -18,14 +18,14 @@ const config = {
   onBrokenLinks: 'throw',
   onBrokenMarkdownLinks: 'warn',
   organizationName: 'NASA-AMMOS',
-  projectName: 'aerie-docs',
+  projectName: 'plandev-docs',
   presets: [
     [
       'classic',
       /** @type {import('@docusaurus/preset-classic').Options} */
       ({
         docs: {
-          editUrl: 'https://github.com/NASA-AMMOS/aerie-docs',
+          editUrl: 'https://github.com/NASA-AMMOS/plandev-docs',
           routeBasePath: '/',
           sidebarPath: require.resolve('./sidebars.js'),
         },
@@ -35,14 +35,26 @@ const config = {
       }),
     ],
   ],
-  tagline: 'A software framework for modeling spacecraft.',
+  tagline: 'Open-source planning, scheduling, and sequencing for space missions (formerly Aerie)',
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
+      announcementBar: {
+        id: 'rebranding_notice',
+        content:
+          '<strong>Aerie is now PlanDev!</strong> Same great software, new name. <a href="/plandev-docs/introduction/">Learn more</a>',
+        backgroundColor: '#4c7de0',
+        textColor: '#ffffff',
+        isCloseable: true,
+      },
+      metadata: [
+        { name: 'description', content: 'PlanDev (formerly Aerie) - Open-source planning, scheduling, and sequencing software for space missions. Developed by NASA AMMOS.' },
+        { name: 'keywords', content: 'mission planning, spacecraft sequencing, aerie, plandev, NASA, AMMOS, space missions, scheduling' },
+      ],
       algolia: {
         appId: '8JHCZUL0FX',
         apiKey: 'a1dbcf32b9808b0ecaf9c7402952d6d3',
-        indexName: 'aerie',
+        indexName: 'plandev',
         replaceSearchResultPathname: isDev ? { from: /^\/docs\/next/g, to: '/docs' } : undefined,
       },
       docs: {
@@ -102,9 +114,9 @@ const config = {
           },
         ],
         logo: {
-          alt: 'Aerie Documentation',
-          src: 'img/aerie-wordmark-light.svg',
-          srcDark: 'img/aerie-wordmark-dark.svg',
+          alt: 'PlanDev Documentation',
+          src: 'img/plandev-wordmark-light.svg',
+          srcDark: 'img/plandev-wordmark-dark.svg',
           width: 130,
         },
       },
@@ -115,7 +127,7 @@ const config = {
       },
     }),
   themes: ['@docusaurus/theme-mermaid'],
-  title: 'Aerie Documentation',
+  title: 'PlanDev Documentation',
   trailingSlash: true,
   url: 'https://nasa-ammos.github.io/',
 };

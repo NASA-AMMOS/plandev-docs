@@ -2,7 +2,7 @@ import kubeDemo from './assets/kube-demo.webm';
 
 # Advanced - Kubernetes
 
-If you're already familiar with Kubernetes, feel free to jump to [Within Aerie Context](/aerie-docs/deployment/advanced-kubernetes/#within-aerie-context)
+If you're already familiar with Kubernetes, feel free to jump to [Within PlanDev Context](/plandev-docs/deployment/advanced-kubernetes/#within-aerie-context)
 
 ## Introduction
 
@@ -90,9 +90,9 @@ The following would initiate a rolling deployment of a new `aerie-ui` version. K
 kubectl set image deployment/aerie-ui-deployment aerie-ui=ghcr.io/nasa-ammos/aerie-ui:v1.0.2
 ```
 
-## Within Aerie context
+## Within PlanDev context
 
-Aerie is provided as a set of container images, which makes it a perfect match for a Kubernetes deployment. Manifests for Aerie on Kubernetes are provided in the [Aerie repo](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment/kubernetes). These manifests create `Deployments` for each of the Aerie services, e.g. `aerie-merlin`, `hasura`, etc. with one replica of each `Pod`. An existing Kubernetes cluster will be needed. See one of the following sections for instructions on spinning up a cluster varying environments.
+PlanDev is provided as a set of container images, which makes it a perfect match for a Kubernetes deployment. Manifests for PlanDev on Kubernetes are provided in the [PlanDev repo](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment/kubernetes). These manifests create `Deployments` for each of the PlanDev services, e.g. `aerie-merlin`, `hasura`, etc. with one replica of each `Pod`. An existing Kubernetes cluster will be needed. See one of the following sections for instructions on spinning up a cluster varying environments.
 
 ## Local Kubernetes deployment
 
@@ -149,15 +149,15 @@ kubectl apply -f .
 
 Wait a few minutes for images to be pulled and deployed, then visit `http://localhost` in your browser to see the familiar `aerie-ui`!
 
-### Spinning Aerie down
+### Spinning PlanDev down
 
-To remove the Aerie deployment, simply run:
+To remove the PlanDev deployment, simply run:
 
 ```sh
 kubectl delete -f .
 ```
 
-This will remove all Aerie `Pods`, but preserve the `aerie-dev` namespace and `Secret` we created earlier, since we created those ad-hoc, not from a manifest. This allows you to quickly iterate on manifests.
+This will remove all PlanDev `Pods`, but preserve the `aerie-dev` namespace and `Secret` we created earlier, since we created those ad-hoc, not from a manifest. This allows you to quickly iterate on manifests.
 
 ## AWS
 
