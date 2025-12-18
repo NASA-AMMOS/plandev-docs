@@ -9,45 +9,45 @@
 # npx docusaurus-prince-pdf -u https://nasa-ammos.github.io/aerie-docs/introduction/
 # This will output a .txt index of all files under aerie-docs/introduction.
 
-# Aerie API
+# Plandev API
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u https://nasa-ammos.github.io/aerie-docs/api/introduction/ \
-  -f generate-pdfs/aerie-api.txt \
-  -o pdf/aerie-api.pdf
+  -f generate-pdfs/plandev-api.txt \
+  -o pdf/plandev-api.pdf
 
-# Aerie Concept of Operations
+# Plandev Concept of Operations
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u https://nasa-ammos.github.io/aerie-docs/overview/concept-of-operations/ \
-  -f generate-pdfs/aerie-concept-of-operations.txt \
-  -o pdf/aerie-concept-of-operations.pdf
+  -f generate-pdfs/plandev-concept-of-operations.txt \
+  -o pdf/plandev-concept-of-operations.pdf
 
-# Aerie Mission Modeling Guide
+# Plandev Mission Modeling Guide
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u https://nasa-ammos.github.io/aerie-docs/mission-modeling/introduction/ \
-  -f generate-pdfs/aerie-mission-modeling-guide.txt \
-  -o pdf/aerie-mission-modeling-guide.pdf
+  -f generate-pdfs/plandev-mission-modeling-guide.txt \
+  -o pdf/plandev-mission-modeling-guide.pdf
 
-# Aerie Product Guide
+# Plandev Product Guide
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u https://nasa-ammos.github.io/aerie-docs/category/deployment/ \
-  -f generate-pdfs/aerie-product-guide.txt \
-  -o pdf/aerie-product-guide.pdf
+  -f generate-pdfs/plandev-product-guide.txt \
+  -o pdf/plandev-product-guide.pdf
 
-# Aerie Software Design Document
+# Plandev Software Design Document
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u https://nasa-ammos.github.io/aerie-docs/overview/software-design-document/ \
-  -f generate-pdfs/aerie-software-design-document.txt \
-  -o pdf/aerie-software-design-document.pdf
+  -f generate-pdfs/plandev-software-design-document.txt \
+  -o pdf/plandev-software-design-document.pdf
 
-# Aerie Users Guide
+# Plandev Users Guide
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u https://nasa-ammos.github.io/aerie-docs/introduction/ \
-  -f generate-pdfs/aerie-users-guide.txt \
-  -o pdf/aerie-users-guide.pdf
+  -f generate-pdfs/plandev-users-guide.txt \
+  -o pdf/plandev-users-guide.pdf
 
