@@ -28,8 +28,9 @@ Before starting the technical work, these decisions need to be finalized:
 ### 1.3 Content Decisions
 
 - [x] **Upgrade guides:** Preserve "Aerie" references for now (TODO: revisit later)
-- [x] **ADR documents:** Preserve "Aerie" naming for now (TODO: revisit later)
+- [x] **ADR documents:** ✅ Updated all ADRs to PlanDev/SeqDev branding
 - [x] **SeqDev scope:** Use "SeqDev" for ALL sequence-related content across all docs
+- [x] **Phoenix editor:** Renamed to "SeqDev editor" throughout docs
 
 ---
 
@@ -124,34 +125,34 @@ These images likely contain "Aerie" in UI screenshots and need recreation:
 
 ---
 
-## Phase 4: Architecture Diagrams
+## Phase 4: Architecture Diagrams ✅
 
 **Estimated scope:** 3 PlantUML files, 6 generated images
 
-### 4.1 Update PlantUML Source Files
+### 4.1 Update PlantUML Source Files ✅
 
 | File                                                          | Changes                                                                     |
 | ------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `docs/overview/design/assets/c4-aerie-context.puml`           | Replace "Aerie" in title, System definitions, boundaries                    |
-| `docs/overview/design/assets/c4-aerie-container.puml`         | Replace "Aerie" in System_Boundary, containers (Aerie UI, Aerie File Store) |
-| `docs/overview/design/assets/c4-merlin-server-component.puml` | Replace "Aerie File Store" reference                                        |
+| `docs/overview/design/assets/c4-plandev-context.puml`         | ✅ Replaced "Aerie" in title, System definitions, boundaries                |
+| `docs/overview/design/assets/c4-plandev-container.puml`       | ✅ Replaced "Aerie" in System_Boundary, containers (PlanDev UI, PlanDev File Store) |
+| `docs/overview/design/assets/c4-merlin-server-component.puml` | ✅ Replaced "Aerie File Store" reference                                    |
 
-### 4.2 Rename PlantUML Files
+### 4.2 Rename PlantUML Files ✅
 
-- `c4-aerie-context.puml` → `c4-plandev-context.puml`
-- `c4-aerie-container.puml` → `c4-plandev-container.puml`
+- ✅ `c4-aerie-context.puml` → `c4-plandev-context.puml`
+- ✅ `c4-aerie-container.puml` → `c4-plandev-container.puml`
 
 ### 4.3 Regenerate Diagram Images
 
 After editing PlantUML sources:
 
-- [ ] Generate `c4-plandev-context.png` and `.jpg`
-- [ ] Generate `c4-plandev-container.png` and `.jpg`
-- [ ] Delete old `c4-aerie-*` images
+- [x] Generate `c4-plandev-context.png` and `.jpg`
+- [x] Generate `c4-plandev-container.png` and `.jpg`
+- [x] Delete old `c4-aerie-*` images
 
-### 4.4 Update Documentation References
+### 4.4 Update Documentation References ✅
 
-- [ ] Update all markdown files that reference these diagrams
+- [x] Update all markdown files that reference these diagrams (software-design-document.mdx)
 
 ---
 
@@ -275,12 +276,15 @@ Directory: `docs/upgrade-guides/`
 - [ ] Decide: preserve historical "Aerie" references or update all?
 - [ ] If updating: bulk replace in all files
 
-### 6.11 Architecture Decision Records
+### 6.11 Architecture Decision Records ✅
 
 Directory: `docs/overview/design/arch-decision-records/`
 
-- [ ] `adr-0101-aerie-actions.md` - Rename file? Update content?
-- [ ] `adr-0100-phoenix-sde.md` - Update references
+- [x] All ADR files updated: Aerie → PlanDev, Phoenix → SeqDev
+- [x] `adr-0101-aerie-actions.md` → `adr-0101-seqdev-actions.md` (renamed & updated)
+- [x] `adr-0100-phoenix-sde.md` → `adr-0100-seqdev-sde.md` (renamed & updated)
+- [x] `adr-0006-phoenix-editor.md` → `adr-0006-seqdev-editor.md` (renamed & updated)
+- [x] Updated sidebars.js with new ADR paths
 
 ### 6.12 Contributing Guide
 

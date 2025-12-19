@@ -1,5 +1,6 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+scale 1.5
 Person(planner, Planner, "A mission/instrument team planner")
 
 System_Boundary(c1, "PlanDev") {

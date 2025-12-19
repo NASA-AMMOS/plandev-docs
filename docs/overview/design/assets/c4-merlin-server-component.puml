@@ -1,5 +1,6 @@
 @startuml
 !include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+scale 1.5
 Container_Ext(hasura, "Hasura", "Proxies GraphQL requests")
 Container_Boundary(merlin, "Merlin") {
   Component(app, "App", "Java", "Defines handlers for HTTP queries")
