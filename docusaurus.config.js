@@ -125,7 +125,15 @@ const config = {
         darkTheme: darkCodeTheme,
         theme: lightCodeTheme,
       },
+      zoom: {
+        selector: '.markdown img',
+        background: {
+          light: 'rgba(255, 255, 255, 0.9)',
+          dark: 'rgba(50, 50, 50, 0.9)',
+        },
+      },
     }),
+  plugins: ['docusaurus-plugin-image-zoom'],
   themes: ['@docusaurus/theme-mermaid'],
   title: 'PlanDev Documentation',
   trailingSlash: true,
