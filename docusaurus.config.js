@@ -50,6 +50,7 @@ const config = {
       metadata: [
         { name: 'description', content: 'PlanDev (formerly Aerie) - Open-source planning, scheduling, and sequencing software for space missions. Developed by NASA AMMOS.' },
         { name: 'keywords', content: 'mission planning, spacecraft sequencing, aerie, plandev, NASA, AMMOS, space missions, scheduling' },
+        { name: 'algolia-site-verification', content: '614A37BC4AD17B99' },
       ],
       algolia: {
         appId: 'RQ6CI6281X',
