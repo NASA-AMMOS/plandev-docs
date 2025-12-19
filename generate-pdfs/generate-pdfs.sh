@@ -6,48 +6,48 @@
 # For more information about Prince see: https://www.princexml.com/
 
 # To more easily build a list of files to include in each PDF you can use the following command:
-# npx docusaurus-prince-pdf -u https://nasa-ammos.github.io/aerie-docs/introduction/
-# This will output a .txt index of all files under aerie-docs/introduction.
+# npx docusaurus-prince-pdf -u http://localhost:3000/plandev-docs/introduction/
+# This will output a .txt index of all files under plandev-docs/introduction.
 
 # Plandev API
 npx docusaurus-prince-pdf \
   --pdf-only \
-  -u https://nasa-ammos.github.io/aerie-docs/api/introduction/ \
+  -u http://localhost:3000/plandev-docs/api/introduction/ \
   -f generate-pdfs/plandev-api.txt \
   -o pdf/plandev-api.pdf
 
 # Plandev Concept of Operations
 npx docusaurus-prince-pdf \
   --pdf-only \
-  -u https://nasa-ammos.github.io/aerie-docs/overview/concept-of-operations/ \
+  -u http://localhost:3000/plandev-docs/overview/concept-of-operations/ \
   -f generate-pdfs/plandev-concept-of-operations.txt \
   -o pdf/plandev-concept-of-operations.pdf
 
 # Plandev Mission Modeling Guide
 npx docusaurus-prince-pdf \
   --pdf-only \
-  -u https://nasa-ammos.github.io/aerie-docs/mission-modeling/introduction/ \
+  -u http://localhost:3000/plandev-docs/mission-modeling/introduction/ \
   -f generate-pdfs/plandev-mission-modeling-guide.txt \
   -o pdf/plandev-mission-modeling-guide.pdf
 
 # Plandev Product Guide
 npx docusaurus-prince-pdf \
   --pdf-only \
-  -u https://nasa-ammos.github.io/aerie-docs/category/deployment/ \
+  -u http://localhost:3000/plandev-docs/category/deployment/ \
   -f generate-pdfs/plandev-product-guide.txt \
   -o pdf/plandev-product-guide.pdf
 
 # Plandev Software Design Document
 npx docusaurus-prince-pdf \
   --pdf-only \
-  -u https://nasa-ammos.github.io/aerie-docs/overview/software-design-document/ \
+  -u http://localhost:3000/plandev-docs/overview/software-design-document/ \
   -f generate-pdfs/plandev-software-design-document.txt \
   -o pdf/plandev-software-design-document.pdf
 
 # Plandev Users Guide
 npx docusaurus-prince-pdf \
   --pdf-only \
-  -u https://nasa-ammos.github.io/aerie-docs/introduction/ \
+  -u http://localhost:3000/plandev-docs/introduction/ \
   -f generate-pdfs/plandev-users-guide.txt \
   -o pdf/plandev-users-guide.pdf
 
