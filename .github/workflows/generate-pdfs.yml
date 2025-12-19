@@ -35,7 +35,7 @@ jobs:
             sleep 5
           done
       - name: Generate PDFs
-        run: sh ./generate-pdfs/generate-pdfs.sh
+        run: sh ./scripts/generate-pdfs/generate-pdfs.sh
       - name: Upload PDFs
         uses: actions/upload-artifact@v4
         with:

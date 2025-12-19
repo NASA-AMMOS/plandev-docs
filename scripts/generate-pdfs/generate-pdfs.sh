@@ -13,41 +13,41 @@
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u http://localhost:3000/plandev-docs/api/introduction/ \
-  -f generate-pdfs/plandev-api.txt \
+  -f scripts/generate-pdfs/plandev-api.txt \
   -o pdf/plandev-api.pdf
 
 # Plandev Concept of Operations
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u http://localhost:3000/plandev-docs/overview/concept-of-operations/ \
-  -f generate-pdfs/plandev-concept-of-operations.txt \
+  -f scripts/generate-pdfs/plandev-concept-of-operations.txt \
   -o pdf/plandev-concept-of-operations.pdf
 
 # Plandev Mission Modeling Guide
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u http://localhost:3000/plandev-docs/mission-modeling/introduction/ \
-  -f generate-pdfs/plandev-mission-modeling-guide.txt \
+  -f scripts/generate-pdfs/plandev-mission-modeling-guide.txt \
   -o pdf/plandev-mission-modeling-guide.pdf
 
 # Plandev Product Guide
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u http://localhost:3000/plandev-docs/category/deployment/ \
-  -f generate-pdfs/plandev-product-guide.txt \
+  -f scripts/generate-pdfs/plandev-product-guide.txt \
   -o pdf/plandev-product-guide.pdf
 
 # Plandev Software Design Document
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u http://localhost:3000/plandev-docs/overview/software-design-document/ \
-  -f generate-pdfs/plandev-software-design-document.txt \
+  -f scripts/generate-pdfs/plandev-software-design-document.txt \
   -o pdf/plandev-software-design-document.pdf
 
 # Plandev Users Guide
 npx docusaurus-prince-pdf \
   --pdf-only \
   -u http://localhost:3000/plandev-docs/introduction/ \
-  -f generate-pdfs/plandev-users-guide.txt \
+  -f scripts/generate-pdfs/plandev-users-guide.txt \
   -o pdf/plandev-users-guide.pdf
 
