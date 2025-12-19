@@ -52,8 +52,8 @@ const config = {
         { name: 'keywords', content: 'mission planning, spacecraft sequencing, aerie, plandev, NASA, AMMOS, space missions, scheduling' },
       ],
       algolia: {
-        appId: '8JHCZUL0FX',
-        apiKey: 'a1dbcf32b9808b0ecaf9c7402952d6d3',
+        appId: 'RQ6CI6281X',
+        apiKey: '6e89ccaa342a491222b78e98d037e44f',
         indexName: 'plandev',
         replaceSearchResultPathname: isDev ? { from: /^\/docs\/next/g, to: '/docs' } : undefined,
       },
