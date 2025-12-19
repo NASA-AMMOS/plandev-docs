@@ -84,53 +84,43 @@ figure img {
   max-height: 40vh;
 }
 
-/* Hide print fallback on screen */
-.remote-code-block-print-fallback {
-  display: none;
+/* Remote code block fallback - styled like a code block */
+.remote-code-block-fallback {
+  padding: 1rem;
+  background-color: #f6f8fa;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-family: var(--ifm-font-family-monospace);
+  font-size: 0.875rem;
+  margin-bottom: 1rem;
+}
+
+.remote-code-block-fallback a {
+  word-break: break-all;
+}
+
+[data-theme='dark'] .remote-code-block-fallback {
+  background-color: #161b22;
+  border-color: #30363d;
 }
 
 /* Print/PDF styles for Prince */
 @media print {
   /* Force collapsible details elements to be open */
-  details {
+  details,
+  details > summary,
+  details > summary ~ * {
     display: block !important;
   }
 
   details > summary {
-    display: block !important;
     cursor: default;
+    font-weight: bold;
+    margin-bottom: 0.5rem;
   }
 
   details > summary::marker,
   details > summary::-webkit-details-marker {
     display: none;
-  }
-
-  details[open] > summary ~ * {
-    display: block !important;
-  }
-
-  details:not([open]) > summary ~ * {
-    display: block !important;
-  }
-
-  /* Style the summary as a heading when printed */
-  details > summary {
-    font-weight: bold;
-    margin-bottom: 0.5rem;
-  }
-
-  /* Hide remote code block loading state, show fallback */
-  .remote-code-block-loading {
-    display: none !important;
-  }
-
-  .remote-code-block-print-fallback {
-    display: block !important;
-    padding: 1rem;
-    background-color: #f5f5f5;
-    border: 1px solid #ddd;
-    border-radius: 4px;
-    font-family: monospace;
   }
 }

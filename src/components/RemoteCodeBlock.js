@@ -2,39 +2,32 @@ import React, { useEffect, useState } from 'react';
 import CodeBlock from '@theme/CodeBlock';
 
 export default function RemoteCodeBlock(props) {
-  const [code, setCode] = useState('');
-  const [loading, setLoading] = useState(true);
+  const [code, setCode] = useState(null);
 
-  useEffect(async () => {
-    try {
-      const response = await fetch(props.url);
-      const text = await response.text();
-      setCode(text);
-    } catch (e) {
-      setCode('');
-    }
-    setLoading(false);
-  });
+  useEffect(() => {
+    const fetchCode = async () => {
+      try {
+        const response = await fetch(props.url);
+        const text = await response.text();
+        setCode(text);
+      } catch (e) {
+        setCode('');
+      }
+    };
+    fetchCode();
+  }, [props.url]);
 
-  // Print fallback - shown in PDF when JavaScript doesn't execute
-  const printFallback = (
-    <div className="remote-code-block-print-fallback">
-      <strong>{props.title || 'Source Code'}</strong>
-      <br />
-      View source at: <a href={props.url}>{props.url}</a>
-    </div>
-  );
-
-  if (loading) {
+  // Before JS runs (Prince PDF), show the fallback with source URL
+  // After JS runs and code loads, show the actual code
+  if (code === null) {
     return (
-      <>
-        <div className="remote-code-block-loading">
-          <CodeBlock {...props}>Loading...</CodeBlock>
-        </div>
-        {printFallback}
-      </>
+      <div className="remote-code-block-fallback">
+        <strong>{props.title || 'Source Code'}</strong>
+        <br />
+        View source at: <a href={props.url}>{props.url}</a>
+      </div>
     );
-  } else {
-    return <CodeBlock {...props}>{code}</CodeBlock>;
   }
+
+  return <CodeBlock {...props}>{code}</CodeBlock>;
 }
