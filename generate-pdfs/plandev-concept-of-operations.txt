@@ -1,2 +1,2 @@
-https://nasa-ammos.github.io/aerie-docs/mgss-cover-page.html
-https://nasa-ammos.github.io/aerie-docs/overview/concept-of-operations/
+https://nasa-ammos.github.io/plandev-docs/mgss-cover-page.html
+https://nasa-ammos.github.io/plandev-docs/overview/concept-of-operations/
