@@ -16,8 +16,24 @@ export default function RemoteCodeBlock(props) {
     setLoading(false);
   });
 
+  // Print fallback - shown in PDF when JavaScript doesn't execute
+  const printFallback = (
+    <div className="remote-code-block-print-fallback">
+      <strong>{props.title || 'Source Code'}</strong>
+      <br />
+      View source at: <a href={props.url}>{props.url}</a>
+    </div>
+  );
+
   if (loading) {
-    return <CodeBlock {...props}>Loading...</CodeBlock>;
+    return (
+      <>
+        <div className="remote-code-block-loading">
+          <CodeBlock {...props}>Loading...</CodeBlock>
+        </div>
+        {printFallback}
+      </>
+    );
   } else {
     return <CodeBlock {...props}>{code}</CodeBlock>;
   }
