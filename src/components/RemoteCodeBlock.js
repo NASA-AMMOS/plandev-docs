@@ -17,14 +17,12 @@ export default function RemoteCodeBlock(props) {
     fetchCode();
   }, [props.url]);
 
-  // Before JS runs (Prince PDF), show the fallback with source URL
-  // After JS runs and code loads, show the actual code
   if (code === null) {
     return (
       <div className="remote-code-block-fallback">
-        <strong>{props.title || 'Source Code'}</strong>
-        <br />
-        View source at: <a href={props.url}>{props.url}</a>
+        <div><strong>{props.title || 'Source Code'}</strong></div>
+        <div className="remote-code-block-loading">Loading...</div>
+        <div>View source: <a href={props.url}>{props.url}</a></div>
       </div>
     );
   }

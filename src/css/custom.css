@@ -99,9 +99,18 @@ figure img {
   word-break: break-all;
 }
 
+.remote-code-block-fallback .remote-code-block-loading {
+  color: #656d76;
+  margin: 0.5rem 0;
+}
+
 [data-theme='dark'] .remote-code-block-fallback {
   background-color: #161b22;
   border-color: #30363d;
+}
+
+[data-theme='dark'] .remote-code-block-fallback .remote-code-block-loading {
+  color: #8b949e;
 }
 
 /* Print/PDF styles for Prince */
