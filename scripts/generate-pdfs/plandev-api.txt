@@ -1,8 +1,8 @@
-https://nasa-ammos.github.io/plandev-docs/mgss-cover-page.html
-https://nasa-ammos.github.io/plandev-docs/api/introduction/
-https://nasa-ammos.github.io/plandev-docs/api/examples/introduction/
-https://nasa-ammos.github.io/plandev-docs/api/examples/planning/introduction/
-https://nasa-ammos.github.io/plandev-docs/api/examples/planning/collaboration/
-https://nasa-ammos.github.io/plandev-docs/api/examples/planning/anchors/
-https://nasa-ammos.github.io/plandev-docs/api/examples/constraints/
-https://nasa-ammos.github.io/plandev-docs/api/examples/scheduling/
+COVER_PAGE
+http://localhost:3000/plandev-docs/api/introduction/
+http://localhost:3000/plandev-docs/api/examples/introduction/
+http://localhost:3000/plandev-docs/api/examples/planning/introduction/
+http://localhost:3000/plandev-docs/api/examples/planning/collaboration/
+http://localhost:3000/plandev-docs/api/examples/planning/anchors/
+http://localhost:3000/plandev-docs/api/examples/constraints/
+http://localhost:3000/plandev-docs/api/examples/scheduling/
