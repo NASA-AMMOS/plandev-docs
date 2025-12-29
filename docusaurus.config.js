@@ -53,8 +53,8 @@ const config = {
         { name: 'algolia-site-verification', content: '614A37BC4AD17B99' },
       ],
       algolia: {
-        appId: '8JHCZUL0FX',
-        apiKey: '7754bea120e6d3a3f65d13ad7adaf552',
+        appId: 'RQ6CI6281X',
+        apiKey: '6e89ccaa342a491222b78e98d037e44f',
         indexName: 'plandev',
         replaceSearchResultPathname: isDev ? { from: /^\/docs\/next/g, to: '/docs' } : undefined,
       },
