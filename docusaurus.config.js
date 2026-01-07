@@ -7,7 +7,7 @@ const isDev = process.env.NODE_ENV === 'development';
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   baseUrl: '/plandev-docs',
-  favicon: 'img/favicon.ico',
+  favicon: 'img/favicon-light.svg',
   i18n: {
     defaultLocale: 'en',
     locales: ['en'],
@@ -118,7 +118,7 @@ const config = {
           alt: 'PlanDev Documentation',
           src: 'img/plandev-wordmark-light.svg',
           srcDark: 'img/plandev-wordmark-dark.svg',
-          width: 130,
+          width: 90,
         },
       },
       prism: {
