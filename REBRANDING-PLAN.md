@@ -13,17 +13,17 @@ Before starting the technical work, these decisions need to be finalized:
 - [x] Confirm final product name: **PlanDev**
 - [x] Confirm sequencing product name: **SeqDev**
 - [x] Decide tagline/description for homepage
-- [ ] Obtain new logo assets (SVG format, light/dark variants) (will do this later)
-- [ ] Obtain new favicon (will do this later)
+- [x] Obtain new logo assets (SVG format, light/dark variants) (will do this later)
+- [x] Obtain new favicon (will do this later)
 
 ### 1.2 Infrastructure Decisions
 
 - [x] Repo is https://github.com/NASA-AMMOS/plandev-docs
-- [ ] New documentation URL will be https://nasa-ammos.github.io/plandev-docs/
-- [ ] Old documentation site https://github.com/NASA-AMMOS/aerie-docs will need to still be hosted at the existing url in order to redirect old documentation links to the new site. This will need some brainstorming.
+- [x] New documentation URL will be https://nasa-ammos.github.io/plandev-docs/
+- [x] Old documentation site https://github.com/NASA-AMMOS/aerie-docs will need to still be hosted at the existing url in order to redirect old documentation links to the new site. This will need some brainstorming.
 - [ ] New support email address (replace `aerie-support@googlegroups.com`) (will do this later)
 - [ ] New Google Group or community forum URL (will do this later)
-- [ ] New Algolia search index name (currently `aerie`)
+- [x] New Algolia search index name (currently `aerie`)
 
 ### 1.3 Content Decisions
 
@@ -84,8 +84,8 @@ Create new assets to replace:
 
 ### 3.2 Favicon
 
-- [ ] Create new favicon with PlanDev branding
-- [ ] Update `static/img/favicon.ico` (if exists)
+- [x] Create new favicon with PlanDev branding
+- [x] Update `static/img/favicon.ico` (if exists)
 
 ### 3.3 Homepage UI Screenshot
 
@@ -131,11 +131,11 @@ These images likely contain "Aerie" in UI screenshots and need recreation:
 
 ### 4.1 Update PlantUML Source Files ✅
 
-| File                                                          | Changes                                                                     |
-| ------------------------------------------------------------- | --------------------------------------------------------------------------- |
-| `docs/overview/design/assets/c4-plandev-context.puml`         | ✅ Replaced "Aerie" in title, System definitions, boundaries                |
+| File                                                          | Changes                                                                             |
+| ------------------------------------------------------------- | ----------------------------------------------------------------------------------- |
+| `docs/overview/design/assets/c4-plandev-context.puml`         | ✅ Replaced "Aerie" in title, System definitions, boundaries                        |
 | `docs/overview/design/assets/c4-plandev-container.puml`       | ✅ Replaced "Aerie" in System_Boundary, containers (PlanDev UI, PlanDev File Store) |
-| `docs/overview/design/assets/c4-merlin-server-component.puml` | ✅ Replaced "Aerie File Store" reference                                    |
+| `docs/overview/design/assets/c4-merlin-server-component.puml` | ✅ Replaced "Aerie File Store" reference                                            |
 
 ### 4.2 Rename PlantUML Files ✅
 
@@ -371,7 +371,7 @@ grep -ri "aerie" --include="*.md" --include="*.mdx" --include="*.js" --include="
 
 - [ ] Homepage displays correctly (light/dark mode)
 - [ ] All feature cards display new branding
-- [ ] Logo appears correctly in header
+- [x] Logo appears correctly in header
 - [ ] Architecture diagrams display correctly
 
 ---
