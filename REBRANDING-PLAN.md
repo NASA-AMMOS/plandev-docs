@@ -357,9 +357,9 @@ grep -ri "aerie" --include="*.md" --include="*.mdx" --include="*.js" --include="
 
 ### 9.2 Build Verification
 
-- [ ] Run `npm run build` - verify no broken links
-- [ ] Run `npm run serve` - visual inspection of all pages
-- [ ] Test search functionality with new Algolia index
+- [x] Run `npm run build` - verify no broken links
+- [x] Run `npm run serve` - visual inspection of all pages
+- [x] Test search functionality with new Algolia index
 
 ### 9.3 Link Verification
 
@@ -369,10 +369,10 @@ grep -ri "aerie" --include="*.md" --include="*.mdx" --include="*.js" --include="
 
 ### 9.4 Visual Verification
 
-- [ ] Homepage displays correctly (light/dark mode)
-- [ ] All feature cards display new branding
+- [x] Homepage displays correctly (light/dark mode)
+- [x] All feature cards display new branding
 - [x] Logo appears correctly in header
-- [ ] Architecture diagrams display correctly
+- [x] Architecture diagrams display correctly
 
 ---
 
