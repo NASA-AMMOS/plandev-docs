@@ -2,7 +2,7 @@ import React from 'react';
 import clsx from 'clsx';
 import styles from './styles.module.css';
 
-import PromoVideo from '@site/static/video/plandev-video.mp4';
+// import PromoVideo from '@site/static/video/plandev-video.mp4';
 import PromoStill from '@site/static/video/plandev-video-still.png';
 
 export function HomepageVideo() {
@@ -11,7 +11,7 @@ export function HomepageVideo() {
       <div className="container">
         <div className={clsx(`row ${styles.videoSection}`)}>
           <video width="100%" height="auto" controls poster={PromoStill}>
-            <source src={PromoVideo} type="video/mp4" />
+            {/* <source src={PromoVideo} type="video/mp4" /> */}
           </video>
         </div>
       </div>
