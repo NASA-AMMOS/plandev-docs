@@ -1,15 +1,15 @@
-# Aerie Actions
+# SeqDev Actions
 
 :::danger
-Actions are a new *experimental feature* as of Aerie v3.4.0, and not yet recommended for use in production environments.
+Actions are a new *experimental feature* as of PlanDev v3.4.0, and not yet recommended for use in production environments.
 Development is active, and the API may be subject to further change. Please let us know if you have feedback
 on their future development!
 :::
 
-Actions are *custom tasks* that developers can write and upload to an Aerie (Phoenix) Sequencing **workspace**, in order to
+Actions are *custom tasks* that developers can write and upload to a SeqDev Sequencing **workspace**, in order to
 traceably automate operations on the sequences and files within the workspace. Actions may *read from* and *write to* the contents of the
 workspace, and may communicate with other services to provide things such as translation, static checking or compilation.
-More info about this decision and its intentions can be found in [ADR-0101 - Aerie Actions](/overview/design/arch-decision-records/adr-0101-aerie-actions).
+More info about this decision and its intentions can be found in [ADR-0101 - SeqDev Actions](/overview/design/arch-decision-records/adr-0101-seqdev-actions).
 
 This document describes the *current state* of the Actions feature as it exists today. Check the roadmap section at the
 end to understand how it may change in the future.
@@ -20,9 +20,9 @@ This section demonstrates how to use Actions in the UI and assumes you *already 
 [this demo action](/assets/action.js) to use as an example, or follow instructions in the "Writing an Action" section below to build
 your own.
 
-Aerie actions live within the context of a **sequencing workspace**, so to begin, go to the Sequencing page and create
+SeqDev actions live within the context of a **sequencing workspace**, so to begin, go to the Sequencing page and create
 a new workspace. More info on workspaces, dictionaries and parcels can be found in
-[the Sequence Editor docs](http://localhost:3000/aerie-docs/sequencing/editor/). With your workspace open, click the
+[the Sequence Editor docs](http://localhost:3000/plandev-docs/sequencing/editor/). With your workspace open, click the
 button labeled "Actions" at the top - this will show you the actions associated with your workspace, and all of the past
 runs of those actions - currently both empty lists.
 
@@ -158,7 +158,7 @@ such as authentication tokens, passwords or opcodes, that you do not want to be 
 
 ### Using `actionsAPI` functions to read and write sequences
 
-The third argument passed to your `main` function is an instance of the `ActionsAPI` class [defined in `aerie-actions`](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts#L94). This object contains a connection to the Aerie database,
+The third argument passed to your `main` function is an instance of the `ActionsAPI` class [defined in `aerie-actions`](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts#L94). This object contains a connection to the PlanDev database,
 and allows you to asynchronously **read from** and **write to** sequences in your workspace. More documentation for
 these functions can be found in the [`aerie-actions` repo](https://github.com/NASA-AMMOS/aerie-actions/blob/main/README.md),
 and examples can be found in the `aerie-action-template`. The basic methods are:
@@ -183,20 +183,20 @@ terminated and any unprocessed results will be dropped.
 
 ### Building your action
 
-When you are ready to upload your action to an Aerie workspace, run this build command:
+When you are ready to upload your action to an SeqDev workspace, run this build command:
 
 ```
 npm run build
 ```
 
 If successful, this should create a built file `dist/action.js` (in the action-template folder) which can be uploaded to
-Aerie when you create an action. Whenever you change your action, you must re-run `npm run build` to rebuild it, and
-then reupload it to Aerie.
+SeqDev when you create an action. Whenever you change your action, you must re-run `npm run build` to rebuild it, and
+then reupload it to SeqDev.
 
 ## Roadmap
 
-Aerie Actions are an **experimental feature** under active development. If you have feedback or ideas for their future
-development, [let us know!](http://localhost:3000/aerie-docs/#:~:text=quick%20start%E2%86%92-,Learn%20More,-Ask%20a%20question)
+SeqDev Actions are an **experimental feature** under active development. If you have feedback or ideas for their future
+development, [let us know!](http://localhost:3000/plandev-docs/#:~:text=quick%20start%E2%86%92-,Learn%20More,-Ask%20a%20question)
 
 Our near-term (Spring 2025) roadmap of upcoming changes to Actions includes:
 * More example actions & improved documentation
@@ -208,8 +208,8 @@ Our near-term (Spring 2025) roadmap of upcoming changes to Actions includes:
   - 'secret' type?
 * Run an action **“on” a particular sequence** - If an action has a sequence-type parameter, you should be able to run it *from* the sequence editor with the active sequence as the parameter value
 * Secret storage? - Ability to securely store a setting that is a secret & not display it to end user
-* CAM auth token pass-through - If a user deploys Aerie on **CAM**, and writes an action which makes an HTTP call to another service in the same CAM "walled garden", we should provide a way to pass the token through, so we can be authenticated on the other service.
-* **Concurrency** - We don't plan to fully solve the concurrency problem yet, but we should allow *one action per workspace* to run concurrently instead of *one action per aerie deployment*
+* CAM auth token pass-through - If a user deploys PlanDev on **CAM**, and writes an action which makes an HTTP call to another service in the same CAM "walled garden", we should provide a way to pass the token through, so we can be authenticated on the other service.
+* **Concurrency** - We don't plan to fully solve the concurrency problem yet, but we should allow *one action per workspace* to run concurrently instead of *one action per PlanDev deployment*
 * Rethink **bundling actions** - Currently no way to upload an action with any other configs or scripts to call, you can only upload a single JS file. Should we rethink this to allow a user to give us eg. a node script that calls a python script, packed into a zip file? May also be nice for our action format to have a place to specify version, eg. a manifest file.
 
 Our longer-term roadmap includes prospective features such as:

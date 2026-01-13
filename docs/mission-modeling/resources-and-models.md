@@ -1,6 +1,6 @@
 # Resources and Models
 
-In Aerie a resource is any measurable quantity whose behavior is to be tracked over the course of a simulation. Resources are general-purpose, and can model quantities such as finite resources, geometric attributes, ground and flight events, and more. Aerie provides basic models for three types of quantity:
+In PlanDev a resource is any measurable quantity whose behavior is to be tracked over the course of a simulation. Resources are general-purpose, and can model quantities such as finite resources, geometric attributes, ground and flight events, and more. PlanDev provides basic models for three types of quantity:
 
 1. A discrete quantity that can be set (Register)
 1. A continuous quantity that can be added to (Counter)
@@ -8,7 +8,7 @@ In Aerie a resource is any measurable quantity whose behavior is to be tracked o
 
 A common example of a Register would be a spacecraft or instrument mode, while common Accumulators might be battery capacity or data volume.
 
-Defining a resource is as simple as constructing a model of the appropriate type. The model will automatically register its resources for use from the Aerie UI or Aerie API. Alternatively, a resource may be **derived** or **sampled** from an existing resource.
+Defining a resource is as simple as constructing a model of the appropriate type. The model will automatically register its resources for use from the PlanDev UI or PlanDev API. Alternatively, a resource may be **derived** or **sampled** from an existing resource.
 
 ## Derived Resources
 

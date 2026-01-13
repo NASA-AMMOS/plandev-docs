@@ -337,7 +337,7 @@ Notice how we connect the grid component `activityTableId` with the `id` of the 
 
 ### IFrames
 
-An IFrame component allows you to embed another application in the Aerie UI. Here is an example `iFrames` view JSON definition:
+An IFrame component allows you to embed another application in the PlanDev UI. Here is an example `iFrames` view JSON definition:
 
 ```json
 {

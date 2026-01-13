@@ -1,7 +1,7 @@
 # Advanced - User Role Permissions
 
-User Roles are sets of permissions that defines how a user is a allowed to interact with the Aerie system.
-By default, Aerie provides three User Roles:
+User Roles are sets of permissions that defines how a user is a allowed to interact with the PlanDev system.
+By default, PlanDev provides three User Roles:
 
 - `viewer`, which can view all data
 - `user`, which can view all data and perform all actions based on ownership
@@ -12,13 +12,13 @@ By default, Aerie provides three User Roles:
 Should the default three not be sufficient for your deployment, it is possible to define new User Roles.
 
 :::info
-The `viewer` role is the most restricted role Aerie supports. To ensure Aerie works as expected when using your new role,
+The `viewer` role is the most restricted role PlanDev supports. To ensure PlanDev works as expected when using your new role,
 it is strongly recommended to give your role *at least* the same permissions as `viewer`.
 :::
 
 ### Adding the Role to Hasura
 
-In order to interact with the Aerie system, a role must first be provided access via the [Hasura Metadata](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment/hasura/metadata).
+In order to interact with the PlanDev system, a role must first be provided access via the [Hasura Metadata](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment/hasura/metadata).
 
 There are three parts of the Hasura Metadata that a role needs to be added to:
 Functions, Actions, and individual tables. The Hasura Metadata can be found in `hasura/metadata`.
@@ -26,7 +26,7 @@ Functions, Actions, and individual tables. The Hasura Metadata can be found in `
 #### Function Permissions
 
 Function Permissions can be found in `databases/<DATABASE_NAME>/functions/functions.yaml`.
-Currently, all functions are in the AerieMerlin Database.
+Currently, all functions are in the PlanDevMerlin Database.
 The inside of a `functions.yaml` will look like a sequence of entries in the following pattern:
 
 ```yaml
@@ -356,7 +356,7 @@ Below are sample Query Variables. These are equivalent to the `user` role's Perm
 
 ## Configuring Roles for New Users
 
-The first time a user not in the system logs in, they will be added to the Aerie system with a set of User Roles they
+The first time a user not in the system logs in, they will be added to the PlanDev system with a set of User Roles they
 are allowed to use and one Role from this set that they use by default.
 By default, users will use the `user` role and have access to the `user` and `viewer` roles.
 To configure this, use the `ALLOWED_ROLES` and `DEFAULT_ROLE` environment variables.

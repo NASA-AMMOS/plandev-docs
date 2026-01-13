@@ -1,7 +1,7 @@
 # Advanced - Database Migrations
 
 :::info Note
-For Aerie deployments PRIOR to v3.3.0, please reference [this page](../advanced-database-migrations-OLD)
+For PlanDev deployments PRIOR to v3.3.0, please reference [this page](../advanced-database-migrations-OLD)
 for accurate information as to how the migration script works.
 :::
 
@@ -16,7 +16,7 @@ Additional Python package requirements can be installed by running the following
 python -m pip install -r requirements.txt
 ```
 
-Once the prerequisite software has been installed, the script can be executed by running the following command from inside the Aerie [deployment](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment) directory:
+Once the prerequisite software has been installed, the script can be executed by running the following command from inside the PlanDev [deployment](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment) directory:
 
 ```sh
 python aerie_db_migration.py <SUBCOMMAND>
@@ -47,7 +47,7 @@ aerie_db_migration.py status [-h] [-p HASURA_PATH] [-e ENV_PATH] [--endpoint END
 | Option Name                                   | Option Description                                                                                             |
 |-----------------------------------------------|----------------------------------------------------------------------------------------------------------------|
 | `-h`, `--help`                                | Shows the help message.                                                                                        |
-| `-p HASURA_PATH`, `--hasura-path HASURA_PATH` | The path to the directory containing the `config.yaml` and migrations folder for Aerie. Defaults to `./hasura` |
+| `-p HASURA_PATH`, `--hasura-path HASURA_PATH` | The path to the directory containing the `config.yaml` and migrations folder for PlanDev. Defaults to `./hasura` |
 | `-e ENV_PATH`, `--env-path ENV_PATH`          | Envfile to load envvars from.                                                                                  |
 | `--endpoint ENDPOINT `                        | The http(s) endpoint for the Hasura instance.                                                                  |
 | `--admin-secret ADMIN_SECRET`                 | The admin secret                                                                                               |
@@ -66,7 +66,7 @@ aerie_db_migration.py migrate [-h] [-p HASURA_PATH] [-e ENV_PATH] [--endpoint EN
 | `-a`, `--apply`                               | Apply migration steps to the database.                                                                         |
 | `-r`, `--revert`                              | Revert migration steps to the database.                                                                        |
 | `--all`                                       | Apply (Revert) _ALL_ unapplied (applied) migration steps to the database.                                      |
-| `-p HASURA_PATH`, `--hasura-path HASURA_PATH` | The path to the directory containing the `config.yaml` and migrations folder for Aerie. Defaults to `./hasura` |
+| `-p HASURA_PATH`, `--hasura-path HASURA_PATH` | The path to the directory containing the `config.yaml` and migrations folder for PlanDev. Defaults to `./hasura` |
 | `-e ENV_PATH`, `--env-path ENV_PATH`          | Envfile to load envvars from.                                                                                  |
 | `--endpoint ENDPOINT `                        | The http(s) endpoint for the Hasura instance.                                                                  |
 | `--admin-secret ADMIN_SECRET`                 | The admin secret                                                                                               |

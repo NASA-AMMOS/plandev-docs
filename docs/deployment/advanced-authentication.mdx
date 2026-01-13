@@ -2,24 +2,24 @@ import uiLoginPage from './assets/ui-login-page.png';
 
 # Advanced - Password Authentication
 
-Aerie currently only supports password authentication for applications internal to JPL via CAM. This document describes how to enable CAM username + password authentication.
+PlanDev currently only supports password authentication for applications internal to JPL via CAM. This document describes how to enable CAM username + password authentication.
 
 Note that Hasura _authorization_ is enabled by default (even without CAM authentication enabled), so you need either an admin token or JWT provided by the gateway to access it.
 
 :::info
 
-To learn how to programmatically authenticate with Aerie to get a token, see the [API docs on the topic](../../api/introduction/#authentication).
+To learn how to programmatically authenticate with PlanDev to get a token, see the [API docs on the topic](../../api/introduction/#authentication).
 
 :::
 
 ## Service Environment Variables
 
-The default Aerie [docker-compose.yml](https://github.com/NASA-AMMOS/aerie/blob/develop/deployment/docker-compose.yml) file requires certain environment variables to be set to enable authentication. This section outlines the variable definitions and the services that require them for authentication.
+The default PlanDev [docker-compose.yml](https://github.com/NASA-AMMOS/aerie/blob/develop/deployment/docker-compose.yml) file requires certain environment variables to be set to enable authentication. This section outlines the variable definitions and the services that require them for authentication.
 
 ### AUTH_GROUP_ROLE_MAPPINGS
-- Description: Optional JSON object that maps LDAP groups to allowed Aerie roles.
+- Description: Optional JSON object that maps LDAP groups to allowed PlanDev roles.
 - Service: aerie_gateway
-- Accepted values: Stringified JSON. Auth provider groups are keys, values are list of allowed Aerie roles
+- Accepted values: Stringified JSON. Auth provider groups are keys, values are list of allowed PlanDev roles
 - Example:
 ```
 {
@@ -61,11 +61,11 @@ The default Aerie [docker-compose.yml](https://github.com/NASA-AMMOS/aerie/blob/
 - Default: `null`
 - See: https://hasura.io/docs/latest/deployment/graphql-engine-flags/reference/#admin-secret-key
 
-## Aerie UI Login Page
+## PlanDev UI Login Page
 
-With CAM authentication enabled you can log in to the Aerie UI with your JPL username and password.
+With CAM authentication enabled you can log in to the PlanDev UI with your JPL username and password.
 
 <figure>
-  <img alt="Aerie UI - Login Page" src={uiLoginPage} />
-  <figcaption>Figure 1: Aerie UI - Login Page</figcaption>
+  <img alt="PlanDev UI - Login Page" src={uiLoginPage} />
+  <figcaption>Figure 1: PlanDev UI - Login Page</figcaption>
 </figure>
