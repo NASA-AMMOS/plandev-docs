@@ -1,7 +1,7 @@
 # Introduction
 
 :::info Looking for Aerie?
-**PlanDev is the new name for Aerie.** The software, features, and team remain the same — we've just updated our name. If you have existing bookmarks or references to Aerie documentation, you're in the right place.
+**PlanDev is the new name for Aerie.** The software, features, and team remain the same — we've just updated our name. If you have existing bookmarks or references to Aerie documentation, you're in the right place. You can [read more about our plans here](/overview/aerie-renamed-to-plandev).
 :::
 
 PlanDev is an open source, extensible software system for planning, scheduling, and commanding space missions. Developed and maintained by NASA's [Advanced Multi-Mission Operation System (AMMOS)](https://ammos.nasa.gov/), it provides modeling and simulation capabilities that can be used for mission planning and analysis during project formulation all the way through operations, where it can be used to manage and validate spacecraft activity plans. PlanDev is actively being used on flagship missions like [Europa Clipper](https://europa.nasa.gov/), but is equally suitable for smaller missions and constellations.
