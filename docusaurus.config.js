@@ -42,7 +42,7 @@ const config = {
       announcementBar: {
         id: 'rebranding_notice',
         content:
-          '<strong>Aerie is now PlanDev!</strong> Same great software, new name. <a href="/plandev-docs/introduction/">Learn more</a>',
+          '<strong>Aerie is now PlanDev!</strong> Same great software, new name. <a href="/plandev-docs/overview/aerie-renamed-to-plandev/">Learn more</a>',
         backgroundColor: '#4c7de0',
         textColor: '#ffffff',
         isCloseable: true,
