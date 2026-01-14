@@ -55,7 +55,7 @@ const config = {
       algolia: {
         appId: 'RQ6CI6281X',
         apiKey: '6e89ccaa342a491222b78e98d037e44f',
-        indexName: 'plandev',
+        indexName: 'PlanDev Docs',
         replaceSearchResultPathname: isDev ? { from: /^\/docs\/next/g, to: '/docs' } : undefined,
       },
       docs: {
