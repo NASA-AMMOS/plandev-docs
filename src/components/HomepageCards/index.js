@@ -144,7 +144,7 @@ const LearnMoreList = [
   },
   {
     title: 'Sign up for news and updates',
-    Img: require('@site/static/img/cards/plandev-learn-googlegroup.png').default,
+    Img: require('@site/static/img/cards/plandev-learn-googlegroup-light.png').default,
     ImgDark: require('@site/static/img/cards/plandev-learn-googlegroup-dark.png').default,
     size: 'col--4',
     link: 'https://groups.google.com/u/3/g/aerie-users',
@@ -166,7 +166,7 @@ const LearnMoreList = [
   },
   {
     title: 'Explore a universe of extensions',
-    Img: require('@site/static/img/cards/plandev-learn-extensions.png').default,
+    Img: require('@site/static/img/cards/plandev-learn-extensions-light.png').default,
     ImgDark: require('@site/static/img/cards/plandev-learn-extensions-dark.png').default,
     size: 'col--4',
     link: '/plandev-docs/introduction/#fast-track',
