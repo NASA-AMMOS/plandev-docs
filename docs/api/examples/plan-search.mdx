@@ -1,0 +1,62 @@
+# Plan Search
+
+## Query for Plans with a Specific Activity Directive Type
+
+The query below retrieves all plans that contain an activity directive of a specified type (e.g., "GenerateData"):
+
+```graphql
+query QueryPlansWithActivityType {
+  plan(where: { activity_directives: { type: { _eq: "GenerateData" } } }) {
+    id
+    name
+    activity_directives {
+      type
+      arguments
+    }
+  }
+}
+```
+
+## Query for Plans with Activity Directives with a Specific Argument Name
+
+The query below retrieves all plans that contain an activity directive with a specific argument name (e.g., "bin"):
+
+```graphql
+query QueryPlansWithArgumentName {
+  plan(where: { activity_directives: { arguments: { _has_key: "bin" } } }) {
+    id
+    name
+    activity_directives {
+      type
+      arguments
+    }
+  }
+}
+```
+
+## Query for Plans with Activity Directives with a Specific Argument Value
+
+The query below and the variables that follow retrieves all plans that contain an activity directive with a specific argument value (e.g., "bin" equal to 20):
+
+```graphql
+query QueryByArgValue($argPair: jsonb) {
+  plan(where: { activity_directives: { arguments: { _contains: $argPair } } }) {
+    id
+    name
+    activity_directives {
+      type
+      arguments
+    }
+  }
+}
+```
+
+### Variables
+
+```json
+{
+  "argPair": {
+    "bin": 20
+  }
+}
+```
