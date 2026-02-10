@@ -60,3 +60,31 @@ query QueryByArgValue($argPair: jsonb) {
   }
 }
 ```
+
+# Activity Directive Search
+
+## Query for Activity Directives with a Specific Activity Type
+
+```graphql
+query QueryPlansWithActivityType {
+  activity_directive(where: { type: { _eq: "GenerateData" } }) {
+    id
+    type
+    plan_id
+  }
+}
+```
+
+## Query for Activity Directives with a Specific Argument Value Across All Plans
+
+The query below retrieves all activity directives across all plans that have a specific argument substring present (e.g., "thrust"):
+
+```graphql
+query QueryPlansWithParameterSubstring {
+  activity_directive(where: { arguments: { _cast: { String: { _ilike: "%thrust%" } } } }) {
+    id
+    plan_id
+    arguments
+  }
+}
+```
