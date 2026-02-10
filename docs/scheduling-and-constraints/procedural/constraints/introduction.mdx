@@ -5,9 +5,9 @@ To create a constraint procedure, you simply need to create a simple java record
 
 ```java
 @ConstraintProcedure
-public class BatteryAboveZero implements Constraint {
+public record BatteryAboveZero() implements Constraint {
   @Override
-  public Violations run( Plan plan, SimulationResults simResults) {
+  public Violations run (Plan plan, SimulationResults simResults) {
     return Violations.inside(
       plan.resource("/battery_soc", Real.deserializer()).lessThan(0).highlightTrue()
     );
