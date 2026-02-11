@@ -30,7 +30,7 @@ function HomepageHeader() {
           </Link>
           <div>
             Want to chat or schedule a demo?{' '}
-            <Link href="mailto:aerie-support@googlegroups.com" className="button--secondary">
+            <Link href="mailto:plandev-support@googlegroups.com" className="button--secondary">
               Get in touch →
             </Link>
           </div>
