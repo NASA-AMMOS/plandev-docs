@@ -10,7 +10,7 @@ The rest of this document goes into more depth about the PlanDev system and how 
 
 ## PlanDev Releases
 
-PlanDev releases are published on the [Github Releases page](https://github.com/NASA-AMMOS/aerie/releases), and each release has a `Deployment.zip` artifact attached. This folder contains everything necessary to deploy a version of PlanDev - namely the  **`docker-compose.yml`** and **`.env`** files, detailed below. These files are provided *as a starting point* and should be modified to suit your needs.
+PlanDev releases are published on the [Github Releases page](https://github.com/NASA-AMMOS/aerie/releases), and each release has a `Deployment.zip` artifact attached. This folder contains everything necessary to deploy a version of PlanDev - namely the **`docker-compose.yml`** and **`.env`** files, detailed below. These files are provided _as a starting point_ and should be modified to suit your needs.
 
 ## Environment Variables
 
@@ -24,7 +24,7 @@ Of note, the `aerie-merlin`, `aerie_merlin_worker`, `aerie-scheduler`, and `aeri
 
 PlanDev consists of multiple **services**, and uses [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) to manage and run them. The artifacts used to deploy PlanDev are a collection of Docker **images**, one per service, which we publish to the public [GitHub Packages](https://github.com/orgs/NASA-AMMOS/packages?ecosystem=container&q=aerie) repository. PlanDev images conform to the [OCI](https://opencontainers.org/) [Image Format](https://github.com/opencontainers/image-spec/blob/main/spec.md) and may be compatible with Docker alternatives, but only Docker is officially supported.
 
-[Docker Compose](https://docs.docker.com/compose/) commands are used to build and run the PlanDev services **all together**, so in general you should only need to run  `docker compose up` & `docker compose down` (along with some various [command flags](https://docs.docker.com/reference/cli/docker/compose/)) to start and stop PlanDev.
+[Docker Compose](https://docs.docker.com/compose/) commands are used to build and run the PlanDev services **all together**, so in general you should only need to run `docker compose up` & `docker compose down` (along with some various [command flags](https://docs.docker.com/reference/cli/docker/compose/)) to start and stop PlanDev.
 
 ### `docker-compose.yml`
 
@@ -41,18 +41,17 @@ A full list of possible options can be found in the [Docker compose file referen
 
 The following is a list of all of the required PlanDev services, their associated Docker images (to be run by Compose), and their default network ports. The `ui`, `gateway` and `hasura` services are all "public-facing", which means their ports must be exposed to the network when running in a shared/production environment.
 
-| Image                                      | Description                                                     | Port  | Public |
-| ------------------------------------------ | --------------------------------------------------------------- | ----- | ------ |
+| Image                                      | Description                                                       | Port  | Public |
+| ------------------------------------------ | ----------------------------------------------------------------- | ----- | ------ |
 | [aerie-ui][ui]                             | The web-based client application for PlanDev.                     | 80    | ✅     |
-| [aerie-gateway][gateway]                   | Gateway server used for file-upload and authentication.         | 9000  | ✅     |
+| [aerie-gateway][gateway]                   | Gateway server used for file-upload and authentication.           | 9000  | ✅     |
 | [aerie-hasura][hasura]                     | Hasura Docker image with bundled PlanDev-specific Hasura metadata | 8080  | ✅     |
-| [aerie-merlin][merlin]                     | Service for planning and simulation                             | 27183 | ❌     |
-| [aerie-merlin-worker][merlin-worker]       | Worker for executing simulations                                | 27187 | ❌     |
+| [aerie-merlin][merlin]                     | Service for planning and simulation                               | 27183 | ❌     |
+| [aerie-merlin-worker][merlin-worker]       | Worker for executing simulations                                  | 27187 | ❌     |
 | [aerie-postgres][postgres]                 | Postgres Docker image with bundled PlanDev-specific SQL           | 5432  | ❌     |
-| [aerie-scheduler][scheduler]               | Service for scheduling                                          | 27185 | ❌     |
-| [aerie-scheduler-worker][scheduler-worker] | Worker for executing scheduling goals                           | 27189 | ❌     |
-| [aerie-sequencing][sequencing]             | Service for sequence generation and management                  | 27184 | ❌     |
-
+| [aerie-scheduler][scheduler]               | Service for scheduling                                            | 27185 | ❌     |
+| [aerie-scheduler-worker][scheduler-worker] | Worker for executing scheduling goals                             | 27189 | ❌     |
+| [aerie-sequencing][sequencing]             | Service for sequence generation and management                    | 27184 | ❌     |
 
 ## System Requirements
 
@@ -83,8 +82,7 @@ Note these numbers are lower bounds. You will need to scale PlanDev based on you
 
 ## Defect Reporting Procedure
 
-Defect reports should be sent to: `aerie-support@googlegroups.com`. For chat-based support, please join us on the [NASA-AMMOS Slack](https://join.slack.com/t/nasa-ammos/shared_invite/zt-1mlgmk5c2-MgqVSyKzVRUWrXy87FNqPw), in the `#aerie-users` channel.
-
+Defect reports should be sent to: `plandev-support@googlegroups.com`. For chat-based support, please join us on the [NASA-AMMOS Slack](https://join.slack.com/t/nasa-ammos/shared_invite/zt-1mlgmk5c2-MgqVSyKzVRUWrXy87FNqPw), in the `#aerie-users` channel.
 
 [gateway]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-gateway
 [hasura]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-hasura

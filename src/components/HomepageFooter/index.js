@@ -36,8 +36,8 @@ const links = [
   },
   {
     category: 'Learn more',
-    label: 'aerie-support@googlegroups.com',
-    href: 'mailto:aerie-support@googlegroups.com',
+    label: 'plandev-support@googlegroups.com',
+    href: 'mailto:plandev-support@googlegroups.com',
     type: 'link',
   },
 ];
