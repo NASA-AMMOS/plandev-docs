@@ -181,8 +181,8 @@ const LearnMoreList = [
   {
     title: 'Something else?',
     size: 'col--4',
-    link: 'support@aerie.ammos.nasa.gov',
-    linkTitle: 'support@aerie.ammos.nasa.gov',
+    link: 'mailto:plandev-support@googlegroups.com',
+    linkTitle: 'plandev-support@googlegroups.com',
     description: (
       <>
         Have a specific quesion that you'd like help with? Curious to speak with someone directly? Send us an email and
