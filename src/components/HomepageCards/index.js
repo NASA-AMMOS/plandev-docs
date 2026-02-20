@@ -147,7 +147,7 @@ const LearnMoreList = [
     Img: require('@site/static/img/cards/plandev-learn-googlegroup-light.png').default,
     ImgDark: require('@site/static/img/cards/plandev-learn-googlegroup-dark.png').default,
     size: 'col--4',
-    link: 'https://groups.google.com/u/3/g/aerie-users',
+    link: 'https://groups.google.com/u/3/g/plandev-users',
     linkTitle: 'PlanDev Users Group',
     description: <>Stay up-to-date on the latest news and releases by joining the PlanDev Users Google Group.</>,
   },

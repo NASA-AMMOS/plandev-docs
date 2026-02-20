@@ -31,7 +31,7 @@ const links = [
   {
     category: 'Learn more',
     label: 'PlanDev Users Group',
-    href: 'https://groups.google.com/u/3/g/aerie-users',
+    href: 'https://groups.google.com/u/3/g/plandev-users',
     type: 'link',
   },
   {
