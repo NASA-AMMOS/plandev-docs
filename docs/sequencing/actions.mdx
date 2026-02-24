@@ -201,12 +201,13 @@ If your deployment uses SSO or other cookie-based authentication, you can config
 extract specific browser cookies and forward them to actions as secrets. This is useful when an action needs
 to authenticate with an external service under the user's identity.
 
-To enable cookie forwarding, set the following environment variables on the `aerie_action` container:
+To enable cookie forwarding, set the following environment variables:
 
-| Variable                     | Description                                                                                                      |
-| ---------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `ACTION_COOKIE_NAMES`        | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)                                 |
-| `ACTION_CORS_ALLOWED_ORIGIN` | The origin of the PlanDev UI (e.g. `https://your-host.example.com`). **Required** for cookie forwarding to work. |
+| Container      | Variable                            | Description                                                                                                      |
+| -------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
+| `aerie_ui`     | `PUBLIC_ACTION_INCLUDE_CREDENTIALS` | Set to `true` to include browser credentials (cookies) in requests to the action server                          |
+| `aerie_action` | `ACTION_COOKIE_NAMES`               | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)                                 |
+| `aerie_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`). Required for cross-origin deployments.      |
 
 Once configured, the specified cookies will be available as secrets:
 
@@ -223,10 +224,18 @@ are automatically redacted in logs, but return values from your action are **not
 include secret values in your `return` statement's `data` field.
 :::
 
-:::info Deployment note
-Cookie forwarding requires that the browser includes cookies in its requests to the action server. This works
-automatically when the UI and action server are on the **same origin** (e.g., behind the same reverse proxy).
-For **cross-origin** deployments, `ACTION_CORS_ALLOWED_ORIGIN` must be set to the UI's origin.
+:::info Deployment notes
+Cookie forwarding requires `PUBLIC_ACTION_INCLUDE_CREDENTIALS=true` on the UI container so the browser includes
+cookies in its requests to the action server. For **same-origin** deployments (UI and action server behind the
+same reverse proxy), this is sufficient. For **cross-origin** deployments, `ACTION_CORS_ALLOWED_ORIGIN` must
+also be set on the action server to the UI's origin.
+
+**Cookie requirements:** For a browser cookie to be forwarded, it must satisfy the browser's cookie-sending rules:
+- The cookie's **domain** must match the action server's domain (or be a parent domain, e.g. `.jpl.nasa.gov`)
+- If the cookie has the **`Secure`** flag, the action server must be served over HTTPS
+- If the cookie has **`SameSite=Strict`**, the request must be same-site
+- **`SameSite=Lax`** (the browser default) will send the cookie for same-origin requests and top-level cross-site navigations
+- **`httpOnly`** cookies are supported — this is a key benefit of this feature, since `httpOnly` cookies cannot be read by client-side JavaScript but are still sent by the browser with requests
 :::
 
 ### Building your action
