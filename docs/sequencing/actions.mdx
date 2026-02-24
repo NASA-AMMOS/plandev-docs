@@ -203,11 +203,11 @@ to authenticate with an external service under the user's identity.
 
 To enable cookie forwarding, set the following environment variables:
 
-| Container      | Variable                            | Description                                                                                                      |
-| -------------- | ----------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
-| `aerie_ui`     | `PUBLIC_ACTION_INCLUDE_CREDENTIALS` | Set to `true` to include browser credentials (cookies) in requests to the action server                          |
-| `aerie_action` | `ACTION_COOKIE_NAMES`               | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)                                 |
-| `aerie_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`). Required for cross-origin deployments.      |
+| Container      | Variable                            | Description                                                                                                 |
+| -------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
+| `aerie_ui`     | `PUBLIC_ACTION_INCLUDE_CREDENTIALS` | Set to `true` to include browser credentials (cookies) in requests to the action server                     |
+| `aerie_action` | `ACTION_COOKIE_NAMES`               | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)                            |
+| `aerie_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`). Required for cross-origin deployments. |
 
 Once configured, the specified cookies will be available as secrets:
 
@@ -231,12 +231,13 @@ same reverse proxy), this is sufficient. For **cross-origin** deployments, `ACTI
 also be set on the action server to the UI's origin.
 
 **Cookie requirements:** For a browser cookie to be forwarded, it must satisfy the browser's cookie-sending rules:
+
 - The cookie's **domain** must match the action server's domain (or be a parent domain, e.g. `.jpl.nasa.gov`)
 - If the cookie has the **`Secure`** flag, the action server must be served over HTTPS
 - If the cookie has **`SameSite=Strict`**, the request must be same-site
 - **`SameSite=Lax`** (the browser default) will send the cookie for same-origin requests and top-level cross-site navigations
 - **`httpOnly`** cookies are supported — this is a key benefit of this feature, since `httpOnly` cookies cannot be read by client-side JavaScript but are still sent by the browser with requests
-:::
+  :::
 
 ### Building your action
 
@@ -255,18 +256,10 @@ then reupload it to SeqDev.
 SeqDev Actions are an **experimental feature** under active development. If you have feedback or ideas for their future
 development, [let us know!](http://localhost:3000/plandev-docs/#:~:text=quick%20start%E2%86%92-,Learn%20More,-Ask%20a%20question)
 
-Our near-term (Spring 2025) roadmap of upcoming changes to Actions includes:
+Our near-term roadmap of upcoming changes to Actions includes:
 
 - More example actions & improved documentation
 - Patterns for **testing actions** - User should be able to write tests for their action including mocking & spying on the aerie-actions library (`expect(actions.readSequence).toHaveBeenCalledWith('mySequence')`).
-- Action **Cancellation** - Ability to stop a long-running action and kill its worker
-- Settle on our **allowed types** of parameters & add some new types, with associated UI for selecting them:
-  - sequence type parameter
-  - 'sequence list' type parameter
-  - 'secret' type?
-- Run an action **“on” a particular sequence** - If an action has a sequence-type parameter, you should be able to run it _from_ the sequence editor with the active sequence as the parameter value
-- ~~Secret storage? - Ability to securely store a setting that is a secret & not display it to end user~~ — Partially addressed: browser cookies can be forwarded as transient secrets via `ACTION_COOKIE_NAMES`. See [Accessing secrets in actions](#accessing-secrets-in-actions).
-- ~~CAM auth token pass-through~~ — Implemented via cookie forwarding. Configure `ACTION_COOKIE_NAMES` with your SSO cookie name(s) to pass auth tokens through to actions. See [Accessing secrets in actions](#accessing-secrets-in-actions).
 - **Concurrency** - We don't plan to fully solve the concurrency problem yet, but we should allow _one action per workspace_ to run concurrently instead of _one action per PlanDev deployment_
 - Rethink **bundling actions** - Currently no way to upload an action with any other configs or scripts to call, you can only upload a single JS file. Should we rethink this to allow a user to give us eg. a node script that calls a python script, packed into a zip file? May also be nice for our action format to have a place to specify version, eg. a manifest file.
 
