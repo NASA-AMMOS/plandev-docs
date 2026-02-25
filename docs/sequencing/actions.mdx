@@ -209,11 +209,11 @@ To enable cookie forwarding, set the following environment variables:
 | `aerie_action` | `ACTION_COOKIE_NAMES`               | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)                            |
 | `aerie_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`). Required for cross-origin deployments. |
 
-Once configured, the specified cookies will be available as secrets:
+Once configured, the specified cookies will be available under `actionsAPI.config.SECRETS.cookies`:
 
 ```js
 export async function main(parameters, settings, actionsAPI) {
-  const ssoToken = actionsAPI.config.SECRETS.ssosession;
+  const ssoToken = actionsAPI.config.SECRETS.cookies.ssosession;
   // Use ssoToken to authenticate with an external service
 }
 ```
