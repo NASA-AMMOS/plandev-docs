@@ -22,7 +22,7 @@ const sidebars = {
           items: [
             'api/examples/planning/collaboration',
             'api/examples/planning/anchors',
-            'api/examples/planning/snapshots'
+            'api/examples/planning/snapshots',
           ],
         },
         'api/examples/simulation',
@@ -32,6 +32,7 @@ const sidebars = {
         'api/examples/advanced-extensions',
         'api/examples/tags',
         'api/examples/external-events',
+        'api/examples/plan-search',
       ],
     },
   ],
@@ -74,7 +75,7 @@ const sidebars = {
             'overview/design/software-design-document',
           ],
         },
-        'overview/aerie-renamed-to-plandev'
+        'overview/aerie-renamed-to-plandev',
       ],
     },
     {
