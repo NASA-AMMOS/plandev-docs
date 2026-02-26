@@ -147,7 +147,7 @@ const LearnMoreList = [
     Img: require('@site/static/img/cards/plandev-learn-googlegroup-light.png').default,
     ImgDark: require('@site/static/img/cards/plandev-learn-googlegroup-dark.png').default,
     size: 'col--4',
-    link: 'https://groups.google.com/u/3/g/aerie-users',
+    link: 'https://groups.google.com/u/3/g/plandev-users',
     linkTitle: 'PlanDev Users Group',
     description: <>Stay up-to-date on the latest news and releases by joining the PlanDev Users Google Group.</>,
   },
@@ -181,8 +181,8 @@ const LearnMoreList = [
   {
     title: 'Something else?',
     size: 'col--4',
-    link: 'support@aerie.ammos.nasa.gov',
-    linkTitle: 'support@aerie.ammos.nasa.gov',
+    link: 'mailto:plandev-support@googlegroups.com',
+    linkTitle: 'plandev-support@googlegroups.com',
     description: (
       <>
         Have a specific quesion that you'd like help with? Curious to speak with someone directly? Send us an email and
