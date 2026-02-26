@@ -195,6 +195,34 @@ These secrets are transient — they are passed at runtime and never stored in t
 - `actionsAPI.config.SECRETS.user` — the running user's JWT payload (decoded JSON string)
 - `actionsAPI.config.SECRETS.userRole` — the running user's current Hasura role
 
+**Secret parameters**
+
+Your action may define parameters with `type: "secret"`, which causes them to be handled as transient secret-type
+parameters. Unlike other parameters, these will not be stored in the database and will be sent directly to the action
+only once, at the time you run your action. These are useful for passing some short-lived auth tokens to third-party
+services which may require them. For example:
+
+```js
+export const parameterDefinitions = {
+    mySecretAuthToken: { type: 'secret' }
+};
+```
+
+Use secret parameters judiciously - since their values are not stored, they cannot be audited after the action run to
+reproduce the same results later.
+
+**Environment variables**
+
+For security reasons, actions cannot access all environment variables that are set on the `aerie_action` container.
+However, for storing and passing long-lived secrets to your actions, you can make certain environment variables
+accessible by adding the prefix `PUBLIC_ACTION_` to their name, for example:
+
+```yaml
+PUBLIC_ACTION_MY_SECRET_API_KEY: "someTokenThatWillLastForAWhile"
+```
+
+These will be accessible in the action under the global `process.env`.
+
 **Forwarded browser cookies** (optional, requires configuration):
 
 If your deployment uses SSO or other cookie-based authentication, you can configure the action server to
@@ -207,7 +235,7 @@ To enable cookie forwarding, set the following environment variables:
 | -------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
 | `aerie_ui`     | `PUBLIC_ACTION_INCLUDE_CREDENTIALS` | Set to `true` to include browser credentials (cookies) in requests to the action server                     |
 | `aerie_action` | `ACTION_COOKIE_NAMES`               | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)                            |
-| `aerie_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`). Required for cross-origin deployments. |
+| `aerie_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`).                                        |
 
 Once configured, the specified cookies will be available under `actionsAPI.config.SECRETS.cookies`:
 
@@ -225,19 +253,15 @@ include secret values in your `return` statement's `data` field.
 :::
 
 :::info Deployment notes
-Cookie forwarding requires `PUBLIC_ACTION_INCLUDE_CREDENTIALS=true` on the UI container so the browser includes
-cookies in its requests to the action server. For **same-origin** deployments (UI and action server behind the
-same reverse proxy), this is sufficient. For **cross-origin** deployments, `ACTION_CORS_ALLOWED_ORIGIN` must
-also be set on the action server to the UI's origin.
-
-**Cookie requirements:** For a browser cookie to be forwarded, it must satisfy the browser's cookie-sending rules:
+**Cookie requirements:** For a browser cookie to be forwarded, the environment variables noted above must be set,
+**and** the whitelisted cookies must **also** satisfy the browser's cookie-sending rules:
 
 - The cookie's **domain** must match the action server's domain (or be a parent domain, e.g. `.jpl.nasa.gov`)
 - If the cookie has the **`Secure`** flag, the action server must be served over HTTPS
 - If the cookie has **`SameSite=Strict`**, the request must be same-site
 - **`SameSite=Lax`** (the browser default) will send the cookie for same-origin requests and top-level cross-site navigations
 - **`httpOnly`** cookies are supported — this is a key benefit of this feature, since `httpOnly` cookies cannot be read by client-side JavaScript but are still sent by the browser with requests
-  :::
+:::
 
 ### Building your action
 
