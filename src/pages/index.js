@@ -29,7 +29,7 @@ function HomepageHeader() {
             Get started
           </Link>
           <div>
-            NASA missions please send us an email and we can find a time to chat or demo PlanDev.{' '}
+            NASA missions: please send us an email and we can find a time to chat or demo PlanDev.{' '}
             <Link href="mailto:plandev-support@googlegroups.com" className="button--secondary">
               Get in touch →
             </Link>
