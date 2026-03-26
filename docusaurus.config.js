@@ -35,21 +35,20 @@ const config = {
       }),
     ],
   ],
-  tagline: 'Open-source planning, scheduling, and sequencing for space missions (formerly Aerie)',
+  tagline: 'Open-source planning, scheduling, and sequencing for space missions',
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
-      announcementBar: {
-        id: 'rebranding_notice',
-        content:
-          '<strong>Aerie is now PlanDev!</strong> Same great software, new name. <a href="/plandev-docs/overview/aerie-renamed-to-plandev/">Learn more</a>',
-        backgroundColor: '#4c7de0',
-        textColor: '#ffffff',
-        isCloseable: true,
-      },
       metadata: [
-        { name: 'description', content: 'PlanDev (formerly Aerie) - Open-source planning, scheduling, and sequencing software for space missions. Developed by NASA AMMOS.' },
-        { name: 'keywords', content: 'mission planning, spacecraft sequencing, aerie, plandev, NASA, AMMOS, space missions, scheduling' },
+        {
+          name: 'description',
+          content:
+            'PlanDev (formerly Aerie) - Open-source planning, scheduling, and sequencing software for space missions. Developed by NASA AMMOS.',
+        },
+        {
+          name: 'keywords',
+          content: 'mission planning, spacecraft sequencing, aerie, plandev, NASA, AMMOS, space missions, scheduling',
+        },
         { name: 'algolia-site-verification', content: '614A37BC4AD17B99' },
       ],
       algolia: {

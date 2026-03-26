@@ -186,7 +186,7 @@ const LearnMoreList = [
     description: (
       <>
         Have a specific quesion that you'd like help with? Curious to speak with someone directly? Send us an email and
-        we can find to chat or demo PlanDev.
+        we are happy to help you with PlanDev.
       </>
     ),
   },

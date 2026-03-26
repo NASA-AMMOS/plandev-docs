@@ -71,7 +71,7 @@ export function HomepageSponsors() {
     <section className={'container'}>
       <div className={styles.section}>
         <div className={clsx(`${styles.logoSection}`)}>
-          <h3 className={styles.sectionHeader}>Thank you to our sponsors</h3>
+          <h3 className={styles.sectionHeader}>Thank you to our collaborators</h3>
           <div className={styles.logoWrapper}>
             {Sponsors.map((props, idx) => (
               <Logo key={idx} {...props} />
