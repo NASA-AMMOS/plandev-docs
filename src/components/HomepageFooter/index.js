@@ -56,7 +56,9 @@ export function HomepageFooter() {
             <img className={styles.logo} src={`./img/plandev-wordmark-${colorMode}.svg`} />
             <ul className={styles.footerList}>
               <li>
-                <span className={styles.footerLink}>AMMOS | Advanced Multi-Mission Operations System</span>
+                <a className={styles.footerLink} href="https://ammos.nasa.gov/">
+                  AMMOS | Advanced Multi-Mission Operations System
+                </a>
               </li>
               <li>
                 <span className={styles.footerLink}>Multimission Ground System Services (MGSS)</span>
