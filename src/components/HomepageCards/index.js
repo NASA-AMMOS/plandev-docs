@@ -185,8 +185,8 @@ const LearnMoreList = [
     linkTitle: 'plandev-support@googlegroups.com',
     description: (
       <>
-        Have a specific quesion that you'd like help with? Curious to speak with someone directly? Send us an email and
-        we are happy to help you with PlanDev.
+        NASA Missions: Have a specific quesion that you'd like help with? Curious to speak with someone directly? Send
+        us an email and we are happy to help you with PlanDev.
       </>
     ),
   },
