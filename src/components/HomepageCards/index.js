@@ -136,7 +136,7 @@ const LearnMoreList = [
     Img: require('@site/static/img/cards/plandev-learn-github.png').default,
     ImgDark: require('@site/static/img/cards/plandev-learn-github-dark.png').default,
     size: 'col--4',
-    link: 'https://github.com/NASA-AMMOS/aerie',
+    link: 'https://github.com/NASA-AMMOS/plandev',
     linkTitle: 'PlanDev on Github',
     description: (
       <>Post a question in GitHub discussions, or contribute back and help make PlanDev even better than it is today.</>
