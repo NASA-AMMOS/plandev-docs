@@ -11,7 +11,7 @@ Some of the main features of PlanDev include:
 - An EDSL for defining and executing activity command expansions
 - An EDSL for defining sequences, and a fully-featured browser-based sequence editor
 - A GraphQL API so you can easily build tools on top of PlanDev
-- A web-based [client application](https://github.com/NASA-AMMOS/aerie-ui)
+- A web-based [client application](https://github.com/NASA-AMMOS/plandev-ui)
 
 As a multi-tenant system, PlanDev allows multiple distributed users to [collaborate](https://nasa-ammos.github.io/plandev-docs/planning/collaboration/introduction/) in real-time on a single plan or concurrently work on multiple plans for multiple missions. Additionally, PlanDev's [service based architecture](https://nasa-ammos.github.io/plandev-docs/overview/software-design-document/#plandev-system-design) allows for efficient system deployment and scalability on the cloud.
 
@@ -24,13 +24,13 @@ Understand PlanDev in **5 minutes** by trying it out!
 1. If you're running macOS, Linux, or another Unix-like OS you can use following two commands in your terminal to download the [Docker Compose](https://docs.docker.com/compose/) file and `.env` file:
 
    ```sh
-   curl https://raw.githubusercontent.com/NASA-AMMOS/aerie-mission-model-template/main/docker-compose.yml --output docker-compose.yml
-   curl https://raw.githubusercontent.com/NASA-AMMOS/aerie-mission-model-template/refs/heads/main/.env.template --output .env
+   curl https://raw.githubusercontent.com/NASA-AMMOS/plandev-mission-model-template/main/docker-compose.yml --output docker-compose.yml
+   curl https://raw.githubusercontent.com/NASA-AMMOS/plandev-mission-model-template/refs/heads/main/.env.template --output .env
    ```
 
-   If you're running a different OS and do not have [curl](https://curl.se/) available you can [download the docker-compose.yml here](https://raw.githubusercontent.com/NASA-AMMOS/aerie-mission-model-template/main/docker-compose.yml) and [the .env file here](https://raw.githubusercontent.com/NASA-AMMOS/aerie-mission-model-template/refs/heads/main/.env.template) (rename to `.env`).
+   If you're running a different OS and do not have [curl](https://curl.se/) available you can [download the docker-compose.yml here](https://raw.githubusercontent.com/NASA-AMMOS/plandev-mission-model-template/main/docker-compose.yml) and [the .env file here](https://raw.githubusercontent.com/NASA-AMMOS/plandev-mission-model-template/refs/heads/main/.env.template) (rename to `.env`).
 
-   Note that this compose file starts the [latest](https://github.com/NASA-AMMOS/aerie/releases/latest) version of PlanDev. The PlanDev version can be specified by changing the `DOCKER_TAG` variable in the `.env` file to any valid PlanDev release.
+   Note that this compose file starts the [latest](https://github.com/NASA-AMMOS/plandev/releases/latest) version of PlanDev. The PlanDev version can be specified by changing the `DOCKER_TAG` variable in the `.env` file to any valid PlanDev release.
 
 1. To start the PlanDev services you can use the following command in the same directory as the `docker-compose.yml` file from the previous step:
 
@@ -38,7 +38,7 @@ Understand PlanDev in **5 minutes** by trying it out!
    docker compose up
    ```
 
-1. Visit [http://localhost/](http://localhost/) to view the [PlanDev UI](https://github.com/NASA-AMMOS/aerie-ui).
+1. Visit [http://localhost/](http://localhost/) to view the [PlanDev UI](https://github.com/NASA-AMMOS/plandev-ui).
 
    Note that the fast track deployment is not configured to connect to an authentication and authorization provider, therefore any credentials are accepted.
 
@@ -46,4 +46,4 @@ Understand PlanDev in **5 minutes** by trying it out!
 
 ## Cleanup
 
-PlanDev is an actively developed application suite with interdepenencies between the server, the web ui, and the database schema. New capabilities may require ensuring that all parts of the application are on the same version. Breaking changes are stated in the release notes. If the above fast track instructions worked previously, but are now seeing an inconsistent schema consult the [developer docs](https://github.com/NASA-AMMOS/aerie/blob/develop/docs/DEVELOPER.md) for instructions on clearing container images. For long running hosts see [Production Deployment](https://nasa-ammos.github.io/plandev-docs/deployment/production-deployment/) for an overview of the data migration process.
+PlanDev is an actively developed application suite with interdepenencies between the server, the web ui, and the database schema. New capabilities may require ensuring that all parts of the application are on the same version. Breaking changes are stated in the release notes. If the above fast track instructions worked previously, but are now seeing an inconsistent schema consult the [developer docs](https://github.com/NASA-AMMOS/plandev/blob/develop/docs/DEVELOPER.md) for instructions on clearing container images. For long running hosts see [Production Deployment](https://nasa-ammos.github.io/plandev-docs/deployment/production-deployment/) for an overview of the data migration process.

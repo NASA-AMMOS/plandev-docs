@@ -18,7 +18,7 @@ it is strongly recommended to give your role *at least* the same permissions as 
 
 ### Adding the Role to Hasura
 
-In order to interact with the PlanDev system, a role must first be provided access via the [Hasura Metadata](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment/hasura/metadata).
+In order to interact with the PlanDev system, a role must first be provided access via the [Hasura Metadata](https://github.com/NASA-AMMOS/plandev/tree/develop/deployment/hasura/metadata).
 
 There are three parts of the Hasura Metadata that a role needs to be added to:
 Functions, Actions, and individual tables. The Hasura Metadata can be found in `hasura/metadata`.
@@ -362,7 +362,7 @@ By default, users will use the `user` role and have access to the `user` and `vi
 To configure this, use the `ALLOWED_ROLES` and `DEFAULT_ROLE` environment variables.
 **Note: `DEFAULT_ROLE` _must_ be an entry in `ALLOWED_ROLES`.**
 
-For more information, see the [Environment Variables document](https://github.com/NASA-AMMOS/aerie-gateway/blob/develop/docs/ENVIRONMENT.md) in the Gateway.
+For more information, see the [Environment Variables document](https://github.com/NASA-AMMOS/plandev-gateway/blob/develop/docs/ENVIRONMENT.md) in the Gateway.
 
 :::info When Authentication is Disabled
 [If authentication is disabled](../advanced-authentication/), then the following changes apply:

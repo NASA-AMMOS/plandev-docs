@@ -19,7 +19,7 @@ const links = [
   {
     category: 'Resources',
     label: 'Github',
-    href: 'https://github.com/NASA-AMMOS/aerie',
+    href: 'https://github.com/NASA-AMMOS/plandev',
     type: 'link',
   },
   {

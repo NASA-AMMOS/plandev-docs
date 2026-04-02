@@ -4,19 +4,19 @@ There are a few different ways to deploy PlanDev:
 
 - To get PlanDev running **quickly** on your computer, see the [fast track instructions](/introduction/#fast-track) for minimal setup.
 - If you plan to deploy PlanDev in a shared **production environment**, read this entire page and then see the [production deployment guide](/deployment/production-deployment).
-- If you are a **developer** and you want to run PlanDev locally & make changes to PlanDev core code, read this page and then head to the [developer guide](https://github.com/NASA-AMMOS/aerie/blob/develop/docs/DEVELOPER.md) in the repository for local setup instructions.
+- If you are a **developer** and you want to run PlanDev locally & make changes to PlanDev core code, read this page and then head to the [developer guide](https://github.com/NASA-AMMOS/plandev/blob/develop/docs/DEVELOPER.md) in the repository for local setup instructions.
 
 The rest of this document goes into more depth about the PlanDev system and how it should be deployed, regardless of environment.
 
 ## PlanDev Releases
 
-PlanDev releases are published on the [Github Releases page](https://github.com/NASA-AMMOS/aerie/releases), and each release has a `Deployment.zip` artifact attached. This folder contains everything necessary to deploy a version of PlanDev - namely the **`docker-compose.yml`** and **`.env`** files, detailed below. These files are provided _as a starting point_ and should be modified to suit your needs.
+PlanDev releases are published on the [Github Releases page](https://github.com/NASA-AMMOS/plandev/releases), and each release has a `Deployment.zip` artifact attached. This folder contains everything necessary to deploy a version of PlanDev - namely the **`docker-compose.yml`** and **`.env`** files, detailed below. These files are provided _as a starting point_ and should be modified to suit your needs.
 
 ## Environment Variables
 
-Each PlanDev service is configured with environment variables, some of which are **required** to run. They are expected to be set in a `.env` file in the folder you're running PlanDev from. The version of this file provided in `Deployment.zip` is an empty template that must be filled in with service usernames and passwords of your choosing. See [this .env.template file](https://github.com/NASA-AMMOS/aerie-mission-model-template/blob/main/.env.template) for a completed example.
+Each PlanDev service is configured with environment variables, some of which are **required** to run. They are expected to be set in a `.env` file in the folder you're running PlanDev from. The version of this file provided in `Deployment.zip` is an empty template that must be filled in with service usernames and passwords of your choosing. See [this .env.template file](https://github.com/NASA-AMMOS/plandev-mission-model-template/blob/main/.env.template) for a completed example.
 
-A description of allowed variables is found in the [Environment Variable Documentation](https://github.com/NASA-AMMOS/aerie/blob/develop/deployment/Environment.md) - it's recommended to read through these & determine which are relevant to your situation.
+A description of allowed variables is found in the [Environment Variable Documentation](https://github.com/NASA-AMMOS/plandev/blob/develop/deployment/Environment.md) - it's recommended to read through these & determine which are relevant to your situation.
 
 Of note, the `aerie-merlin`, `aerie_merlin_worker`, `aerie-scheduler`, and `aerie-scheduler-worker` containers can be provided additional JVM arguments - for example, allocated heap size - as environment variables. Desired JVM flags should be added to the `JAVA_OPTS` environment variable for the container being configured.
 
@@ -87,7 +87,7 @@ Defect reports should be sent to: `plandev-support@googlegroups.com`. For chat-b
 [gateway]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-gateway
 [hasura]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-hasura
 [merlin]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-merlin
-[merlin-worker]: https://github.com/NASA-AMMOS/aerie/pkgs/container/aerie-merlin-worker
+[merlin-worker]: https://github.com/NASA-AMMOS/plandev/pkgs/container/aerie-merlin-worker
 [postgres]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-postgres
 [scheduler]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-scheduler
 [scheduler-worker]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-scheduler-worker
