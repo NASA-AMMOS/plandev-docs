@@ -340,7 +340,7 @@ Directory: `docs/overview/design/arch-decision-records/`
 
 | Current                                    | New |
 | ------------------------------------------ | --- |
-| `https://nasa-ammos.github.io/aerie-docs/` | TBD |
+| `https://nasa-ammos.github.io/plandev-docs/` | TBD |
 
 ---
 

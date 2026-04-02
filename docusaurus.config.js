@@ -99,7 +99,7 @@ const config = {
           //       value: '<b>Archived versions</b>',
           //     },
           //     {
-          //       href: 'https://nasa-ammos.github.io/aerie-docs/1.0.0',
+          //       href: 'https://nasa-ammos.github.io/plandev-docs/1.0.0',
           //       label: '1.0.0',
           //     },
           //   ],
