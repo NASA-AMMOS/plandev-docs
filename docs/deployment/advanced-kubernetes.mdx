@@ -92,7 +92,7 @@ kubectl set image deployment/aerie-ui-deployment aerie-ui=ghcr.io/nasa-ammos/aer
 
 ## Within PlanDev context
 
-PlanDev is provided as a set of container images, which makes it a perfect match for a Kubernetes deployment. Manifests for PlanDev on Kubernetes are provided in the [PlanDev repo](https://github.com/NASA-AMMOS/aerie/tree/develop/deployment/kubernetes). These manifests create `Deployments` for each of the PlanDev services, e.g. `aerie-merlin`, `hasura`, etc. with one replica of each `Pod`. An existing Kubernetes cluster will be needed. See one of the following sections for instructions on spinning up a cluster varying environments.
+PlanDev is provided as a set of container images, which makes it a perfect match for a Kubernetes deployment. Manifests for PlanDev on Kubernetes are provided in the [PlanDev repo](https://github.com/NASA-AMMOS/plandev/tree/develop/deployment/kubernetes). These manifests create `Deployments` for each of the PlanDev services, e.g. `aerie-merlin`, `hasura`, etc. with one replica of each `Pod`. An existing Kubernetes cluster will be needed. See one of the following sections for instructions on spinning up a cluster varying environments.
 
 ## Local Kubernetes deployment
 

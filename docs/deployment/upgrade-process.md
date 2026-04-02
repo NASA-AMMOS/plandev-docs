@@ -1,6 +1,6 @@
 # Upgrade Process
 
-This document describes how to upgrade your PlanDev deployment when a new version is released. New releases are released periodically and can be found on our [Github Releases page](https://github.com/NASA-AMMOS/aerie/releases). We recommend staying up to date with new releases as much as is practical.
+This document describes how to upgrade your PlanDev deployment when a new version is released. New releases are released periodically and can be found on our [Github Releases page](https://github.com/NASA-AMMOS/plandev/releases). We recommend staying up to date with new releases as much as is practical.
 
 
 ## Backups
@@ -13,7 +13,7 @@ Before upgrading, determine the version you are upgrading *from* and *to*. Go to
 
 Once you're prepared, follow these instructions to upgrade:
 
-1. Find your desired release on our [Github Releases page](https://github.com/NASA-AMMOS/aerie/releases). Go to the **Assets** section, under the release notes, and download the attached **Deployment.zip** file.
+1. Find your desired release on our [Github Releases page](https://github.com/NASA-AMMOS/plandev/releases). Go to the **Assets** section, under the release notes, and download the attached **Deployment.zip** file.
 2. Extract the file to a location on the server where you're deploying PlanDev (or on your local machine for a local deployment).
 3. Compare the contents of the new deployment directory to your existing deployment directory, and copy to the new directory any custom changes you have made to your deployment - for example, changes made while following our [Production Deployment Guide](/plandev-docs/deployment/production-deployment/#production-deployment-guide), any customizations to your `docker-compose` file, and the environment variables in `.env`. If you made a `docker-compose.prod.yml` file for your deployment, this should be copied as well.
 4. Apply any necessary changes to your code or configuration that were outlined in the upgrade guides you read, to account for any breaking changes in the PlanDev API since the last version.

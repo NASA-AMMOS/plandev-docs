@@ -4,21 +4,21 @@ This document lists the instructions for building an aerie-ui Docker image with 
 
 ### Building
 
-1. Clone the [aerie-ui](https://github.com/NASA-AMMOS/aerie-ui) and install dependencies. Note that [Node LTS](https://nodejs.org/) is required (currently 18.13.0).
+1. Clone the [aerie-ui](https://github.com/NASA-AMMOS/plandev-ui) and install dependencies. Note that [Node LTS](https://nodejs.org/) is required (currently 18.13.0).
 
    ```sh
-   git clone https://github.com/NASA-AMMOS/aerie-ui.git
+   git clone https://github.com/NASA-AMMOS/plandev-ui.git
    cd aerie-ui
    npm install
    ```
 
-   When you clone aerie-ui the default branch is [develop](https://github.com/NASA-AMMOS/aerie-ui/tree/develop). If you want to build an image from a [specific release](https://github.com/NASA-AMMOS/aerie-ui/releases) you have to checkout the proper tag. For example to checkout [v1.0.0](https://github.com/NASA-AMMOS/aerie-ui/releases/tag/v1.0.0) do:
+   When you clone aerie-ui the default branch is [develop](https://github.com/NASA-AMMOS/plandev-ui/tree/develop). If you want to build an image from a [specific release](https://github.com/NASA-AMMOS/plandev-ui/releases) you have to checkout the proper tag. For example to checkout [v1.0.0](https://github.com/NASA-AMMOS/plandev-ui/releases/tag/v1.0.0) do:
 
    ```sh
    git checkout tags/v1.0.0 -b v1.0.0
    ```
 
-2. Update [svelte.config.js](https://github.com/NASA-AMMOS/aerie-ui/blob/develop/svelte.config.js) with the [base path](https://github.com/NASA-AMMOS/aerie-ui/blob/develop/svelte.config.js#L9) you want to use. Note that a leading `/` is required. So for example a valid base path is `/aerie`.
+2. Update [svelte.config.js](https://github.com/NASA-AMMOS/plandev-ui/blob/develop/svelte.config.js) with the [base path](https://github.com/NASA-AMMOS/plandev-ui/blob/develop/svelte.config.js#L9) you want to use. Note that a leading `/` is required. So for example a valid base path is `/aerie`.
 
 3. Build the aerie-ui.
 
@@ -32,7 +32,7 @@ This document lists the instructions for building an aerie-ui Docker image with 
    docker build -t aerie-ui .
    ```
 
-5. Use the newly built image as part of your normal [PlanDev Docker deployment](https://github.com/NASA-AMMOS/aerie/blob/develop/deployment/docker-compose.yml#L132).
+5. Use the newly built image as part of your normal [PlanDev Docker deployment](https://github.com/NASA-AMMOS/plandev/blob/develop/deployment/docker-compose.yml#L132).
 
 ### Cleaning
 
@@ -52,8 +52,8 @@ docker rmi aerie-ui
 
 ### References
 
-1. [aerie-ui Developer.md](https://github.com/NASA-AMMOS/aerie-ui/blob/develop/docs/DEVELOPER.md)
-1. [aerie-ui Deployment.md](https://github.com/NASA-AMMOS/aerie-ui/blob/develop/docs/DEPLOYMENT.md)
+1. [aerie-ui Developer.md](https://github.com/NASA-AMMOS/plandev-ui/blob/develop/docs/DEVELOPER.md)
+1. [aerie-ui Deployment.md](https://github.com/NASA-AMMOS/plandev-ui/blob/develop/docs/DEPLOYMENT.md)
 
 ### Svelte Kit Issues
 

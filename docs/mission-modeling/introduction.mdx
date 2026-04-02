@@ -7,7 +7,7 @@ In PlanDev, a mission model serves activity planning needs in two ways. First, i
 ## Creating a Mission Model
 
 If you want to learn how to develop a mission model, head to our [mission modeling tutorial](../../tutorials/mission-modeling/introduction/),
-or check out our [GitHub template mission model repository](https://github.com/NASA-AMMOS/aerie-mission-model-template) for an empty template.
+or check out our [GitHub template mission model repository](https://github.com/NASA-AMMOS/plandev-mission-model-template) for an empty template.
 You will need a public [GitHub.com](https://github.com/) account to download the PlanDev Maven packages.
 
 If you do not want to develop a mission model and just want to try an example, you can download the [missionmodel.jar](https://github.com/NASA-AMMOS/aerie-modeling-tutorial/blob/main/missionmodel.jar) from the [PlanDev modeling tutorial repository](https://github.com/NASA-AMMOS/aerie-modeling-tutorial).
@@ -21,12 +21,12 @@ A mission model must contain a [package-info.java](https://www.baeldung.com/java
   language="java"
   showLineNumbers
   title="PlanDev Mission Model Template - package-info.java"
-  url="https://raw.githubusercontent.com/NASA-AMMOS/aerie-mission-model-template/main/missionmodel/src/main/java/missionmodel/package-info.java"
+  url="https://raw.githubusercontent.com/NASA-AMMOS/plandev-mission-model-template/main/missionmodel/src/main/java/missionmodel/package-info.java"
 ></RemoteCodeBlock>
 
 This `package-info.java` identifies the top-level class representing the mission model, and registers activity types that may interact with the mission model. PlanDev processes these annotations at compile-time, generating a set of boilerplate classes which take care of interacting with the PlanDev system.
 
-The `@WithMappers` annotation informs the annotation processor of a set of serialization rules for activity parameters of various types; the [BasicValueMappers](https://github.com/NASA-AMMOS/aerie/blob/develop/contrib/src/main/java/gov/nasa/jpl/aerie/contrib/serialization/rulesets/BasicValueMappers.java) ruleset covers most primitive Java types. Mission modelers may also create their own rulesets, specifying rules for mapping custom value types.
+The `@WithMappers` annotation informs the annotation processor of a set of serialization rules for activity parameters of various types; the [BasicValueMappers](https://github.com/NASA-AMMOS/plandev/blob/develop/contrib/src/main/java/gov/nasa/jpl/aerie/contrib/serialization/rulesets/BasicValueMappers.java) ruleset covers most primitive Java types. Mission modelers may also create their own rulesets, specifying rules for mapping custom value types.
 If multiple mapper classes are included via the `@WithMappers` annotations, and multiple mappers declare a mapping rule to the same data type, the rule found in the earlier declared mapper will take precedence.
 
 ## The Mission Model class
@@ -39,7 +39,7 @@ The top-level model is received by activities, however, so it must make accessib
   language="java"
   showLineNumbers
   title="PlanDev Mission Model Template - Mission.java"
-  url="https://raw.githubusercontent.com/NASA-AMMOS/aerie-mission-model-template/main/missionmodel/src/main/java/missionmodel/Mission.java"
+  url="https://raw.githubusercontent.com/NASA-AMMOS/plandev-mission-model-template/main/missionmodel/src/main/java/missionmodel/Mission.java"
 ></RemoteCodeBlock>
 
 Mission resources are declared using `Registrar#discrete` or `Registrar#real` functions.

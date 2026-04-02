@@ -144,7 +144,7 @@ const sidebars = {
         {
           label: 'Environment Variables',
           type: 'link',
-          href: 'https://github.com/NASA-AMMOS/aerie/blob/develop/deployment/Environment.md',
+          href: 'https://github.com/NASA-AMMOS/plandev/blob/develop/deployment/Environment.md',
         },
         'deployment/advanced-ui-custom-base-path',
         'deployment/advanced-kubernetes',

@@ -319,8 +319,8 @@ Directory: `docs/overview/design/arch-decision-records/`
 | ------------------------------------------------------------ | --------------------------- |
 | `https://github.com/NASA-AMMOS/aerie`                        | Update to new repo or keep? |
 | `https://github.com/NASA-AMMOS/aerie-docs`                   | Update to new repo          |
-| `https://github.com/NASA-AMMOS/aerie-ui`                     | Update to new repo          |
-| `https://github.com/NASA-AMMOS/aerie-mission-model-template` | Update to new repo          |
+| `https://github.com/NASA-AMMOS/plandev-ui`                     | Update to new repo          |
+| `https://github.com/NASA-AMMOS/plandev-mission-model-template` | Update to new repo          |
 | `https://github.com/NASA-AMMOS/aerie-gateway`                | Update to new repo          |
 
 ### 8.2 Email Addresses

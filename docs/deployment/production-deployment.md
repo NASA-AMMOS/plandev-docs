@@ -24,13 +24,13 @@ This checklist outlines a set of steps for running a minimal production PlanDev 
 
 1. Ensure you have **Docker Engine and Docker Compose installed** on your server. We recommend following the official [Engine install guide](https://docs.docker.com/engine/install/) and [Compose install guide](https://docs.docker.com/compose/install/#scenario-two-install-the-docker-compose-plugin) for your platform, as simply running eg. `yum install docker` may install Podman instead of Docker on some platforms.
 2. Ensure your server has the necessary **network ports exposed** for PlanDev services - namely, ports **80, 8080, and 9000**, unless you plan to modify these default ports in the docker-compose file. Port rules are usually configured via your server's firewall settings. See [PlanDev services & images](/deployment/introduction/#aerie-services--images) for details on services and their port assignments.  If you are running on an AWS EC2 instance, you may need to set rules for the instance's *security group* to allow these ports to send & receive TCP traffic.
-3. Copy the `Deployment.zip` file from an [PlanDev release](https://github.com/NASA-AMMOS/aerie/releases) to your server and extract it, for example:
+3. Copy the `Deployment.zip` file from an [PlanDev release](https://github.com/NASA-AMMOS/plandev/releases) to your server and extract it, for example:
     ```
-    curl -sLO https://github.com/NASA-AMMOS/aerie/releases/download/v3.1.1/Deployment.zip
+    curl -sLO https://github.com/NASA-AMMOS/plandev/releases/download/v3.1.1/Deployment.zip
     unzip Deployment.zip
     tar -xf deployment.tar
    ```
-4. Modify the `.env` file to fill in the required variables - see [Environment Variables](/deployment/introduction/#environment-variables). Importantly, all services need usernames and passwords set, and Hasura needs a secret key - see eg. [this completed example](https://github.com/NASA-AMMOS/aerie-mission-model-template/blob/main/.env.template).
+4. Modify the `.env` file to fill in the required variables - see [Environment Variables](/deployment/introduction/#environment-variables). Importantly, all services need usernames and passwords set, and Hasura needs a secret key - see eg. [this completed example](https://github.com/NASA-AMMOS/plandev-mission-model-template/blob/main/.env.template).
 5. Modify the [`docker-compose.yml` file](/deployment/introduction/#docker-composeyml) for your specific environment.
     - A useful pattern is to **[merge Compose files](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/)** when running PlanDev, to keep your custom compose file changes separate from the original file provided by the deployment, rather than modifying the original. You can create a file called eg. `docker-compose.prod.yml` which contains *only* the overriding changes you want to make to the original file. Then, when running your services, you can pass them both to Compose [with the `-f` flag](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/).
     - If you are using [CAM/SSO authentication adapters](/deployment/advanced-authentication/) and/or [a reverse proxy](/deployment/advanced-reverse-proxy/), review their docs to determine the Compose file modifications they require.
@@ -68,7 +68,7 @@ It may be useful sometimes to just backup the state of your Postgres database us
 ### Upgrading your PlanDev Environment
 
 PlanDev releases new versions roughly every two weeks, and eventually you may want to upgrade your environment to a new version. If you want to preserve your environment's data from the previous version, you should take care to upgrade and migrate your data forward in a safe way:
-* Carefully read the [changelogs on the Releases page](https://github.com/NASA-AMMOS/aerie/releases) and the [upgrade guides](https://nasa-ammos.github.io/plandev-docs/upgrade-guides/3-1-1-to-3-2-0/) for all versions between your old version and the one you're upgrading to, and keep note of any breaking changes.
+* Carefully read the [changelogs on the Releases page](https://github.com/NASA-AMMOS/plandev/releases) and the [upgrade guides](https://nasa-ammos.github.io/plandev-docs/upgrade-guides/3-1-1-to-3-2-0/) for all versions between your old version and the one you're upgrading to, and keep note of any breaking changes.
 * Perform a backup of your database and/or Docker volumes before upgrading.
 * To perform the upgrade: 
   - Stop your docker containers with `docker compose down`

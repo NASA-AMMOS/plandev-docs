@@ -16,7 +16,7 @@ The `ActivityMapper` interface is shown below:
   language="java"
   showLineNumbers
   title="PlanDev Merlin Framework - ActivityMapper.java "
-  url="https://raw.githubusercontent.com/NASA-AMMOS/aerie/develop/merlin-framework/src/main/java/gov/nasa/jpl/aerie/merlin/framework/ActivityMapper.java"
+  url="https://raw.githubusercontent.com/NASA-AMMOS/plandev/develop/merlin-framework/src/main/java/gov/nasa/jpl/aerie/merlin/framework/ActivityMapper.java"
 ></RemoteCodeBlock>
 
 The first thing to notice is that the interface takes a type parameter (here called `Instance`). When implementing the `ActivityMapper` interface, an activity mapper must supply the `ActivityType` being mapped. With that in mind, each of the methods shown must be implemented as such:
@@ -29,11 +29,11 @@ The first thing to notice is that the interface takes a type parameter (here cal
 - `getValidationFailures(Instance activity)` provides a list of reasons a constructed activity is invalid, if any.
   Note that validation failures are different from instantiation errors. Validation failures occur when a constructed activity instance's parameters are outside acceptable range.
 
-The `getParameters()` method returns a `Map<String, ValueSchema>`. In this map should be a key for every parameter, with a `ValueSchema` describing the structure of that parameter. See our [Value Schema documentation](https://github.com/NASA-AMMOS/aerie/wiki/Value-Schemas#value-schemas-from-code) for more information on creating value schemas.
+The `getParameters()` method returns a `Map<String, ValueSchema>`. In this map should be a key for every parameter, with a `ValueSchema` describing the structure of that parameter. See our [Value Schema documentation](https://github.com/NASA-AMMOS/plandev/wiki/Value-Schemas#value-schemas-from-code) for more information on creating value schemas.
 
 ## Generated Activity Mappers
 
-In most cases, you will likely want to let Merlin generate activity mappers for you. Thankfully, this is the done automatically when running the Merlin Annotation Processor. When compiling your code with the Merlin annotation processor, the processor will produce an activity mapper for each activity type. This is made possible by the use of the `@WithMappers()` annotations in your [package-info.java](https://github.com/NASA-AMMOS/aerie/wiki/Developing-a-Mission-Model#package-infojava). Each java-file specified by these annotations is parsed to determine what types of values can be mapped. As long as there is a mapper for each activity parameter type used in the model, the annotation processor should have no issues creating activity mappers.
+In most cases, you will likely want to let Merlin generate activity mappers for you. Thankfully, this is the done automatically when running the Merlin Annotation Processor. When compiling your code with the Merlin annotation processor, the processor will produce an activity mapper for each activity type. This is made possible by the use of the `@WithMappers()` annotations in your [package-info.java](https://github.com/NASA-AMMOS/plandev/wiki/Developing-a-Mission-Model#package-infojava). Each java-file specified by these annotations is parsed to determine what types of values can be mapped. As long as there is a mapper for each activity parameter type used in the model, the annotation processor should have no issues creating activity mappers.
 
 ## Value Mappers
 
@@ -106,11 +106,11 @@ public class Vector3DValueMapper implements ValueMapper<Vector3D> {
 
 Notice there are just 3 methods to implement for a `ValueMapper`.
 The first is `getValueSchema()`, which should return a `ValueSchema`
-describing the structure of the value being mapped (see [here](https://github.com/NASA-AMMOS/aerie/wiki/Value-Schemas) for more info)
+describing the structure of the value being mapped (see [here](https://github.com/NASA-AMMOS/plandev/wiki/Value-Schemas) for more info)
 
-The next two methods are inverses of each other: `deserializeValue()` and `serializeValue()`. It is the job of `deserializeValue()` to take a `SerializedValue` and map it, if possible, into the mapper's supported value. Meanwhile, `serializeValue()` takes an instance of the mapper's supported value and turns it into a [`SerializedValue`](https://github.com/NASA-AMMOS/aerie/wiki/Activity-Mappers#what-is-a-serializedvalue).
+The next two methods are inverses of each other: `deserializeValue()` and `serializeValue()`. It is the job of `deserializeValue()` to take a `SerializedValue` and map it, if possible, into the mapper's supported value. Meanwhile, `serializeValue()` takes an instance of the mapper's supported value and turns it into a [`SerializedValue`](https://github.com/NASA-AMMOS/plandev/wiki/Activity-Mappers#what-is-a-serializedvalue).
 
-There are plenty of examples of value mappers over in the [contrib module](https://github.com/NASA-AMMOS/aerie/tree/develop/contrib/src/main/java/gov/nasa/jpl/aerie/contrib/serialization/mappers).
+There are plenty of examples of value mappers over in the [contrib module](https://github.com/NASA-AMMOS/plandev/tree/develop/contrib/src/main/java/gov/nasa/jpl/aerie/contrib/serialization/mappers).
 
 ### AutoValueMapper.Record
 

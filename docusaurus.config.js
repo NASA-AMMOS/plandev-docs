@@ -109,7 +109,7 @@ const config = {
           {
             'aria-label': 'GitHub repository',
             className: 'header-github-link',
-            href: 'https://github.com/NASA-AMMOS/aerie',
+            href: 'https://github.com/NASA-AMMOS/plandev',
             position: 'right',
           },
         ],
