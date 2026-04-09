@@ -75,7 +75,7 @@ const sidebars = {
             'overview/design/software-design-document',
           ],
         },
-        'overview/aerie-renamed-to-plandev',
+        'overview/plandev-seqdev-naming',
       ],
     },
     {
