@@ -149,7 +149,7 @@ Set it to the following:
 {
   "headers": {
     "x-hasura-admin-secret": "<YOUR_ADMIN_SECRET>",
-    "x-hasura-user-id": "<YOUR_AERIE_USERNAME>",
+    "x-hasura-user-id": "<YOUR_PLANDEV_USERNAME>",
     "x-hasura-role": "viewer"
   }
 }
@@ -188,7 +188,7 @@ const res = await altair.helpers.request(
   'POST',
   '/auth/login', // AUTH ENDPOINT OF THE DEPLOYMENT
   {
-    body: { username: '<YOUR_AERIE_USERNAME>', password: '<YOUR_AERIE_PASSWORD>' }, // CREDENTIALS TO LOG IN AS
+    body: { username: '<YOUR_PLANDEV_USERNAME>', password: '<YOUR_PLANDEV_PASSWORD>' }, // CREDENTIALS TO LOG IN AS
     headers: { 'Content-Type': 'application/json' },
   },
 );
@@ -222,13 +222,13 @@ const res = await altair.helpers.request(
   'POST',
   '/auth/login', // AUTH ENDPOINT OF THE DEPLOYMENT
   {
-    body: { username: '<YOUR_AERIE_USERNAME>', password: '<YOUR_AERIE_PASSWORD>' }, // CREDENTIALS TO LOG IN AS
+    body: { username: '<YOUR_PLANDEV_USERNAME>', password: '<YOUR_PLANDEV_PASSWORD>' }, // CREDENTIALS TO LOG IN AS
     headers: { 'Content-Type': 'application/json' },
   },
 );
 ```
 
-Replace `<YOUR_AERIE_USERNAME>` and `<YOUR_AERIE_PASSWORD>` with the username and password you use to sign in to PlanDev.
+Replace `<YOUR_PLANDEV_USERNAME>` and `<YOUR_PLANDEV_PASSWORD>` with the username and password you use to sign in to PlanDev.
 
 :::info Setting Your Role
 By default, you will make queries using the `viewer` role. If you want to use a different role,
@@ -258,7 +258,7 @@ import json
 import os
 import requests
 
-token = os.getenv('AERIE_TOKEN')
+token = os.getenv('PLANDEV_TOKEN')
 
 response = requests.post(
   url='http://localhost:8080/v1/graphql', # Change from 'localhost' as needed.

@@ -43,17 +43,17 @@ C DP_PRIORITIZE "STRING" 5
 ```
 
 ## Configuration
-In order to use sequence templates instead of the existing Typescript EDSL sequence expansion rules, you need to make a configuration change to your `aerie-ui` container.
+In order to use sequence templates instead of the existing Typescript EDSL sequence expansion rules, you need to make a configuration change to the Plandev UI service.
 
 :::caution
 Sequence templating and EDSL rules are exclusive of each other. They cannot coexist in the same instance of PlanDev.
 :::
 
-If you are running `aerie-ui` locally, then within the `aerie-ui` directory, navigate to `{aerie-ui path}/.env` and update the variable `PUBLIC_COMMAND_EXPANSION_MODE` to `templating`, instead of its default (`legacy`). Then restart the server process.
+If you are running `plandev-ui` locally from the git repository, then within the `plandev-ui` directory, navigate to `{plandev-ui path}/.env` and update the variable `PUBLIC_COMMAND_EXPANSION_MODE` to `templating`, instead of its default (`legacy`). Then restart the server process.
 
-If you are running `aerie` in docker, then within the `aerie` directory, navigate to `{aerie path}/docker-compose.yml`, and update the variable `PUBLIC_COMMAND_EXPANSION_MODE` under the `aerie-ui` container's settings to `templating`, instead of its default (`legacy`). Then, redeploy the container.
+If you are running PlanDev Docker services, then open the `docker-compose.yml` file you are using and update the `PUBLIC_COMMAND_EXPANSION_MODE` under the `aerie-ui` container's settings to `templating`, instead of its default (`legacy`). Then, redeploy the container.
 
-If you are accessing `aerie` remotely via an externally managed host, please reach out to that system's administrator about changing the deployment configuration.
+If you are accessing PlanDev remotely via an externally managed host, please reach out to that system's administrator about changing the deployment configuration.
 
 ## Sequence Templates in PlanDev
 After having enabled sequence templates, you are ready to author your own templates and expand with them. Prior to doing so, however, it might be instructive to provide a brief discussion of what these templates require and how they differ from Typescript expansion rules:

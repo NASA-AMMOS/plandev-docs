@@ -53,6 +53,8 @@ The following is a list of all of the required PlanDev services, their associate
 | [aerie-scheduler-worker][scheduler-worker] | Worker for executing scheduling goals                             | 27189 | ❌     |
 | [aerie-sequencing][sequencing]             | Service for sequence generation and management                    | 27184 | ❌     |
 
+By convention, these containers use our legacy `aerie-` naming scheme, & will be renamed to `plandev-` in a future update
+
 ## System Requirements
 
 ### Software
@@ -82,7 +84,7 @@ Note these numbers are lower bounds. You will need to scale PlanDev based on you
 
 ## Defect Reporting Procedure
 
-Defect reports should be sent to: `plandev-support@googlegroups.com`. For chat-based support, please join us on the [NASA-AMMOS Slack](https://join.slack.com/t/nasa-ammos/shared_invite/zt-1mlgmk5c2-MgqVSyKzVRUWrXy87FNqPw), in the `#aerie-users` channel.
+Defect reports should be sent to: `plandev-support@googlegroups.com`. For chat-based support, please join us on the [NASA-AMMOS Slack](https://join.slack.com/t/nasa-ammos/shared_invite/zt-1mlgmk5c2-MgqVSyKzVRUWrXy87FNqPw), in the `#plandev-users` channel.
 
 [gateway]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-gateway
 [hasura]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-hasura
