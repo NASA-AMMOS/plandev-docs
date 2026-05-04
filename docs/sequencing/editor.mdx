@@ -1,10 +1,10 @@
 # Sequence Editor
 
-SeqDev sequence editor is a web application with various features (auto complete, linting, hinting) to assist users while typing a sequence of commands. SeqDev currently supports AMPCS command, parameter, and channel dictionary schemas for commands, parameters, and telemetry channels. To be able to author or edit a sequence, users must reference a parcel containing a command dictionary available in the PlanDev instance. To upload a command dictionary [see instructions here](../../command-expansion/upload-command-dictionary). Users may optionally upload parameter dictionaries, channel dictionaries, and adaptataion code on the same view. After these are uploaded a parcel should be specified.
+SeqDev sequence editor is a web application with various features (auto complete, linting, hinting) to assist users while typing a sequence of commands. SeqDev currently supports AMPCS command, parameter, and channel dictionary schemas for commands, parameters, and telemetry channels. To be able to author or edit a sequence, users must reference a parcel containing a command dictionary available in the PlanDev instance. To upload a command dictionary [see instructions here](../../command-expansion/upload-command-dictionary). Users may optionally upload parameter dictionaries, channel dictionaries, and adaptation code on the same view. After these are uploaded a parcel should be specified.
 
 ## Parcel
 
-SeqDev groups a command dictionary along with zero of more parameter dictionaries, an optional channel dictionary, and an optional javascript adaptation file. If a parcel includes an adaptation, the adaptation may use parameter and channel dictionaries for additional information beyond the command dictionary. If a parcek does not specify an adaption or specifies an adaptation does not make use of the additional dictionaries they may have no impact on sequencing.
+SeqDev groups a command dictionary along with zero or more parameter dictionaries, an optional channel dictionary, and an optional JavaScript adaptation file. If a parcel includes an adaptation, the adaptation may use parameter and channel dictionaries for additional information beyond the command dictionary. If a parcel does not specify an adaptation or specifies an adaptation that does not make use of the additional dictionaries they may have no impact on sequencing.
 
 Navigate to the parcel page to create a parcel or edit an existing parcel.
 
@@ -21,7 +21,7 @@ import parcelConfiguration from './assets/parcelConfiguration.png';
 
 <figure>
   <img alt="Specify which dictionaries and adaptation makeup a parcel" src={parcelConfiguration} />
-  <figcaption>Parcels define a grouping of files that effect sequencing checks and translations</figcaption>
+  <figcaption>Parcels define a grouping of files that affect sequencing checks and translations</figcaption>
 </figure>
 
 Navigate to the SeqDev sequence editor from the SeqDev drop down menu at the upper left corner.
@@ -56,6 +56,83 @@ import editSeq from './assets/editSeq.png';
   <img alt="Edit sequence" src={editSeq} />
   <figcaption>Users can rename or edit a sequence, and view the seqJSON output.</figcaption>
 </figure>
+
+## Workspace file metadata
+
+SeqDev maintains metadata for workspace files. Metadata files are managed by the workspace service, stored as hidden
+`.meta.seqdev` files, and not shown in normal workspace file listings. In most cases, users interact with this metadata
+through the read-only checkbox or the Metadata right panel.
+
+### Managed metadata
+
+SeqDev automatically tracks who created and last edited each workspace file, and when those changes occurred. These
+fields are service-controlled and cannot be directly edited through the metadata API. They are updated for file changes
+made through the SeqDev UI or workspace APIs.
+
+If files are changed directly on the filesystem, SeqDev cannot update the metadata timestamps or user fields.
+
+### Read-only files
+
+File metadata may include `readOnly: true`. When set, SeqDev prevents accidental edits, moves, renames, and deletes of
+that file until the flag is removed. Files can still be read, copied, and have their metadata updated. Copies of
+read-only files are created as editable files.
+
+The read-only flag can be changed with the **Read only** checkbox in the editor, or through the metadata API.
+
+### User metadata
+
+The `user` field stores arbitrary JSON-shaped metadata for a file. This is intended for mission-specific annotations or
+tool-specific state that should travel with the workspace file. Users can edit it in the **Metadata** right panel, or
+through the metadata API.
+
+`user` metadata must be a JSON object. Keys inside the `user` object may be nested, but key names cannot contain `.`.
+
+### Metadata in actions
+
+SeqDev Actions can read and update workspace file metadata through the `aerie-actions` API:
+
+```js
+const metadata = await actionsAPI.getFileMetadata('foo.seqn');
+await actionsAPI.setFileMetadata('foo.seqn', { user: { status: 'checked' } });
+await actionsAPI.unsetFileMetadata('foo.seqn', ['user.status']);
+```
+
+See the [`ActionsAPI` implementation](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts) for the full
+Actions API surface.
+
+### Metadata API
+
+Most users do not need to use the metadata REST API directly. It is primarily useful for integrations, automation, or
+tools that manage workspace files outside the SeqDev UI. See the [`WorkspaceBindings` implementation](https://github.com/NASA-AMMOS/plandev/blob/develop/workspace-server/src/main/java/gov/nasa/jpl/aerie/workspace/server/WorkspaceBindings.java) for full endpoint behavior.
+
+All metadata API paths refer to the main file path, not the hidden metadata file path:
+
+```http
+GET /metadata/<workspaceId>/<filePath>
+POST /metadata/<workspaceId>/<filePath>
+POST /metadata/unset/<workspaceId>/<filePath>
+DELETE /metadata/<workspaceId>/<filePath>
+```
+
+The set endpoint accepts writable metadata fields:
+
+```json
+{
+  "readOnly": true,
+  "user": {
+    "status": "draft"
+  }
+}
+```
+
+The unset endpoint removes metadata keys. Use dot paths for nested `user` fields:
+
+```json
+["readOnly", "user.status"]
+```
+
+The set endpoint supports `mergeBehavior=deep`, `mergeBehavior=shallow`, or `mergeBehavior=overwrite` for updates to
+the `user` object. If omitted, the default is `shallow`.
 
 ## Import / export seqJSON
 

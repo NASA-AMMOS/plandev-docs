@@ -231,6 +231,17 @@ const fileContents = await actionsAPI.readFile('my_seq.seq');
 const writeResult = await actionsAPI.writeFile('output_seq.seq', 'NEW CONTENTS', true);
 ```
 
+Actions can also read and update workspace file metadata:
+
+```js
+const metadata = await actionsAPI.getFileMetadata('my_seq.seq');
+await actionsAPI.setFileMetadata('my_seq.seq', { user: { status: 'checked' } });
+await actionsAPI.unsetFileMetadata('my_seq.seq', ['user.status']);
+```
+
+See the [`ActionsAPI` implementation](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts) for the full
+API surface.
+
 :::caution
 
 It is important to `await` these functions (and any other `async` functions you call), or use another
