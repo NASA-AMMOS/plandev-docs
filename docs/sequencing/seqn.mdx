@@ -215,6 +215,9 @@ C CMD_ECHO "Hello, World!"
 C RADIO_POWER "RADIO_ONE" "ENABLE"
 ```
 
+SeqDev replaces curly quotes with ASCII quotes when a SeqN file is opened or text is pasted into the editor. During SeqN
+to SeqJSON conversion, raw control characters in string and JSON arguments are escaped before parsing.
+
 ### Repeat Arguments
 
 Repeat arguments are flat, square-bracketed lists of the repeated arguments separated by whitespace.

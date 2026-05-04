@@ -77,6 +77,9 @@ action has a compatible `file`, `fileList`, `sequence`, or `sequenceList` parame
 from the active file or current file selection. Use `primary: true` on the parameter when an action has more than one
 file-like input and you want to specify which one should receive the selected workspace files.
 
+For `file` and `fileList` parameters, the optional `pattern` field restricts which files can be used as input. For
+example, `{ type: "fileList", pattern: "*.json" }` accepts only JSON files.
+
 ## Writing an Action
 
 Actions must be written in **Javascript or Typescript**, though other languages may be supported in the future. If you're
@@ -125,6 +128,9 @@ export const parameterDefinitions = {
 defines two user-provided parameters, a string called `myName` and an integer called `myAge`. The full list of
 supported types can be found in the [aerie-actions value schema definition](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/types/schema.ts).
 
+Parameters and settings may also include a `description`. SeqDev shows descriptions as tooltips in the run action modal
+and action settings page.
+
 #### Required and variant values
 
 Parameters and settings can define `required: true`. SeqDev requires the user to provide a value in the UI, and the
@@ -137,9 +143,15 @@ rejects values that are not listed in `variants`. Non-required variants may be l
 
 ```ts
 export const parameterDefinitions = {
-  commandFile: { type: "sequence", primary: true, required: true },
+  commandFile: {
+    type: "sequence",
+    description: "Sequence file to process",
+    primary: true,
+    required: true
+  },
   mode: {
     type: "variant",
+    description: "How much processing to perform",
     variants: [
       { key: "check", label: "Check only" },
       { key: "translate", label: "Translate" },
@@ -260,7 +272,12 @@ These secrets are transient — they are passed at runtime and never stored in t
 
 - `actionsAPI.config.SECRETS.authorization` — the running user's JWT token (encoded)
 - `actionsAPI.config.SECRETS.user` — the running user's JWT payload (decoded JSON string)
-- `actionsAPI.config.SECRETS.userRole` — the running user's current Hasura role
+
+Additional run context is available directly on `actionsAPI.config`:
+
+- `actionsAPI.config.USER_ROLE` — the running user's current Hasura role
+- `actionsAPI.config.USERNAME` — the running user's username
+- `actionsAPI.config.ACTION_RUN_ID` — the current action run ID
 
 **Secret parameters**
 

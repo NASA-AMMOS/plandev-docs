@@ -33,22 +33,32 @@ import navigateSeq from './assets/navigateSeq.png';
   <figcaption>Use main SeqDev drop down menu to navigate to the SeqDev sequence editor.</figcaption>
 </figure>
 
-The landing page lists all sequences available at this venue in the left panel. Upon click users can view the contents of sequences in the right hand side editor in a "read only" mode. To edit an individual sequence click the pencil icon for the sequence on the left hand side panel as shown in the image below.
+The sequence editor opens a workspace containing sequence files, text files, folders, templates, and other files used by
+SeqDev tools. The workspace file browser supports folder navigation, search, sorting, file and folder selection, and
+row context menus for common file operations.
 
 import viewSeq from './assets/viewSeq.png';
 
 <figure>
   <img alt="View list of sequences" src={viewSeq} />
-  <figcaption>The landing page lists all sequences that are authored.</figcaption>
+  <figcaption>The workspace file browser lists the files available in the workspace.</figcaption>
 </figure>
 
-:::note
+## Workspace permissions
 
-Currently SeqDev sequence editor does not support user roles and permissions, hence all sequences authored in this venue will be accessible to everyone who has access to PlanDev. User roles will allow limiting edit and/or view access to some sequences. For now, we recommend pre-appending a user name to your sequence names to indicate ownership.
+SeqDev workspaces are permissioned by user role and workspace ownership. Workspace owners can add collaborators from the
+workspace settings. Collaborators can edit workspace files when their active role has the required workspace permissions.
+Users who can read a workspace but not write to it can still open and view files, but cannot create, edit, move, or delete
+workspace contents.
 
-:::
+For custom deployment roles, see the [advanced permissions documentation](/deployment/advanced-permissions/).
 
-In the sequence editing page users need to select a command dictionary before they can edit the sequence. Editing sequence simply means adding any of the step types defined in the [seqJSON format](https://github.com/NASA-AMMOS/seq-json-schema) to the steps section of the sequence. In addition seqJSON allows arbitrary JSON objects to be added as metadata. Refer to your mission guidelines regarding metadata format expected by downstream processes and tools.
+## Editing files
+
+In the sequence editing page users need to select a command dictionary before they can edit a sequence. Editing sequence
+files means adding any of the step types defined in the [seqJSON format](https://github.com/NASA-AMMOS/seq-json-schema)
+to the steps section of the sequence. In addition seqJSON allows arbitrary JSON objects to be added as metadata. Refer to
+your mission guidelines regarding metadata format expected by downstream processes and tools.
 
 import editSeq from './assets/editSeq.png';
 
@@ -56,6 +66,24 @@ import editSeq from './assets/editSeq.png';
   <img alt="Edit sequence" src={editSeq} />
   <figcaption>Users can rename or edit a sequence, and view the seqJSON output.</figcaption>
 </figure>
+
+## Workspace file operations
+
+Workspace files and folders can be selected from the file browser and managed through the row context menu. Single-item
+operations include opening files, copying paths, downloading files, and moving, copying, or deleting files and folders.
+
+The workspace table supports multi-select with shift-click or ctrl-click. Selected files can be used to run compatible
+[SeqDev Actions](./actions.mdx), or moved, copied, deleted, and downloaded together. Multi-file downloads are packaged as
+a zip file, preserving folder structure where needed.
+
+When moving or copying files, SeqDev checks for conflicting destination files and lets users choose whether to overwrite
+or skip conflicts.
+
+## Workspace error console
+
+The workspace error console gathers errors and logs from the current workspace session. It includes action runs,
+adaptation loading and console errors, editor lint errors, and general logs. Lint errors include clickable file, line, and
+column references when available, and action entries can link to the action run detail page.
 
 ## Workspace file metadata
 
@@ -156,7 +184,7 @@ R00:00:10 THROW_BANANA 10
 - To view list of commands, type a time tag and a space.
 - To filter commands, start typing the first few letters of the command stem.
 - After selecting the command the parameters will be inside of the right "Selected Command" panel.
-- If command has arguments they will be deliniated with a space.
+- If command has arguments they will be delineated with a space.
 - Editor can autocomplete argument names with the `control + Space` shortcut.
 - For the enumerated args, `control + Space` can be used to select one of the defined enum values.
 - Errors will be linted with a red squiggly underline. Hovering over the error should provide explanation for the error as shown below.
@@ -197,5 +225,5 @@ When the cursor is within the sequence editor the following keyboard commands ar
 | Ctrl-/               | Cmd-/                          | toggleComment      | Comment or uncomment the current selection. Will use line comments if available, otherwise falling back to block comments. |
 | Ctrl-S               | Cmd-S                          | saveDocument       | Save current editor contents                                                                                               |
 | Ctrl-Space           | Cmd-Space                      | suggestCompletions | Show autocomplete options                                                                                                  |
-| Ctrl-Shift-m         | Cmd-Shift-m                    | openLintPanel      | Show panel at bottor of editor with errors and warnings                                                                    |
+| Ctrl-Shift-m         | Cmd-Shift-m                    | openLintPanel      | Show panel at bottom of editor with errors and warnings                                                                    |
 | F8                   | F8                             | nextDiagnostic     | Select / Scroll to next error or warning                                                                                   |

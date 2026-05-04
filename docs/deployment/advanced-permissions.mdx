@@ -1,6 +1,6 @@
 # Advanced - User Role Permissions
 
-User Roles are sets of permissions that defines how a user is a allowed to interact with the PlanDev system.
+User Roles are sets of permissions that define how a user is allowed to interact with the PlanDev system.
 By default, PlanDev provides three User Roles:
 
 - `viewer`, which can view all data
@@ -178,18 +178,19 @@ After adding a new role, [it is currently necessary to refresh the Hasura Metada
 Instructions on how to do so can be found [in the Hasura Docs](https://hasura.io/docs/latest/migrations-metadata-seeds/manage-metadata/#reload-metadata).
 
 
-#### Action and Function Permissions
+#### Action, Function, and Workspace Permissions
 
 In addition to the coarse-grained permissions granted by the Hasura Metadata,
-certain Functions and Actions have what are known as fine-grained permissions.
-For these Functions and Actions **it is not sufficient** to only allow the role
-to see the function via the Hasura metadata.
+certain Functions, Actions, and Workspace operations have what are known as fine-grained permissions.
+For Functions and Actions, **it is not sufficient** to only allow the role to see the operation via the Hasura metadata.
+Workspace operations are checked by the Workspace server against the same role permission table.
 This section will go over how to specify these fine-grained permissions
 for a custom role.
 
-Action and Function Permissions are represented as two JSONs, one for Actions and one for Functions.
+Action, Function, and Workspace Permissions are represented as three JSONs.
 The structure of these JSONs are `{ KEY_1: PERMISSION, KEY_2: PERMISSION, ... , KEY_N: PERMISSION }`.
-The absence of a Key will be considered equivalent to a role **NOT** having permission to perform the Action or Function.
+The absence of a Key will be considered equivalent to a role **NOT** having permission to perform the Action, Function, or
+Workspace operation.
 
 <details closed>
 <summary>Keys Permitted for Action Permissions</summary>
@@ -247,6 +248,23 @@ Any Functions not included here only have coarse-grained control.
 </details>
 
 <details closed>
+<summary>Keys Permitted for Workspace Permissions</summary>
+
+| Key | Meaning |
+| -: | :- |
+| `create_workspace` | Create a workspace |
+| `delete_workspace` | Delete a workspace |
+| `list_workspace_contents` | List workspace files and folders |
+| `read_file_directory` | Read a workspace file or directory |
+| `write_file_directory` | Create or write a workspace file or directory |
+| `delete_file_directory` | Delete a workspace file or directory |
+
+`create_workspace` is coarse-grained. If present, it must be set to `NO_CHECK`. All other workspace permission keys can
+use the workspace permission values listed below.
+
+</details>
+
+<details closed>
 <summary>Values Permitted for <code>PERMISSION</code></summary>
 
 | Permission | Meaning |
@@ -292,19 +310,33 @@ and 'Target Plan' refers to the plan *receiving* changes.
 
 </details>
 
-Once you have devised your Action Permissions and Function Permissions JSONs,
+<details closed>
+<summary>Values Permitted for Workspace Permissions</summary>
+
+| Permission | Meaning |
+| -: | :- |
+| `NO_CHECK` | The user may perform the workspace operation with no ownership or collaborator check |
+| `OWNER` | The user must be the workspace owner |
+| `COLLABORATOR` | The user must be a workspace collaborator |
+| `OWNER_COLLABORATOR` | The user must be either the workspace owner or a workspace collaborator |
+
+</details>
+
+Once you have devised your Action, Function, and Workspace Permissions JSONs,
 you can use this GraphQL Mutation to apply them to your custom role:
 
 ```graphql
-mutation updateUserRolePermissions($function_permissions: jsonb!, $action_permissions: jsonb!) {
+mutation updateUserRolePermissions($function_permissions: jsonb!, $action_permissions: jsonb!, $workspace_permissions: jsonb!) {
   update_user_role_permission_by_pk(
     pk_columns: {role: <YOUR_ROLE>},
     _set: {
       function_permissions: $function_permissions,
-      action_permissions: $action_permissions}
+      action_permissions: $action_permissions,
+      workspace_permissions: $workspace_permissions}
   ) {
     function_permissions
     action_permissions
+    workspace_permissions
   }
 }
 ```
@@ -350,6 +382,14 @@ Below are sample Query Variables. These are equivalent to the `user` role's Perm
     "set_resolution": "PLAN_OWNER_TARGET",
     "set_resolution_bulk": "PLAN_OWNER_TARGET",
     "withdraw_merge_rq": "PLAN_OWNER_SOURCE"
+  },
+  "workspace_permissions": {
+    "create_workspace": "NO_CHECK",
+    "delete_file_directory": "OWNER_COLLABORATOR",
+    "delete_workspace": "OWNER",
+    "list_workspace_contents": "NO_CHECK",
+    "read_file_directory": "NO_CHECK",
+    "write_file_directory": "OWNER_COLLABORATOR"
   }
 }
 ```
