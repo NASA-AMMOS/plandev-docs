@@ -34,19 +34,19 @@ async function main(parameters, settings, actionsAPI) {
         resultData = await result.clone().text();
     }
     // read/write files using the actions helpers
-    const files = await actionsAPI.listSequences();
-    console.log(`sequence files: ${JSON.stringify(files)}`);
+    const files = await actionsAPI.listFiles('.');
+    console.log(`workspace files: ${files}`);
     const readFileName = "my_file";
     // note: only wrap in try/catch to handle *non-fatal errors*! Fatal errors should be thrown to properly report action run as failure
     try {
-        const myFile = await actionsAPI.readSequence(readFileName);
+        const myFile = await actionsAPI.readFile(readFileName);
         console.log(`${readFileName}: ${JSON.stringify(myFile)}`);
     }
     catch (e) {
         console.warn(`Could not find file named ${readFileName}`);
     }
     const jsonStr = JSON.stringify(resultData, null, 2);
-    const writeResult = await actionsAPI.writeSequence("action-template-output", jsonStr);
+    const writeResult = await actionsAPI.writeFile("action-template-output", jsonStr, true);
     console.log(`writeResult: ${JSON.stringify(writeResult)}`);
     return {
         status: "SUCCESS",
