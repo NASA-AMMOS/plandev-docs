@@ -59,6 +59,29 @@ import parameterizedGoal from './assets/parameterized-goal.png';
   <figcaption>Figure 1: PlanDev Scheduling - Parameterized Goal</figcaption>
 </figure>
 
+## Default Parameter Values
+
+Procedural goals and constraints can provide default values for record parameters with a static class annotated with
+`@WithDefaults`. Fields present in the defaults class are used as initial values in the UI. Record fields that do not have
+defaults still need to be provided by the user.
+
+```java
+@SchedulingProcedure
+public record BiteBananaGoal(int quantity, int biteSize) implements Goal {
+  @Override
+  public void run(EditablePlan plan) {
+    // Goal implementation...
+  }
+
+  public static @WithDefaults class Defaults {
+    public int quantity = 360;
+  }
+}
+```
+
+In this example, `quantity` defaults to `360`, while `biteSize` remains required. When defaults are available, the UI
+shows whether a value came from the procedure default or from a user override, and allows an overridden value to be reset.
+
 ## Invocations
 
 You can invoke the same goal multiple times in the same specification. This is useful for very specific, targeted goals;

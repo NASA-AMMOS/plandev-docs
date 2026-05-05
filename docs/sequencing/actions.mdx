@@ -1,9 +1,8 @@
 # SeqDev Actions
 
-:::danger
-Actions are a new _experimental feature_ as of PlanDev v3.4.0, and not yet recommended for use in production environments.
-Development is active, and the API may be subject to further change. Please let us know if you have feedback
-on their future development!
+:::caution
+Actions are a beta feature under active development. They are available for use in SeqDev, but their APIs and UI may
+continue to change as the feature matures. Please let us know if you have feedback on their future development.
 :::
 
 Actions are _custom tasks_ that developers can write and upload to a SeqDev Sequencing **workspace**, in order to
@@ -11,8 +10,7 @@ traceably automate operations on the sequences and files within the workspace. A
 workspace, and may communicate with other services to provide things such as translation, static checking or compilation.
 More info about this decision and its intentions can be found in [ADR-0101 - SeqDev Actions](/overview/design/arch-decision-records/adr-0101-seqdev-actions).
 
-This document describes the _current state_ of the Actions feature as it exists today. Check the roadmap section at the
-end to understand how it may change in the future.
+This document describes the _current state_ of the Actions feature as it exists today.
 
 ## Using Actions
 
@@ -22,38 +20,65 @@ your own.
 
 SeqDev actions live within the context of a **sequencing workspace**, so to begin, go to the Sequencing page and create
 a new workspace. More info on workspaces, dictionaries and parcels can be found in
-[the Sequence Editor docs](http://localhost:3000/plandev-docs/sequencing/editor/). With your workspace open, click the
-button labeled "Actions" at the top - this will show you the actions associated with your workspace, and all of the past
-runs of those actions - currently both empty lists.
+[the Sequence Editor docs](/sequencing/editor/). With your workspace open, open the **Actions** view. This will show
+you the actions associated with your workspace, and all of the past runs of those actions - currently both empty lists.
 
-Once you're on the Actions page, click "New Action", give it a name ('test-action') and upload the `action.js` file
+Once you're on the Actions page, click "New Action", give it a name (`test-action`) and upload the `action.js` file
 for your action (the provided example, or the output of your build step). If this completes successfully, you should see
-your new action appear in the list on the left side of the page. Click on the row to see details about your action:
+your new action appear in the list on the left side of the page. This also creates the first version of the action,
+`v0`. Click on the row to see details about your action:
 
 - The **Runs** tab shows you all past runs of _this_ action, currently none
-- The **Configure** tab gives you access to the _settings values_ for your action. These are configuration settings defined by the action, which can be modified and saved to be used in subsequent runs.
-- The **Code** tab shows you the (compiled) source code of your action, ie. the contents of `action.js`
+- The **Configure** tab gives you access to action metadata, saved settings values, action-level archiving, and version management
+- The **Code** tab shows you the compiled source code of your action, ie. the contents of `action.js`, for a selected version
 
 _The rest of these instructions will assume you're using the example action - modify them as needed for your own
-settings/parameters._ The example action attempts to **make a request** to an external URL and return the response as its
-result. Go to the "Configure" page and, for the setting called "externalURL", enter `https://api.github.com`. This will
-be used as the **base URL** for requests made by this action. Click Save to save your settings.
+settings/parameters._ The example action attempts to make a request to an external URL and return the response as its
+result. Go to the **Configure** page and, for the setting called `externalUrl`, enter `https://api.github.com`. This
+will be used as the base URL for requests made by this action. Click Save to save your settings.
 
-Now we're ready to run the action for the first time - click the purple "Run" button in the top right of the page. This
-opens a modal dialog with a form for entering **parameters** for this run. Like settings, parameters are
-options defined by the action - but unlike settings, they are required to be provided by the user on each
-run, rather than saved and persisted for all future runs. In this modal, for the parameter called "urlPath", enter
-`repos/NASA-AMMOS/plandev`. The example action appends the "urlPath" to the base "externalUrl" entered in settings
-to form a complete URL to request. Finally, click the "Run" button in the dialog window to start the run.
+Now we're ready to run the action for the first time - click the "Run Action" button in the top right of the page. This
+opens a modal dialog with a form for entering **parameters** for this run. Like settings, parameters are options defined
+by the action - but unlike settings, they are expected to be provided by the user on each run, rather than saved and
+persisted for all future runs. Select the version to run, fill in any required parameters, and click "Run" to start the
+run. By default, SeqDev runs the latest non-archived version of the action. For the example action, enter
+`repos/NASA-AMMOS/plandev` for the `urlPath` parameter. The example action appends `urlPath` to `externalUrl` to form a
+complete URL to request.
 
 This will take you to the **action run detail page** for this run, which will show information about the status of this
-particular run. After a few seconds, you should either see a green "success" status with results (showing information
-about the `plandev` repo from the Github API), or a red "failure" status. If you see a failure, check to make sure your
+particular run. After a few seconds, you should either see a green "success" status with results showing information
+about the `plandev` repo from the GitHub API, or a red "failure" status. If you see a failure, check to make sure your
 settings and parameters were set correctly.
 
 Finally, you can go back to the main Actions page for your workspace, which should show your just-completed run in the
 list and gives you access to the list of all past runs, for purposes of traceability. Each run saves the settings
 and parameters used for the run, as well as any results, logs and errors encountered during the run.
+
+### Updating and archiving actions
+
+After an action has been created, you can update its implementation by opening the action detail page and clicking
+"Upload New Version". This uploads a new `action.js` file and creates a new version of the same action instead of
+creating a separate action entry. New runs use the latest non-archived version by default, while previous runs remain
+linked to the specific version that produced them.
+
+Action versions can be _archived_ from the version list in the **Configure** tab or from the version selector in the
+**Code** tab. Archiving a version hides it from normal run selection and prevents it from being used for new runs through
+the Actions UI, but keeps the version and its previous run history available for traceability. If all versions are
+archived, the action cannot be run from the UI until a version is unarchived.
+
+You can also archive the entire action from the **Configure** tab. This prevents users from running the action through
+the Actions UI and prevents new versions from being uploaded, while preserving the action, its versions, and previous
+runs. Users with permission to update action definitions can unarchive archived actions or versions.
+
+### Running actions on workspace files
+
+Actions can declare file or sequence parameters so they can be run directly from selected files in the workspace. If an
+action has a compatible `file`, `fileList`, `sequence`, or `sequenceList` parameter, SeqDev can pre-fill that parameter
+from the active file or current file selection. Use `primary: true` on the parameter when an action has more than one
+file-like input and you want to specify which one should receive the selected workspace files.
+
+For `file` and `fileList` parameters, the optional `pattern` field restricts which files can be used as input. For
+example, `{ type: "fileList", pattern: "*.json" }` accepts only JSON files.
 
 ## Writing an Action
 
@@ -87,11 +112,13 @@ the values of **settings** are saved in the database and used in subsequent runs
 such as the URL of a service which does not change often - while **parameter** values are expected to be provided
 by the user on every run of the action.
 
+#### Definitions
+
 You must define your parameters and settings as shown in the template structure: the variables **must** be called `parameterDefinitions`
 and `settingDefinitions`, but you should replace the contents with your desired parameter/setting names and their types.
 For example, the code:
 
-```
+```ts
 export const parameterDefinitions = {
   myName: { type: "string" },
   myAge: { type: "int" }
@@ -100,9 +127,50 @@ export const parameterDefinitions = {
 
 defines two user-provided parameters, a string called `myName` and an integer called `myAge`. The full list of
 supported types can be found in the [aerie-actions value schema definition](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/types/schema.ts).
+
+Parameters and settings may also include a `description`. SeqDev shows descriptions as tooltips in the run action modal
+and action settings page.
+
+#### Required and variant values
+
+Parameters and settings can define `required: true`. SeqDev requires the user to provide a value in the UI, and the
+action server rejects a run if a required parameter or setting is `undefined` or an empty string. A required field can
+still provide a `defaultValue`, which will be used if the user does not override it.
+
+Actions may also define `variant` parameters or settings. A variant behaves like an enum: the UI renders it as a
+dropdown, shows the `label` value to the user, and passes the selected `key` value into the action. The action server
+rejects values that are not listed in `variants`. Non-required variants may be left unset.
+
+```ts
+export const parameterDefinitions = {
+  commandFile: {
+    type: "sequence",
+    description: "Sequence file to process",
+    primary: true,
+    required: true
+  },
+  mode: {
+    type: "variant",
+    description: "How much processing to perform",
+    variants: [
+      { key: "check", label: "Check only" },
+      { key: "translate", label: "Translate" },
+      { key: "compile", label: "Compile" }
+    ],
+    defaultValue: "check",
+    required: true
+  },
+  outputName: {
+    type: "string",
+    defaultValue: "translated.seq",
+    required: true
+  }
+} satisfies ActionParameterDefinitions;
+```
+
 If you are using Typescript, the next two lines should be left alone:
 
-```
+```ts
 type MyActionParameters = ActionParameters<typeof parameterDefinitions>;
 type MyActionSettings = ActionSettings<typeof settingDefinitions>;
 ```
@@ -120,7 +188,7 @@ export async function main(parameters: MyActionParameters, settings: MyActionSet
 }
 ```
 
-Actions are expected to by asynchronous, potentially long-running tasks - therefore `main` is expected to be an `async`
+Actions are expected to be asynchronous, potentially long-running tasks - therefore `main` is expected to be an `async`
 function, or a function which returns a [`Promise` which is `resolve`d](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Using_promises)
 when the action is done running.
 
@@ -159,21 +227,32 @@ Be careful that you **do not `console.log()` any sensitive information**
 such as authentication tokens, passwords or opcodes, that you do not want to be persisted in the database in plaintext.
 :::
 
-### Using `actionsAPI` functions to read and write sequences
+### Using `actionsAPI` functions to read and write workspace files
 
 The third argument passed to your `main` function is an instance of the `ActionsAPI` class [defined in `aerie-actions`](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts#L94). This object contains a connection to the PlanDev database,
-and allows you to asynchronously **read from** and **write to** sequences in your workspace. More documentation for
+and allows you to asynchronously **read from** and **write to** files in your workspace. More documentation for
 these functions can be found in the [`aerie-actions` repo](https://github.com/NASA-AMMOS/aerie-actions/blob/main/README.md),
 and examples can be found in the `aerie-action-template`. The basic methods are:
 
 ```js
-// return a list of the names of all sequences in your workspace:
-const files = await actionsAPI.listSequences();
-// get the string contents of a sequence, given the sequence name
-const myFileContents = await actionsAPI.readSequence('my_seq');
-// overwrite the contents of a sequence with a new string, given the sequence name
-const writeResult = await actionsAPI.writeSequence('output_seq', 'NEW CONTENTS');
+// return a list of files in a workspace directory:
+const files = await actionsAPI.listFiles('.');
+// get the string contents of a file, given its workspace path:
+const fileContents = await actionsAPI.readFile('my_seq.seq');
+// write a new file, or pass true as the third argument to overwrite an existing file:
+const writeResult = await actionsAPI.writeFile('output_seq.seq', 'NEW CONTENTS', true);
 ```
+
+Actions can also read and update workspace file metadata:
+
+```js
+const metadata = await actionsAPI.getFileMetadata('my_seq.seq');
+await actionsAPI.setFileMetadata('my_seq.seq', { user: { status: 'checked' } });
+await actionsAPI.unsetFileMetadata('my_seq.seq', ['user.status']);
+```
+
+See the [`ActionsAPI` implementation](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts) for the full
+API surface.
 
 :::caution
 
@@ -193,7 +272,12 @@ These secrets are transient — they are passed at runtime and never stored in t
 
 - `actionsAPI.config.SECRETS.authorization` — the running user's JWT token (encoded)
 - `actionsAPI.config.SECRETS.user` — the running user's JWT payload (decoded JSON string)
-- `actionsAPI.config.SECRETS.userRole` — the running user's current Hasura role
+
+Additional run context is available directly on `actionsAPI.config`:
+
+- `actionsAPI.config.USER_ROLE` — the running user's current Hasura role
+- `actionsAPI.config.USERNAME` — the running user's username
+- `actionsAPI.config.ACTION_RUN_ID` — the current action run ID
 
 **Secret parameters**
 
@@ -265,25 +349,25 @@ include secret values in your `return` statement's `data` field.
 
 ### Building your action
 
-When you are ready to upload your action to an SeqDev workspace, run this build command:
+When you are ready to upload your action to a SeqDev workspace, run this build command:
 
 ```
 npm run build
 ```
 
 If successful, this should create a built file `dist/action.js` (in the action-template folder) which can be uploaded to
-SeqDev when you create an action. Whenever you change your action, you must re-run `npm run build` to rebuild it, and
-then reupload it to SeqDev.
+SeqDev when you create an action. Whenever you change your action, you must re-run `npm run build` to rebuild it, then
+upload the rebuilt file as a new version from the action detail page.
 
 ## Roadmap
 
-SeqDev Actions are an **experimental feature** under active development. If you have feedback or ideas for their future
-development, [let us know!](http://localhost:3000/plandev-docs/#:~:text=quick%20start%E2%86%92-,Learn%20More,-Ask%20a%20question)
+SeqDev Actions are a **beta feature** under active development. If you have feedback or ideas for their future
+development, let us know.
 
 Our near-term roadmap of upcoming changes to Actions includes:
 
 - More example actions & improved documentation
-- Patterns for **testing actions** - User should be able to write tests for their action including mocking & spying on the aerie-actions library (`expect(actions.readSequence).toHaveBeenCalledWith('mySequence')`).
+- Patterns for **testing actions** - Users should be able to write tests for their action including mocking & spying on the aerie-actions library (`expect(actions.readFile).toHaveBeenCalledWith('mySequence')`).
 - **Concurrency** - We don't plan to fully solve the concurrency problem yet, but we should allow _one action per workspace_ to run concurrently instead of _one action per PlanDev deployment_
 - Rethink **bundling actions** - Currently no way to upload an action with any other configs or scripts to call, you can only upload a single JS file. Should we rethink this to allow a user to give us eg. a node script that calls a python script, packed into a zip file? May also be nice for our action format to have a place to specify version, eg. a manifest file.
 

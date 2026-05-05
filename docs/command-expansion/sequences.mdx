@@ -52,14 +52,16 @@ name it, and then select all relevant options to narrow down the set of simulate
   <figcaption>Figure 3: Sequence Filter Options </figcaption>
 </figure>
 
-From here, mouse over the filter, click the play icon, and then select the dates you want the sequence to apply over and then you will create a sequence from this filter.
+From here, mouse over the filter, click the play icon, select the dates you want the sequence to apply over, and choose a
+name for the output sequence.
 
 <figure>
   <img alt="PlanDev UI - Create a Sequence from a Sequence Filter" src={planSequenceCreationFromFilter} />
   <figcaption>Figure 4: Create a Sequence from a Sequence Filter </figcaption>
 </figure>
 
-The created sequence will bear an ID of `"{filter name} Sequence"`.
+The sequence name defaults to `"{filter name} Sequence (Plan {plan id})"`, but you can edit it before creating the
+sequence. SeqDev validates the name and will not allow overlapping sequence names for the same simulation dataset.
 Alternatively, you can directly create a sequence by selecting `Sequence` instead in the `New` button field. The name of this sequence is its ID.
 
 ## Manually assigning Simulated Activities to Sequences
