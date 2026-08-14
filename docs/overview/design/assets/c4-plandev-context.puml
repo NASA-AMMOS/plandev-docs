@@ -9,12 +9,12 @@ System(missionScheduler, "Mission Scheduler", "The mission scheduling logic syst
 
 System(plandev, "PlanDev", "Provides mission activity and sequence simulation and resource analysis")
 
-System_Ext(cam, "Common Access Manager", "Central authentication and authorization provider")
+System_Ext(cam, "Common Access Manager", "Central authentication and identity data provider")
 
 Rel_D(missionTool, plandev, "Query data")
 Rel_D(planner, plandev, "Views and edits plans, resource profiles, constraints")
 Rel_D(missionScheduler, plandev, "Query resource profiles and constraints, mutate plans")
 
-Rel_D(plandev, cam, "Get authentication/authorization")
+Rel_D(plandev, cam, "Get authentication/identity data")
 
 @enduml
