@@ -533,14 +533,23 @@ configuration file.
 
 ### Authentication and Authorization
 
-PlanDev provides authentication and authorization capabilities via the
-Common Access Manager. Currently, authentication requests from the
-PlanDev UI are proxied through the aerie-ui service.
+The PlanDev Gateway service handles user authentication through a
+modular JavaScript adapter interface. Authentication requests from the
+UI are proxied through the `plandev-ui` service to the Gateway.
+Deployments can provide custom authentication adapters to integrate
+PlanDev with external identity providers or use a built-in adapter.
 
-Identity data is provided by configuring CAM policies. The PlanDev
-GraphQL API Server uses CAM identity data combined with user roles defined
-in the database, to manage authorization of API access and limit access
-per API field granularity.
+PlanDev currently includes one built-in adapter for integration with
+Common Access Manager (CAM). CAM is an external identity provider that
+is deployed and managed separately from PlanDev. The adapter authenticates
+users against a deployment's CAM service and retrieves identity data,
+including group membership.
+
+When the CAM adapter is used, a user-provided JSON configuration,
+supplied through an environment variable, maps CAM groups to PlanDev
+roles and permissions. PlanDev services use these roles and permissions
+to authorize access to protected resources. The PlanDev GraphQL API
+Server enforces authorization at field-level granularity.
 
 ### Data Model
 
