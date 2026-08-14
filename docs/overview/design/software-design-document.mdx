@@ -535,16 +535,12 @@ configuration file.
 
 PlanDev provides authentication and authorization capabilities via the
 Common Access Manager. Currently, authentication requests from the
-PlanDev UI are proxied through the aerie-ui service. It is prudent that
-PlanDev not handle (proxy/store) any credential information, for any
-duration of time. As a result, PlanDev authentication will soon be
-amended so requests for an authentication token are made directly to a
-CAM server instance with the Cross-Origin Resource Sharing (CORS)
-capability enabled.
+PlanDev UI are proxied through the aerie-ui service.
 
-Authorization is provided by configuring CAM policies. The PlanDev
-GraphQL API Server manages authorization of API access and limits
-access based on user roles per API field granularity.
+Identity data is provided by configuring CAM policies. The PlanDev
+GraphQL API Server uses CAM identity data combined with user roles defined
+in the database, to manage authorization of API access and limit access
+per API field granularity.
 
 ### Data Model
 
