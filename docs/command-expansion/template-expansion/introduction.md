@@ -51,7 +51,7 @@ Sequence templating and EDSL rules are exclusive of each other. They cannot coex
 
 If you are running `plandev-ui` locally from the git repository, then within the `plandev-ui` directory, navigate to `{plandev-ui path}/.env` and update the variable `PUBLIC_COMMAND_EXPANSION_MODE` to `templating`, instead of its default (`legacy`). Then restart the server process.
 
-If you are running PlanDev Docker services, then open the `docker-compose.yml` file you are using and update the `PUBLIC_COMMAND_EXPANSION_MODE` under the `aerie-ui` container's settings to `templating`, instead of its default (`legacy`). Then, redeploy the container.
+If you are running PlanDev Docker services, then open the `docker-compose.yml` file you are using and update the `PUBLIC_COMMAND_EXPANSION_MODE` under the `plandev-ui` container's settings to `templating`, instead of its default (`legacy`). Then, redeploy the container.
 
 If you are accessing PlanDev remotely via an externally managed host, please reach out to that system's administrator about changing the deployment configuration.
 

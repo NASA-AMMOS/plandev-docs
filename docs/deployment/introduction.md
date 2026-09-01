@@ -18,11 +18,11 @@ Each PlanDev service is configured with environment variables, some of which are
 
 A description of allowed variables is found in the [Environment Variable Documentation](https://github.com/NASA-AMMOS/plandev/blob/develop/deployment/Environment.md) - it's recommended to read through these & determine which are relevant to your situation.
 
-Of note, the `aerie-merlin`, `aerie_merlin_worker`, `aerie-scheduler`, and `aerie-scheduler-worker` containers can be provided additional JVM arguments - for example, allocated heap size - as environment variables. Desired JVM flags should be added to the `JAVA_OPTS` environment variable for the container being configured.
+Of note, the `plandev-merlin`, `plandev_merlin_worker`, `plandev-scheduler`, and `plandev-scheduler-worker` containers can be provided additional JVM arguments - for example, allocated heap size - as environment variables. Desired JVM flags should be added to the `JAVA_OPTS` environment variable for the container being configured.
 
 ## Docker
 
-PlanDev consists of multiple **services**, and uses [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) to manage and run them. The artifacts used to deploy PlanDev are a collection of Docker **images**, one per service, which we publish to the public [GitHub Packages](https://github.com/orgs/NASA-AMMOS/packages?ecosystem=container&q=aerie) repository. PlanDev images conform to the [OCI](https://opencontainers.org/) [Image Format](https://github.com/opencontainers/image-spec/blob/main/spec.md) and may be compatible with Docker alternatives, but only Docker is officially supported.
+PlanDev consists of multiple **services**, and uses [Docker](https://www.docker.com/) and [Docker Compose](https://docs.docker.com/compose/) to manage and run them. The artifacts used to deploy PlanDev are a collection of Docker **images**, one per service, which we publish to the public [GitHub Packages](https://github.com/orgs/NASA-AMMOS/packages?ecosystem=container&q=plandev) repository. PlanDev images conform to the [OCI](https://opencontainers.org/) [Image Format](https://github.com/opencontainers/image-spec/blob/main/spec.md) and may be compatible with Docker alternatives, but only Docker is officially supported.
 
 [Docker Compose](https://docs.docker.com/compose/) commands are used to build and run the PlanDev services **all together**, so in general you should only need to run `docker compose up` & `docker compose down` (along with some various [command flags](https://docs.docker.com/reference/cli/docker/compose/)) to start and stop PlanDev.
 
@@ -41,19 +41,17 @@ A full list of possible options can be found in the [Docker compose file referen
 
 The following is a list of all of the required PlanDev services, their associated Docker images (to be run by Compose), and their default network ports. The `ui`, `gateway` and `hasura` services are all "public-facing", which means their ports must be exposed to the network when running in a shared/production environment.
 
-| Image                                      | Description                                                       | Port  | Public |
-| ------------------------------------------ | ----------------------------------------------------------------- | ----- | ------ |
-| [aerie-ui][ui]                             | The web-based client application for PlanDev.                     | 80    | ✅     |
-| [aerie-gateway][gateway]                   | Gateway server used for file-upload and authentication.           | 9000  | ✅     |
-| [aerie-hasura][hasura]                     | Hasura Docker image with bundled PlanDev-specific Hasura metadata | 8080  | ✅     |
-| [aerie-merlin][merlin]                     | Service for planning and simulation                               | 27183 | ❌     |
-| [aerie-merlin-worker][merlin-worker]       | Worker for executing simulations                                  | 27187 | ❌     |
-| [aerie-postgres][postgres]                 | Postgres Docker image with bundled PlanDev-specific SQL           | 5432  | ❌     |
-| [aerie-scheduler][scheduler]               | Service for scheduling                                            | 27185 | ❌     |
-| [aerie-scheduler-worker][scheduler-worker] | Worker for executing scheduling goals                             | 27189 | ❌     |
-| [aerie-sequencing][sequencing]             | Service for sequence generation and management                    | 27184 | ❌     |
-
-By convention, these containers use our legacy `aerie-` naming scheme, & will be renamed to `plandev-` in a future update
+| Image                                        | Description                                                       | Port  | Public |
+|----------------------------------------------|-------------------------------------------------------------------|-------|--------|
+| [plandev-ui][ui]                             | The web-based client application for PlanDev.                     | 80    | ✅      |
+| [plandev-gateway][gateway]                   | Gateway server used for file-upload and authentication.           | 9000  | ✅      |
+| [plandev-hasura][hasura]                     | Hasura Docker image with bundled PlanDev-specific Hasura metadata | 8080  | ✅      |
+| [plandev-merlin][merlin]                     | Service for planning and simulation                               | 27183 | ❌      |
+| [plandev-merlin-worker][merlin-worker]       | Worker for executing simulations                                  | 27187 | ❌      |
+| [plandev-postgres][postgres]                 | Postgres Docker image with bundled PlanDev-specific SQL           | 5432  | ❌      |
+| [plandev-scheduler][scheduler]               | Service for scheduling                                            | 27185 | ❌      |
+| [plandev-scheduler-worker][scheduler-worker] | Worker for executing scheduling goals                             | 27189 | ❌      |
+| [plandev-sequencing][sequencing]             | Service for sequence generation and management                    | 27184 | ❌      |
 
 ## System Requirements
 
@@ -86,12 +84,12 @@ Note these numbers are lower bounds. You will need to scale PlanDev based on you
 
 Defect reports should be sent to: `plandev-support@googlegroups.com`. For chat-based support, please join us on the [NASA-AMMOS Slack](https://join.slack.com/t/nasa-ammos/shared_invite/zt-1mlgmk5c2-MgqVSyKzVRUWrXy87FNqPw), in the `#plandev-users` channel.
 
-[gateway]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-gateway
-[hasura]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-hasura
-[merlin]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-merlin
-[merlin-worker]: https://github.com/NASA-AMMOS/plandev/pkgs/container/aerie-merlin-worker
-[postgres]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-postgres
-[scheduler]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-scheduler
-[scheduler-worker]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-scheduler-worker
-[sequencing]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-sequencing
-[ui]: https://github.com/orgs/NASA-AMMOS/packages/container/package/aerie-ui
+[gateway]: https://github.com/orgs/NASA-AMMOS/packages/container/package/plandev-gateway
+[hasura]: https://github.com/orgs/NASA-AMMOS/packages/container/package/plandev-hasura
+[merlin]: https://github.com/orgs/NASA-AMMOS/packages/container/package/plandev-merlin
+[merlin-worker]: https://github.com/NASA-AMMOS/plandev/pkgs/container/plandev-merlin-worker
+[postgres]: https://github.com/orgs/NASA-AMMOS/packages/container/package/plandev-postgres
+[scheduler]: https://github.com/orgs/NASA-AMMOS/packages/container/package/plandev-scheduler
+[scheduler-worker]: https://github.com/orgs/NASA-AMMOS/packages/container/package/plandev-scheduler-worker
+[sequencing]: https://github.com/orgs/NASA-AMMOS/packages/container/package/plandev-sequencing
+[ui]: https://github.com/orgs/NASA-AMMOS/packages/container/package/plandev-ui

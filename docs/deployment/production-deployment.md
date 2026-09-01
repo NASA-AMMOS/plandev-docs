@@ -23,7 +23,7 @@ Before deployment, consider how you plan to handle these details about your infr
 This checklist outlines a set of steps for running a minimal production PlanDev deployment. Note that these will vary somewhat from one environment to another, so feel free to adapt them as needed.
 
 1. Ensure you have **Docker Engine and Docker Compose installed** on your server. We recommend following the official [Engine install guide](https://docs.docker.com/engine/install/) and [Compose install guide](https://docs.docker.com/compose/install/#scenario-two-install-the-docker-compose-plugin) for your platform, as simply running eg. `yum install docker` may install Podman instead of Docker on some platforms.
-2. Ensure your server has the necessary **network ports exposed** for PlanDev services - namely, ports **80, 8080, and 9000**, unless you plan to modify these default ports in the docker-compose file. Port rules are usually configured via your server's firewall settings. See [PlanDev services & images](/deployment/introduction/#aerie-services--images) for details on services and their port assignments.  If you are running on an AWS EC2 instance, you may need to set rules for the instance's *security group* to allow these ports to send & receive TCP traffic.
+2. Ensure your server has the necessary **network ports exposed** for PlanDev services - namely, ports **80, 8080, and 9000**, unless you plan to modify these default ports in the docker-compose file. Port rules are usually configured via your server's firewall settings. See [PlanDev services & images](/deployment/introduction/#plandev-services--images) for details on services and their port assignments.  If you are running on an AWS EC2 instance, you may need to set rules for the instance's *security group* to allow these ports to send & receive TCP traffic.
 3. Copy the `Deployment.zip` file from an [PlanDev release](https://github.com/NASA-AMMOS/plandev/releases) to your server and extract it, for example:
     ```
     curl -sLO https://github.com/NASA-AMMOS/plandev/releases/download/v3.1.1/Deployment.zip
@@ -34,18 +34,18 @@ This checklist outlines a set of steps for running a minimal production PlanDev 
 5. Modify the [`docker-compose.yml` file](/deployment/introduction/#docker-composeyml) for your specific environment.
     - A useful pattern is to **[merge Compose files](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/)** when running PlanDev, to keep your custom compose file changes separate from the original file provided by the deployment, rather than modifying the original. You can create a file called eg. `docker-compose.prod.yml` which contains *only* the overriding changes you want to make to the original file. Then, when running your services, you can pass them both to Compose [with the `-f` flag](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/).
     - If you are using [CAM/SSO authentication adapters](/deployment/advanced-authentication/) and/or [a reverse proxy](/deployment/advanced-reverse-proxy/), review their docs to determine the Compose file modifications they require.
-    - Regardless of your other settings, your compose file needs to provide the `aerie-ui` service with the **fully-qualified domain names** (FQDNs) it will use to make requests to the other services. This is generally done by adding an additional variable to the `.env` file with your base domain, eg.:
+    - Regardless of your other settings, your compose file needs to provide the `plandev-ui` service with the **fully-qualified domain names** (FQDNs) it will use to make requests to the other services. This is generally done by adding an additional variable to the `.env` file with your base domain, eg.:
       ```
-      AERIE_HOST="myaerie.myorg.com"
+      PLANDEV_HOST="myplandev.myorg.com"
       ```
       and then adding the following lines to your `docker-compose.prod.yml` file:
       ```
-      aerie_ui:
+      plandev_ui:
         environment:
-          ORIGIN: https://${AERIE_HOST}
-          PUBLIC_GATEWAY_CLIENT_URL: https://${AERIE_HOST}:9000
-          PUBLIC_HASURA_CLIENT_URL: https://${AERIE_HOST}:8080/v1/graphql
-          PUBLIC_HASURA_WEB_SOCKET_URL: wss://${AERIE_HOST}:8080/v1/graphql
+          ORIGIN: https://${PLANDEV_HOST}
+          PUBLIC_GATEWAY_CLIENT_URL: https://${PLANDEV_HOST}:9000
+          PUBLIC_HASURA_CLIENT_URL: https://${PLANDEV_HOST}:8080/v1/graphql
+          PUBLIC_HASURA_WEB_SOCKET_URL: wss://${PLANDEV_HOST}:8080/v1/graphql
       ```
       If you do not have a proper domain name set up yet, you can use your server's IP address or any other FQDN you have available.
 6. Finally, use the `up` command to run all of the PlanDev services in their docker containers, eg.:
@@ -58,7 +58,7 @@ This checklist outlines a set of steps for running a minimal production PlanDev 
 
 ### Data persistence and backups
 It's a good idea to have a strategy for backing up and restoring your PlanDev data in case something goes wrong with your server. PlanDev mainly persists data in two ways:
-* The Postgres database, managed by the `aerie-postgres` container, stores the majority of user-created data such as plans and simulation runs.
+* The Postgres database, managed by the `plandev-postgres` container, stores the majority of user-created data such as plans and simulation runs.
 * Some data is also stored in the filesystem of the PlanDev container, such as uploaded mission model JAR files.
 
 Both types of data are persisted using [Docker Volumes](https://docs.docker.com/engine/storage/volumes/). One way to handle backups is simply to copy all data out of the PlanDev volumes (to another location, off of your main instance) on a eg. nightly basis.

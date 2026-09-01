@@ -117,7 +117,7 @@ through the metadata API.
 
 ### Metadata in actions
 
-SeqDev Actions can read and update workspace file metadata through the `aerie-actions` API:
+SeqDev Actions can read and update workspace file metadata through the `plandev-actions` API:
 
 ```js
 const metadata = await actionsAPI.getFileMetadata('foo.seqn');
@@ -125,13 +125,13 @@ await actionsAPI.setFileMetadata('foo.seqn', { user: { status: 'checked' } });
 await actionsAPI.unsetFileMetadata('foo.seqn', ['user.status']);
 ```
 
-See the [`ActionsAPI` implementation](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts) for the full
+See the [`ActionsAPI` implementation](https://github.com/NASA-AMMOS/plandev-actions/blob/main/src/index.ts) for the full
 Actions API surface.
 
 ### Metadata API
 
 Most users do not need to use the metadata REST API directly. It is primarily useful for integrations, automation, or
-tools that manage workspace files outside the SeqDev UI. See the [`WorkspaceBindings` implementation](https://github.com/NASA-AMMOS/plandev/blob/develop/workspace-server/src/main/java/gov/nasa/jpl/aerie/workspace/server/WorkspaceBindings.java) for full endpoint behavior.
+tools that manage workspace files outside the SeqDev UI. See the [`WorkspaceBindings` implementation](https://github.com/NASA-AMMOS/plandev/blob/develop/workspace-server/src/main/java/gov/nasa/ammos/plandev/workspace/server/WorkspaceBindings.java) for full endpoint behavior.
 
 All metadata API paths refer to the main file path, not the hidden metadata file path:
 

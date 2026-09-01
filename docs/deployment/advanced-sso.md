@@ -127,7 +127,7 @@ The `AUTH_GROUP_ROLE_MAPPINGS` environment variable must be valid JSON in the fo
 :::info
 This variable will be run through `JSON.parse()` in the Auth Adapters, so it must be valid JSON (e.g. double quotes, no trailing comma, etc). An error will be thrown from the Gateway on boot if the environment variable is invalid JSON. View the [following tip](#setting-default_roles) to make sure you're setting env vars as literal values, e.g. in a `docker-compose.yml` file:
 ```yaml
-aerie_gateway:
+plandev_gateway:
   environment:
     AUTH_GROUP_ROLE_MAPPINGS: |
       {
@@ -146,7 +146,7 @@ You'll need to be cognizant on how environment variables are set in your PlanDev
 e.g. in a docker-compose.yml file:
 
 ```yaml
-aerie_gateway:
+plandev_gateway:
   environment:
     DEFAULT_ROLE: "[\"viewer\"]" # won't work
 ```
@@ -156,7 +156,7 @@ DEFAULT_ROLE will be stripped of quotes, and passed to the Gateway as the litera
 Instead, pass literal values when possible, like in the following docker-compose.yml example.
 
 ```yaml
-aerie_gateway:
+plandev_gateway:
   environment:
     DEFAULT_ROLE: |
       ["viewer"]

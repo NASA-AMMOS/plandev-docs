@@ -19,7 +19,7 @@ As a multi-tenant system, PlanDev allows multiple distributed users to [collabor
 
 Understand PlanDev in **5 minutes** by trying it out!
 
-1. Before starting you first need to install [Docker](https://www.docker.com/get-started/) on your local machine. The PlanDev system is essentially a collection of [OCI](https://opencontainers.org/) [images](https://github.com/orgs/NASA-AMMOS/packages?ecosystem=container&q=aerie).
+1. Before starting you first need to install [Docker](https://www.docker.com/get-started/) on your local machine. The PlanDev system is essentially a collection of [OCI](https://opencontainers.org/) [images](https://github.com/orgs/NASA-AMMOS/packages?ecosystem=container&q=plandev).
 
 1. If you're running macOS, Linux, or another Unix-like OS you can use following two commands in your terminal to download the [Docker Compose](https://docs.docker.com/compose/) file and `.env` file:
 

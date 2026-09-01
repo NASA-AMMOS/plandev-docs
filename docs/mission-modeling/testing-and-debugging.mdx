@@ -11,11 +11,11 @@ Below are instructions on how to setup each option. Note that these instructions
 
 ### Standalone Testing Procedures
 
-Once you have developed your model, create a standalone test in java with a similar structure to [this example](https://github.com/NASA-AMMOS/aerie-modeling-tutorial/blob/main/missionmodel/src/test/java/missionmodel/ModelSimulationTests.java) found in the mission modeling tutorial.
+Once you have developed your model, create a standalone test in java with a similar structure to [this example](https://github.com/NASA-AMMOS/plandev-modeling-tutorial/blob/main/missionmodel/src/test/java/missionmodel/ModelSimulationTests.java) found in the mission modeling tutorial.
 
 :::note
 
-The example test use some utilities from java packages that your build may not depend on yet. Take a look at the [`build.gradle`](https://github.com/NASA-AMMOS/aerie-modeling-tutorial/blob/main/missionmodel/build.gradle) file in the `missionmodel` directory of the [mission modeling tutorial](https://github.com/NASA-AMMOS/aerie-modeling-tutorial) to see what dependencies exist.
+The example test use some utilities from java packages that your build may not depend on yet. Take a look at the [`build.gradle`](https://github.com/NASA-AMMOS/plandev-modeling-tutorial/blob/main/missionmodel/build.gradle) file in the `missionmodel` directory of the [mission modeling tutorial](https://github.com/NASA-AMMOS/plandev-modeling-tutorial) to see what dependencies exist.
 
 :::
 
@@ -31,7 +31,7 @@ Once you have built your test, you can debug your procedure using an IDE just li
 
 Prior to starting up PlanDev, make the following modifications to your [`docker-compose.yml`](/deployment/introduction/#docker-composeyml) file:
 
-- Find any containers with the name `aerie_merlin_worker_*` (for a basic deployment, you might just have one of these) and add the following line under the `JAVA_OPTS:` sub-section:
+- Find any containers with the name `plandev_merlin_worker_*` (for a basic deployment, you might just have one of these) and add the following line under the `JAVA_OPTS:` sub-section:
 
 `-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005`
 
@@ -39,7 +39,7 @@ Prior to starting up PlanDev, make the following modifications to your [`docker-
 
 `ports: ["27189:8080", "5006:5005"]`
 
-where `5006:5005` would be `5007:5005` for a second `aerie_merlin_worker_` container and so on
+where `5006:5005` would be `5007:5005` for a second `plandev_merlin_worker_` container and so on
 
 :::info
 

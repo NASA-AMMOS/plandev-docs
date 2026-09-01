@@ -18,7 +18,7 @@ The default PlanDev [docker-compose.yml](https://github.com/NASA-AMMOS/plandev/b
 
 ### AUTH_GROUP_ROLE_MAPPINGS
 - Description: Optional JSON object that maps LDAP groups to allowed PlanDev roles.
-- Service: aerie_gateway
+- Service: plandev_gateway
 - Accepted values: Stringified JSON. Auth provider groups are keys, values are list of allowed PlanDev roles
 - Example:
 ```
@@ -29,26 +29,26 @@ The default PlanDev [docker-compose.yml](https://github.com/NASA-AMMOS/plandev/b
 }
 ```
 - Default: `{}`
-- See: [SSO auth docs](../advanced-sso#mapping-auth-provider-groups-to-aerie-roles) for more information.
+- See: [SSO auth docs](../advanced-sso#mapping-auth-provider-groups-to-plandev-roles) for more information.
 
 ### AUTH_TYPE
 
 - Description: Authentication method (currently only supports CAM or none)
-- Service: aerie_gateway
+- Service: plandev_gateway
 - Accepted values: `cam` or `none`
 - Default: `none`
 
 ### AUTH_URL
 
 - Description: URL of CAM server
-- Service: aerie_gateway
+- Service: plandev_gateway
 - Accepted values: Any valid CAM API URL
 - Default: `https://atb-ocio-12b.jpl.nasa.gov:8443/`
 
 ### HASURA_GRAPHQL_JWT_SECRET
 
 - Description: A JSON string containing a type property set equal to the method of encryption (HS256) and the JWK (key)
-- Services: hasura, aerie_gateway
+- Services: hasura, plandev_gateway
 - Accepted values: `{"type": "HS256", "key": "SET_SECRET_PRIVATE_KEY_HERE"}`
 - Default: `null`
 - See: https://hasura.io/docs/latest/deployment/graphql-engine-flags/reference/#jwt-secret
@@ -56,7 +56,7 @@ The default PlanDev [docker-compose.yml](https://github.com/NASA-AMMOS/plandev/b
 ### HASURA_GRAPHQL_ADMIN_SECRET
 
 - Description: Secret password that gives admin access to query Hasura
-- Services: hasura, aerie_scheduler, aerie_scheduler_workers, aerie_sequencing
+- Services: hasura, plandev_scheduler, plandev_scheduler_workers, plandev_sequencing
 - Accepted values: Any password string
 - Default: `null`
 - See: https://hasura.io/docs/latest/deployment/graphql-engine-flags/reference/#admin-secret-key
