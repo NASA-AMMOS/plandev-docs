@@ -31,7 +31,7 @@ To emulate DNS on a local machine, you can edit `/etc/hosts` (on unix-based mach
 ```
 
 ## Run PlanDev instance with reverse proxy
-Edit your PlanDev `./deployment/.env` file to define `AERIE_HOST=${whatever domain you put in your /etc/hosts or DNS}`.
+Edit your PlanDev `./deployment/.env` file to define `PLANDEV_HOST=${whatever domain you put in your /etc/hosts or DNS}`.
 
 Running the following command from the `./deployment` directory of the PlanDev repo will now deploy the regular PlanDev stack with `nginx` proxying all connections.
 ```

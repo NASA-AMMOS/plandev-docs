@@ -8,7 +8,7 @@ This document lists the instructions for building a PlanDev UI docker image with
 
    ```sh
    git clone https://github.com/NASA-AMMOS/plandev-ui.git
-   cd aerie-ui
+   cd plandev-ui
    npm install
    ```
 
@@ -26,17 +26,17 @@ This document lists the instructions for building a PlanDev UI docker image with
    npm run build
    ```
 
-4. Build the UI Docker image. By convention, docker images/containers use the legacy "aerie" name. For example we tag the image here with `aerie-ui`, but you can change this tag:
+4. Build the UI Docker image. For example, we tag the image here with `plandev-ui`, but you can change this tag:
 
    ```sh
-   docker build -t aerie-ui .
+   docker build -t plandev-ui .
    ```
 
 5. Use the newly built image as part of your normal [PlanDev Docker deployment](https://github.com/NASA-AMMOS/plandev/blob/develop/deployment/docker-compose.yml#L132).
 
 ### Cleaning
 
-If you ever need to re-run through these instructions make sure you **always** start from a clean environment. Remove all dependencies and build artifacts in aerie-ui:
+If you ever need to re-run through these instructions make sure you **always** start from a clean environment. Remove all dependencies and build artifacts in plandev-ui:
 
 ```sh
 rm -rf node_modules
@@ -47,7 +47,7 @@ rm -rf build
 Remove the built Docker image:
 
 ```sh
-docker rmi aerie-ui
+docker rmi plandev-ui
 ```
 
 ### References

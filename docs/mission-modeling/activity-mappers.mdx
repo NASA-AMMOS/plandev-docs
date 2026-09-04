@@ -16,7 +16,7 @@ The `ActivityMapper` interface is shown below:
   language="java"
   showLineNumbers
   title="PlanDev Merlin Framework - ActivityMapper.java "
-  url="https://raw.githubusercontent.com/NASA-AMMOS/plandev/develop/merlin-framework/src/main/java/gov/nasa/jpl/aerie/merlin/framework/ActivityMapper.java"
+  url="https://raw.githubusercontent.com/NASA-AMMOS/plandev/develop/merlin-framework/src/main/java/gov/nasa/ammos/plandev/merlin/framework/ActivityMapper.java"
 ></RemoteCodeBlock>
 
 The first thing to notice is that the interface takes a type parameter (here called `Instance`). When implementing the `ActivityMapper` interface, an activity mapper must supply the `ActivityType` being mapped. With that in mind, each of the methods shown must be implemented as such:
@@ -110,7 +110,7 @@ describing the structure of the value being mapped (see [here](https://github.co
 
 The next two methods are inverses of each other: `deserializeValue()` and `serializeValue()`. It is the job of `deserializeValue()` to take a `SerializedValue` and map it, if possible, into the mapper's supported value. Meanwhile, `serializeValue()` takes an instance of the mapper's supported value and turns it into a [`SerializedValue`](https://github.com/NASA-AMMOS/plandev/wiki/Activity-Mappers#what-is-a-serializedvalue).
 
-There are plenty of examples of value mappers over in the [contrib module](https://github.com/NASA-AMMOS/plandev/tree/develop/contrib/src/main/java/gov/nasa/jpl/aerie/contrib/serialization/mappers).
+There are plenty of examples of value mappers over in the [contrib module](https://github.com/NASA-AMMOS/plandev/tree/develop/contrib/src/main/java/gov/nasa/ammos/plandev/contrib/serialization/mappers).
 
 ### AutoValueMapper.Record
 
@@ -221,21 +221,21 @@ Below is an example of an Activity Type and its Activity mapper for reference:
 **Activity Type**:
 
 ```java
-package gov.nasa.jpl.aerie.foomissionmodel.activities;
+package gov.nasa.ammos.plandev.foomissionmodel.activities;
 
-import gov.nasa.jpl.aerie.foomissionmodel.Mission;
-import gov.nasa.jpl.aerie.foomissionmodel.models.ImagerMode;
-import gov.nasa.jpl.aerie.merlin.framework.annotations.ActivityType;
+import gov.nasa.ammos.plandev.foomissionmodel.Mission;
+import gov.nasa.ammos.plandev.foomissionmodel.models.ImagerMode;
+import gov.nasa.ammos.plandev.merlin.framework.annotations.ActivityType;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
 import java.util.List;
 
-import static gov.nasa.jpl.aerie.foomissionmodel.generated.ActivityActions.call;
-import static gov.nasa.jpl.aerie.merlin.framework.ModelActions.*;
-import static gov.nasa.jpl.aerie.merlin.framework.annotations.ActivityType.EffectModel;
-import static gov.nasa.jpl.aerie.merlin.framework.annotations.Export.Parameter;
-import static gov.nasa.jpl.aerie.merlin.framework.annotations.Export.Validation;
-import static gov.nasa.jpl.aerie.merlin.protocol.types.Duration.SECOND;
+import static gov.nasa.ammos.plandev.foomissionmodel.generated.ActivityActions.call;
+import static gov.nasa.ammos.plandev.merlin.framework.ModelActions.*;
+import static gov.nasa.ammos.plandev.merlin.framework.annotations.ActivityType.EffectModel;
+import static gov.nasa.ammos.plandev.merlin.framework.annotations.Export.Parameter;
+import static gov.nasa.ammos.plandev.merlin.framework.annotations.Export.Validation;
+import static gov.nasa.ammos.plandev.merlin.protocol.types.Duration.SECOND;
 
 @ActivityType("foo")
 public final class FooActivity {
@@ -273,25 +273,25 @@ public final class FooActivity {
 **Generated Activity Mapper Example**:
 
 ```java
-package gov.nasa.jpl.aerie.foomissionmodel.generated.activities;
+package gov.nasa.ammos.plandev.foomissionmodel.generated.activities;
 
-import gov.nasa.jpl.aerie.contrib.serialization.mappers.NullableValueMapper;
-import gov.nasa.jpl.aerie.contrib.serialization.rulesets.BasicValueMappers;
-import gov.nasa.jpl.aerie.foomissionmodel.Mission;
-import gov.nasa.jpl.aerie.foomissionmodel.activities.FooActivity;
-import gov.nasa.jpl.aerie.foomissionmodel.mappers.FooValueMappers;
-import gov.nasa.jpl.aerie.merlin.framework.ActivityMapper;
-import gov.nasa.jpl.aerie.merlin.framework.ModelActions;
-import gov.nasa.jpl.aerie.merlin.framework.ValueMapper;
-import gov.nasa.jpl.aerie.merlin.protocol.driver.Topic;
-import gov.nasa.jpl.aerie.merlin.protocol.model.InputType;
-import gov.nasa.jpl.aerie.merlin.protocol.model.OutputType;
-import gov.nasa.jpl.aerie.merlin.protocol.model.TaskFactory;
-import gov.nasa.jpl.aerie.merlin.protocol.types.InstantiationException;
-import gov.nasa.jpl.aerie.merlin.protocol.types.SerializedValue;
-import gov.nasa.jpl.aerie.merlin.protocol.types.UnconstructableArgumentException;
-import gov.nasa.jpl.aerie.merlin.protocol.types.Unit;
-import gov.nasa.jpl.aerie.merlin.protocol.types.ValueSchema;
+import gov.nasa.ammos.plandev.contrib.serialization.mappers.NullableValueMapper;
+import gov.nasa.ammos.plandev.contrib.serialization.rulesets.BasicValueMappers;
+import gov.nasa.ammos.plandev.foomissionmodel.Mission;
+import gov.nasa.ammos.plandev.foomissionmodel.activities.FooActivity;
+import gov.nasa.ammos.plandev.foomissionmodel.mappers.FooValueMappers;
+import gov.nasa.ammos.plandev.merlin.framework.ActivityMapper;
+import gov.nasa.ammos.plandev.merlin.framework.ModelActions;
+import gov.nasa.ammos.plandev.merlin.framework.ValueMapper;
+import gov.nasa.ammos.plandev.merlin.protocol.driver.Topic;
+import gov.nasa.ammos.plandev.merlin.protocol.model.InputType;
+import gov.nasa.ammos.plandev.merlin.protocol.model.OutputType;
+import gov.nasa.ammos.plandev.merlin.protocol.model.TaskFactory;
+import gov.nasa.ammos.plandev.merlin.protocol.types.InstantiationException;
+import gov.nasa.ammos.plandev.merlin.protocol.types.SerializedValue;
+import gov.nasa.ammos.plandev.merlin.protocol.types.UnconstructableArgumentException;
+import gov.nasa.ammos.plandev.merlin.protocol.types.Unit;
+import gov.nasa.ammos.plandev.merlin.protocol.types.ValueSchema;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -300,7 +300,7 @@ import java.util.Optional;
 import javax.annotation.processing.Generated;
 import org.apache.commons.math3.geometry.euclidean.threed.Vector3D;
 
-@Generated("gov.nasa.jpl.aerie.merlin.processor.MissionModelProcessor")
+@Generated("gov.nasa.ammos.plandev.merlin.processor.MissionModelProcessor")
 public final class FooActivityMapper implements ActivityMapper<Mission, FooActivity, Unit> {
   private final Topic<FooActivity> inputTopic = new Topic<>();
 
@@ -336,7 +336,7 @@ public final class FooActivityMapper implements ActivityMapper<Mission, FooActiv
     });
   }
 
-  @Generated("gov.nasa.jpl.aerie.merlin.processor.MissionModelProcessor")
+  @Generated("gov.nasa.ammos.plandev.merlin.processor.MissionModelProcessor")
   public final class InputMapper implements InputType<FooActivity> {
     private final ValueMapper<Integer> mapper_x;
 

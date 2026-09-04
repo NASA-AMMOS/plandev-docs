@@ -88,10 +88,10 @@ unfamiliar with working on JS projects, it's a good idea to use an IDE such as [
 
 We provide two resources for developers who want to write a new action:
 
-- **[aerie-action-template](https://github.com/NASA-AMMOS/aerie-action-template)**, a boilerplate template showing the structure of an action
-- The **[aerie-actions](https://github.com/NASA-AMMOS/aerie-actions)** JS package, a library of utilities used by actions
+- **[plandev-action-examples](https://github.com/NASA-AMMOS/plandev-action-examples)**, a boilerplate template showing the structure of an action
+- The **[plandev-actions](https://github.com/NASA-AMMOS/plandev-actions)** JS package, a library of utilities used by actions
 
-We recommend starting a new action by forking or copying the **[aerie-action-template](https://github.com/NASA-AMMOS/aerie-action-template)**
+We recommend starting a new action by forking or copying the **[plandev-action-examples](https://github.com/NASA-AMMOS/plandev-action-examples)**
 repository and using it as a starting point. Once you have a local copy, `cd` to it and run the following commands:
 
 - `nvm use` - (optional, but ensures you're using the correct `node` version. You may have to [install NVM](https://github.com/nvm-sh/nvm) first)
@@ -99,9 +99,9 @@ repository and using it as a starting point. Once you have a local copy, `cd` to
 - `npm run build` to make sure you are setup correctly to build
 
 Files in the `/dist` folder are generated and should not be modified directly - the action's source files are in the
-`/src` directory. Open [`src/index.ts`](https://github.com/NASA-AMMOS/aerie-action-template/blob/main/src/index.ts) in
+`/src` directory. Open [`src/index.ts`](https://github.com/NASA-AMMOS/plandev-action-examples/blob/main/src/index.ts) in
 your code editor to start working on your action. You'll see at the top of the file the utilities that are imported
-from `aerie-actions`, which we'll discuss below.
+from `plandev-actions`, which we'll discuss below.
 
 ### Action parameters and settings
 
@@ -126,7 +126,7 @@ export const parameterDefinitions = {
 ```
 
 defines two user-provided parameters, a string called `myName` and an integer called `myAge`. The full list of
-supported types can be found in the [aerie-actions value schema definition](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/types/schema.ts).
+supported types can be found in the [plandev-actions value schema definition](https://github.com/NASA-AMMOS/plandev-actions/blob/main/src/types/schema.ts).
 
 Parameters and settings may also include a `description`. SeqDev shows descriptions as tooltips in the run action modal
 and action settings page.
@@ -194,7 +194,7 @@ when the action is done running.
 
 - The first argument to `main` is `parameters` - the user-provided parameter values for this run, which will match the structure of your `parameterDefinitions`
 - The second argument is `settings` - the user-provided setting values, matching structure of `settingDefinitions`
-- The third argument is `actionsAPI`, which is an instance of the `ActionsAPI` class [defined in `aerie-actions`](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts#L94). This is your hook for accessing (reading and writing) files and sequences in your workspace, as well as any other helper functions provided by the package.
+- The third argument is `actionsAPI`, which is an instance of the `ActionsAPI` class [defined in `plandev-actions`](https://github.com/NASA-AMMOS/plandev-actions/blob/main/src/index.ts#L94). This is your hook for accessing (reading and writing) files and sequences in your workspace, as well as any other helper functions provided by the package.
 
 ### Results, Errors and Logs
 
@@ -229,10 +229,10 @@ such as authentication tokens, passwords or opcodes, that you do not want to be 
 
 ### Using `actionsAPI` functions to read and write workspace files
 
-The third argument passed to your `main` function is an instance of the `ActionsAPI` class [defined in `aerie-actions`](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts#L94). This object contains a connection to the PlanDev database,
+The third argument passed to your `main` function is an instance of the `ActionsAPI` class [defined in `plandev-actions`](https://github.com/NASA-AMMOS/plandev-actions/blob/main/src/index.ts#L94). This object contains a connection to the PlanDev database,
 and allows you to asynchronously **read from** and **write to** files in your workspace. More documentation for
-these functions can be found in the [`aerie-actions` repo](https://github.com/NASA-AMMOS/aerie-actions/blob/main/README.md),
-and examples can be found in the `aerie-action-template`. The basic methods are:
+these functions can be found in the [`plandev-actions` repo](https://github.com/NASA-AMMOS/plandev-actions/blob/main/README.md),
+and examples can be found in the `plandev-action-examples`. The basic methods are:
 
 ```js
 // return a list of files in a workspace directory:
@@ -251,7 +251,7 @@ await actionsAPI.setFileMetadata('my_seq.seq', { user: { status: 'checked' } });
 await actionsAPI.unsetFileMetadata('my_seq.seq', ['user.status']);
 ```
 
-See the [`ActionsAPI` implementation](https://github.com/NASA-AMMOS/aerie-actions/blob/main/src/index.ts) for the full
+See the [`ActionsAPI` implementation](https://github.com/NASA-AMMOS/plandev-actions/blob/main/src/index.ts) for the full
 API surface.
 
 :::caution
@@ -297,7 +297,7 @@ reproduce the same results later.
 
 **Environment variables**
 
-For security reasons, actions cannot access all environment variables that are set on the `aerie_action` container.
+For security reasons, actions cannot access all environment variables that are set on the `plandev_action` container.
 However, for storing and passing long-lived secrets to your actions, you can make certain environment variables
 accessible by adding the prefix `PUBLIC_ACTION_` to their name, for example:
 
@@ -315,11 +315,11 @@ to authenticate with an external service under the user's identity.
 
 To enable cookie forwarding, set the following environment variables:
 
-| Container      | Variable                            | Description                                                                                                 |
-| -------------- | ----------------------------------- | ----------------------------------------------------------------------------------------------------------- |
-| `aerie_ui`     | `PUBLIC_ACTION_INCLUDE_CREDENTIALS` | Set to `true` to include browser credentials (cookies) in requests to the action server                     |
-| `aerie_action` | `ACTION_COOKIE_NAMES`               | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)                            |
-| `aerie_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`).                                        |
+| Container        | Variable                            | Description                                                                             |
+|------------------|-------------------------------------|-----------------------------------------------------------------------------------------|
+| `plandev_ui`     | `PUBLIC_ACTION_INCLUDE_CREDENTIALS` | Set to `true` to include browser credentials (cookies) in requests to the action server |
+| `plandev_action` | `ACTION_COOKIE_NAMES`               | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)        |
+| `plandev_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`).                    |
 
 Once configured, the specified cookies will be available under `actionsAPI.config.SECRETS.cookies`:
 
@@ -367,7 +367,7 @@ development, let us know.
 Our near-term roadmap of upcoming changes to Actions includes:
 
 - More example actions & improved documentation
-- Patterns for **testing actions** - Users should be able to write tests for their action including mocking & spying on the aerie-actions library (`expect(actions.readFile).toHaveBeenCalledWith('mySequence')`).
+- Patterns for **testing actions** - Users should be able to write tests for their action including mocking & spying on the plandev-actions library (`expect(actions.readFile).toHaveBeenCalledWith('mySequence')`).
 - **Concurrency** - We don't plan to fully solve the concurrency problem yet, but we should allow _one action per workspace_ to run concurrently instead of _one action per PlanDev deployment_
 - Rethink **bundling actions** - Currently no way to upload an action with any other configs or scripts to call, you can only upload a single JS file. Should we rethink this to allow a user to give us eg. a node script that calls a python script, packed into a zip file? May also be nice for our action format to have a place to specify version, eg. a manifest file.
 

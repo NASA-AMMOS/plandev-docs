@@ -12,11 +12,11 @@ Below are instructions on how to setup each option. Note that these instructions
 
 ### Standalone Testing Procedures
 
-Once you have developed your procedure, create a standalone test in java with a similar structure to the examples found in the mission modeling tutorial. There is one example for [scheduling procedures](https://github.com/NASA-AMMOS/aerie-modeling-tutorial/blob/main/scheduling/src/test/java/missionmodel/SchedulingProcedureTests.java) and one for [constraint procedures](https://github.com/NASA-AMMOS/aerie-modeling-tutorial/blob/main/constraints/src/test/java/missionmodel/ConstraintProcedureTests.java).
+Once you have developed your procedure, create a standalone test in java with a similar structure to the examples found in the mission modeling tutorial. There is one example for [scheduling procedures](https://github.com/NASA-AMMOS/plandev-modeling-tutorial/blob/main/scheduling/src/test/java/missionmodel/SchedulingProcedureTests.java) and one for [constraint procedures](https://github.com/NASA-AMMOS/plandev-modeling-tutorial/blob/main/constraints/src/test/java/missionmodel/ConstraintProcedureTests.java).
 
 :::note
 
-The example tests use some utilities from java packages that your build may not depend on yet. Take a look at one of the [`build.gradle`](https://github.com/NASA-AMMOS/aerie-modeling-tutorial/blob/main/scheduling/build.gradle) files in the `constraints` or `scheduling` directories of the [mission modeling tutorial](https://github.com/NASA-AMMOS/aerie-modeling-tutorial) to see what dependencies exist.
+The example tests use some utilities from java packages that your build may not depend on yet. Take a look at one of the [`build.gradle`](https://github.com/NASA-AMMOS/plandev-modeling-tutorial/blob/main/scheduling/build.gradle) files in the `constraints` or `scheduling` directories of the [mission modeling tutorial](https://github.com/NASA-AMMOS/plandev-modeling-tutorial) to see what dependencies exist.
 
 :::
 
@@ -32,7 +32,7 @@ Once you have built your test, you can debug your procedure using an IDE just li
 
 Prior to starting up PlanDev, make the following modifications to your [`docker-compose.yml`](/deployment/introduction/#docker-composeyml) file:
 
-- Find any containers with the name `aerie_scheduler_worker_*` (for a basic deployment, you might just have one of these) and add the following line under the `JAVA_OPTS:` sub-section:
+- Find any containers with the name `plandev_scheduler_worker_*` (for a basic deployment, you might just have one of these) and add the following line under the `JAVA_OPTS:` sub-section:
 
 `-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005`
 
@@ -40,7 +40,7 @@ Prior to starting up PlanDev, make the following modifications to your [`docker-
 
 `ports: ["27189:8080", "5006:5005"]`
 
-where `5006:5005` would be `5007:5005` for a second `aerie_scheduler_worker` container and so on
+where `5006:5005` would be `5007:5005` for a second `plandev_scheduler_worker` container and so on
 
 :::info
 
