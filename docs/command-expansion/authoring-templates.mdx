@@ -5,13 +5,11 @@ import templateHelpers from './assets/authoring-template-helpers.png';
 
 # Authoring Templates
 
-Template authoring follows a similar process to Typescript expansion rule authoring.
-
-To create a new sequence template for an activity type (or to edit existing ones) navigate to the **Sequence Templates** page of PlanDev.
+To create a new sequence template for an activity type (or to edit existing ones) navigate to the **Sequence Templates** page of SeqDev, in the "Sequencing" category.
 
 <figure>
-  <img alt="PlanDev UI - Templates Page" src={templatePage} />
-  <figcaption>Figure 1: Navigating to the sequence templates page</figcaption>
+  <img alt="SeqDev UI - Templates Page" src={templatePage} />
+  <figcaption>Figure 1: Navigating to the Sequence Templates page</figcaption>
 </figure>
 
 To create a new template, select `New Template`, and provide your template with:
@@ -19,8 +17,8 @@ To create a new template, select `New Template`, and provide your template with:
 - a name
 - a sequencing language, currently restricted to: `STOL`, `SeqN`, or `Text`
   - (this setting enables editor syntax highlighting for supported languages, but arbitrary languages may be used with the "Text" setting)
-- a parcel ID (to get the set of allowed commands from the dictionary)
-- a model ID (to enable access to the activity types)
+- a [parcel ID](/sequencing/editor/#parcel) (to get the set of allowed commands from the dictionary)
+- a [mission model ID](/mission-modeling/introduction) (to enable access to the activity types)
 - and the activity type that this template is for
 
 To edit an existing template, mouse over it in the table and select the edit button.

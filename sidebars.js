@@ -373,20 +373,20 @@ const sidebars = {
       },
       items: [
         'command-expansion/upload-command-dictionary',
-        'command-expansion/expansion-rules',
-        'command-expansion/expansion-sets',
-        'command-expansion/sequences',
-        'command-expansion/run-expansion',
+        'command-expansion/authoring-templates',
+        'command-expansion/expanding-templates',
         {
           type: 'category',
-          label: 'Experimental: Sequence Templates',
+          label: 'Deprecated: Typescript Expansion Rules',
           link: {
-            id: 'command-expansion/template-expansion/introduction',
+            id: 'command-expansion/deprecated/introduction',
             type: 'doc',
           },
           items: [
-            'command-expansion/template-expansion/authoring-templates',
-            'command-expansion/template-expansion/expanding-templates',
+            'command-expansion/deprecated/expansion-rules',
+            'command-expansion/deprecated/expansion-sets',
+            'command-expansion/deprecated/sequences',
+            'command-expansion/deprecated/run-expansion',
           ],
         },
       ],
