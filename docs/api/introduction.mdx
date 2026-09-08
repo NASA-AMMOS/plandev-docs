@@ -269,10 +269,10 @@ response = requests.post(
 print(json.dumps(response.json(), indent=2))
 ```
 
-If you have the admin secret you can alternatively use it to make your request. Set the `x-hasura-admin-secret` header (default admin secret shown below):
+If you have the admin secret you can alternatively use it to make your request. Set the `x-hasura-admin-secret` header:
 
 ```python
-headers={ 'x-hasura-admin-secret': 'plandev' }
+headers={ 'x-hasura-admin-secret': '<Your Hasura admin secret>' }
 ```
 
 ### Command Line
