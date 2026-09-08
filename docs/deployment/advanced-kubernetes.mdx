@@ -130,7 +130,7 @@ Then, create a Kubernetes `Secret` that holds username and password info for Pos
 kubectl -n plandev-dev create secret generic dev-env --from-env-file=.env
 ```
 
-The referenced `.env` file will need to be created or copied from `deployment/.env` and filled in with your desired username/passwords. The follwing environment variables are required (shown with resonable defaults):
+The referenced `.env` file will need to be created or copied from `deployment/.env` and filled in with your desired username/passwords. The following environment variables are required (shown with reasonable defaults):
 
 ```sh
 PLANDEV_USERNAME=plandev
