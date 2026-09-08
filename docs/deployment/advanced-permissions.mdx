@@ -102,7 +102,7 @@ select_permissions:
 ##### Insert Permissions:
 - `columns` determines which fields a role can provide values for while setting a row. It is expected that `columns` includes at least those specified in the `user` role.
 - `check` allows for validation of the row being inserted.
-For example, `{"name":{"_like":"aerie--%"}}` means that the row being inserted must have its `name` field begin with "aerie--".
+For example, `{"name":{"_like":"plandev--%"}}` means that the row being inserted must have its `name` field begin with "plandev--".
 - `set` automatically sets the value of certain fields on the row to be inserted.
 For example, `owner: "x-hasura-user-id"` will set `owner` as the current user's username (`"x-hasura-user-id"`).
 These fields **must not** be included in `columns`.
@@ -113,7 +113,7 @@ insert_permissions:
   - role: <YOUR_ROLE>
     permission:
       columns: [name, definition]
-      check: {"name":{"_like":"aerie--%"}}
+      check: {"name":{"_like":"plandev--%"}}
       set:
         owner: "x-hasura-user-id"
 ```
@@ -125,7 +125,7 @@ It is expected that `columns` includes at least those specified in the `user` ro
 For example, `{"owner":{"_eq":"x-hasura-user-id"}}` means that users using the role can only delete rows
 where the `owner` field is their username.
 - `check` allows for validation of the updated row.
-For example, `{"name":{"_like":"aerie--%"}}` means that the row must have its `name` field begin with "aerie--" after being updated.
+For example, `{"name":{"_like":"plandev--%"}}` means that the row must have its `name` field begin with "plandev--" after being updated.
 This is optional.
 - `set` automatically sets the value of certain fields on the row being updated.
 For example, `updated_by: "x-hasura-user-id"` will set `owner` as the current user's username.
@@ -138,7 +138,7 @@ update_permissions:
     permission:
       columns: [name, owner]
       filter: {"owner":{"_eq":"x-hasura-user-id"}}
-      check: {"name":{"_like":"aerie--%"}}
+      check: {"name":{"_like":"plandev--%"}}
       set:
         updated_by: "x-hasura-user-id"
 ```

@@ -26,6 +26,6 @@ docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
 ```
 8. If you are preserving your data, read through the [Database Migrations](advanced-database-migrations.mdx) guide and run the command to migrate your database forward to the new version, passing any flags as needed, eg:
 ```
-aerie_db_migration.py migrate -a --all
+plandev_db_migration.py migrate -a --all
 ```
 

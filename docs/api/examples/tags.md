@@ -1,7 +1,7 @@
 # Tags
 
 Tags are metadata that can be used to mark certain things in PlanDev, including Plans, Plan Snapshots, Activity Directives, Scheduling Goals, Constraints, and Command Expansion Runs. 
-Tags are shared across an PlanDev instance.
+Tags are shared across a PlanDev instance.
 
 ## Creating a Tag
 
