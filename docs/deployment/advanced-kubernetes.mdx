@@ -48,7 +48,7 @@ spec:
 
 _These manifests are quite long-winded, but much of that is boilerplate._
 
-This manifest defines an "plandev-ui" `Pod`, which is a wrapper around a container, that listens on port 80 and has the `EXAMPLE_VAR` environment variable available to it. This `Pod` template is wrapped by a `Deployment` object, which allows defining how many replicas of this `Pod` we want. In this example, the Kubernetes engine will work to ensure 2 instances of this UI `Pod` are running in our cluster at all times.
+This manifest defines a "plandev-ui" `Pod`, which is a wrapper around a container, that listens on port 80 and has the `EXAMPLE_VAR` environment variable available to it. This `Pod` template is wrapped by a `Deployment` object, which allows defining how many replicas of this `Pod` we want. In this example, the Kubernetes engine will work to ensure 2 instances of this UI `Pod` are running in our cluster at all times.
 
 Kubernetes manifests can be applied to the cluster using the `kubectl` command line tool. We could apply the above example using `kubectl apply -f plandev-ui-deployment.yaml`. `kubectl` will need to be configured to point at and authenticate with an existing Kubernetes cluster.
 
