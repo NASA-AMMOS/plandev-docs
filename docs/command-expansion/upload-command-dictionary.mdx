@@ -3,25 +3,31 @@ import navigationMenuPng from './assets/navigation-menu.png';
 
 # Upload Command Dictionary
 
-To do command expansion PlanDev must have a mission model and command dictionary uploaded.
+To do command expansion SeqDev must have a mission model and command dictionary uploaded.
 To upload a mission model first complete [the instructions here](../../planning/upload-mission-model) and then return to this page.
 
-To upload a command dictionary in the PlanDev UI, open the top-level menu at the upper left corner as shown in the first figure, and navigate to the "Command Expansions" page.
-All command dictionaries previously uploaded to PlanDev will be listed on this page.
-If you would like to upload a dictionary yourself you can click "Choose File" to upload a command dictionary from your local machine.
+To upload a command dictionary in the SeqDev UI, open the top-level menu at the upper left corner as shown in the first figure,
+then navigate to the "Dictionaries" page under the "Sequencing" category.
+All command dictionaries previously uploaded to SeqDev will be listed on this page.
+If you would like to upload a dictionary yourself you can click "Browse" to upload a command dictionary from your local machine.
 
-PlanDev only supports [AMPCS command dictionary schema](https://github.com/NASA-AMMOS/ampcs-dict-schemas/blob/main/CommandDictionary.rnc) standard.
+SeqDev currently supports [the AMPCS standard](https://github.com/NASA-AMMOS/ampcs-dict-schemas/blob/main/CommandDictionary.rnc)
+ for command, parameter, and channel dictionary schemas for commands, parameters, and telemetry channels.
 This schema provides a mission name and version in the command dictionary file.
-PlanDev does not allow uploading multiple command dictionary files with the same mission name and version.
+SeqDev does not allow uploading multiple command dictionary files with the same mission name and version.
 
 <figure>
-  <img alt="PlanDev UI - Navigation Menu" src={navigationMenuPng} />
-  <figcaption>Figure 1: PlanDev UI Navigation Menu - Click to the 'Command Dictionaries' menu item</figcaption>
+  <img alt="SeqDev UI - Navigation Menu" src={navigationMenuPng} />
+  <figcaption>Figure 1: SeqDev UI Navigation Menu - 'Dictionaries' Menu Item has been highlighted</figcaption>
 </figure>
 
 <figure>
-  <img alt="PlanDev UI - Command Dictionary Page" src={commandDictionaryPagePng} />
+  <img alt="SeqDev UI - Command Dictionary Page" src={commandDictionaryPagePng} />
   <figcaption>
-    Figure 2: PlanDev UI Command Dictionary Page - View, upload, or delete AMPCS command dictionaries
+    Figure 2: PlanDev UI Command Dictionary Page - View, upload, or delete AMPCS Dictionaries or Sequence Adaptations
   </figcaption>
 </figure>
+
+## Upload Sequence Adaptations
+
+In addition to AMPCS dictionaries, SeqDev additionally supports uploading [Sequence Adaptations](/sequencing/adaptation) using the same form.
