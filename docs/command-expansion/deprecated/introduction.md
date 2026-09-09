@@ -1,8 +1,8 @@
 # Command Expansion
 
 :::danger
-As of PlanDev v4.4.0, Expansion Rules and Expansion Sets have been **deprecated** and are no longer available.
-They have been succeeded by [Sequence Templates](../introduction.md).
+**Deprecated:** This page documents legacy Typescript command expansion functionality that was removed in PlanDev 4.4.0. It is retained for users of earlier releases.
+New users should use [Sequence Templates](../introduction.md).
 :::
 
 PlanDev provides command expansion capability that can translate a simulated activity into time ordered commands using a rule provided by users.

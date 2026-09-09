@@ -1,7 +1,7 @@
 # Sequence Templates
 
 <details> 
- <summary>Sequence Templates vs Typescript Rules (For versions prior to v4.3.0)</summary>
+ <summary>Sequence Templates vs Typescript Rules (For versions prior to v4.4.0)</summary>
 If you are coming from an older version of PlanDev that supported [Typescript Expansion Rules](./deprecated/introduction),
 here are the key ways in which Template Expansion compares to the old system:
 
@@ -14,7 +14,7 @@ All other concepts related to sequences and sequence filter creation are the sam
 </details>
 
 Sequence templates are a straightforward and intuitive tool for expanding activities into a set of commands using templates. 
-They make use of the <a href="https://mustache.github.io/mustache.5.html">Mustache</a> templating language.
+They make use of the [Handlebars](https://handlebarsjs.com/) templating language.
 
 For example, sequence template expansion allows users to specify the `ThrowBanana` expansion using the following _template_:
 
