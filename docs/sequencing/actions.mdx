@@ -72,13 +72,26 @@ runs. Users with permission to update action definitions can unarchive archived 
 
 ### Running actions on workspace files
 
-Actions can declare file or sequence parameters so they can be run directly from selected files in the workspace. If an
-action has a compatible `file`, `fileList`, `sequence`, or `sequenceList` parameter, SeqDev can pre-fill that parameter
-from the active file or current file selection. Use `primary: true` on the parameter when an action has more than one
-file-like input and you want to specify which one should receive the selected workspace files.
+Actions can be run directly on files selected in a SeqDev workspace. To support this, an action can define any of these file-like parameter types:
 
-For `file` and `fileList` parameters, the optional `pattern` field restricts which files can be used as input. For
-example, `{ type: "fileList", pattern: "*.json" }` accepts only JSON files.
+* `file` - a single workspace file
+* `fileList` - one or more workspace files
+* `sequence` - a single file recognized by SeqDev as a sequence
+* `sequenceList` - one or more files recognized by SeqDev as sequences
+
+When an Action is launched from the active file or a workspace file selection, SeqDev can automatically populate a compatible parameter with those file(s).
+If an Action defines more than one file-like parameter, set `primary: true` on the parameter SeqDev should populate automatically.
+
+For `file` and `fileList` parameters, the optional `pattern` field restricts which files can be used as input. `pattern`
+supports [Picomatch](https://github.com/micromatch/picomatch) glob patterns and is matched against the filename
+(including extension), not its directory path. For example:
+
+| `pattern`            | matches                                          |
+| -------------------- | ------------------------------------------------ |
+| `*.json` or `.json`  | json files                                       |
+| `thing_*.seq`        | files like `thing_1.seq` and `thing_nav.seq`     |
+| `thing_+([0-9]).seq` | files like `thing_9.seq` and `thing_9384.seq`    |
+
 
 ## Writing an Action
 
