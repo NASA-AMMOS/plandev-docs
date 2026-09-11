@@ -3,32 +3,37 @@
 ## Check Constraints
 
 ```graphql
-query CheckConstraints($planId: Int!, $simulationDatasetId: Int) {
+query checkConstraints($planId: Int!, $simulationDatasetId: Int) {
   constraintViolations(planId: $planId, simulationDatasetId: $simulationDatasetId) {
-    constraintId
-    constraintName
-    constraintRevision
-    success
-    results {
-      violations {
-        activityInstanceIds
-        windows {
+    requestId
+    constraintsRun {
+      success
+      constraintInvocationId
+      constraintId
+      constraintRevision
+      constraintName
+      results {
+        resourceIds
+        gaps {
           end
           start
         }
+        violations {
+          message
+          activityInstanceIds
+          windows {
+            end
+            start
+          }
+        }
       }
-      gaps {
-        end
-        start
-      }
-      resourceIds
-    }
-    errors {
-      stack
-      message
-      location {
-        column
-        line
+      errors {
+        message
+        stack
+        location {
+          column
+          line
+        }
       }
     }
   }
