@@ -221,6 +221,7 @@ const sidebars = {
         'planning/timeline-editing',
         'planning/timeline-controls',
         'planning/plan-import-export',
+        'planning/model-free-plans',
         'planning/advanced-incons',
         'planning/advanced-extensions',
         {

@@ -133,3 +133,19 @@ figure img {
     display: none;
   }
 }
+
+/* consistent spacing within markdown lists */
+.markdown li > p {
+  margin-top: 0;
+  margin-bottom: 0.6rem;
+}
+
+.markdown li > p:last-child {
+  margin-bottom: 0;
+}
+
+.markdown li + li,
+.markdown li > ul,
+.markdown li > ol {
+  margin-top: 0.6rem;
+}
