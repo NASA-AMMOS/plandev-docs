@@ -1,0 +1,142 @@
+# Model-Free Plans
+
+**Model-Free Plans** let you bring a plan created outside PlanDev into the planning interface without uploading
+a mission model JAR. The import file contains the plan and its activity and resource type definitions. It can also
+contain recorded simulation results, including simulated activity spans and resource profiles.
+
+Use a Model-Free Plan when you want to review an externally generated plan, inspect its results, check constraints,
+or expand sequence templates, but do not have an executable PlanDev mission model JAR for it.
+
+**Model-Free Plans are read-only in PlanDev.** The file describes the activities and any results you have supplied,
+but it does not contain the code needed to re-simulate changes to them. Allowing edits would leave the plan and its
+recorded results out of sync.
+
+| | Regular plan import | Model-Free Plan import |
+| --- | --- | --- |
+| Mission model | Select a model already uploaded to PlanDev | Type definitions are included in the file; no JAR is needed |
+| Simulation results | Not included in the plan file | Spans and resource profiles can be included |
+| Editing | Activities can be edited | Activities and plan time bounds are read-only |
+| Simulation and scheduling | Available with a compatible executable model | Unavailable |
+
+For the usual import workflow, see [Plan Import/Export](https://nasa-ammos.github.io/plandev-docs/planning/plan-import-export/).
+
+## Prepare a Model-Free Plan File
+
+Rather than a new format, Model-Free Plans extend the existing PlanDev `plan.json` format (now version 3) with type
+definitions and optional recorded simulation results. The existing plan fields such as `name`, `start_time`, `duration`,
+and `activities` remain the same.
+
+See the [v3 format schema](https://github.com/nasa-ammos/plandev-gateway/blob/f558627362fbd940fb2b19d44c40082d58c0f805/src/schemas/plan-transfer-validation-schema.ts)
+for the complete field definitions. The main additions are:
+- **`model`** is a required object containing the type definitions for the plan. It must contain both of the following arrays (use `[]` if you have no types):
+  - **`activity_types`** contains one object for each activity type used in `activities` or `results.spans`.
+    Each object's `name` must exactly match the corresponding activity or span's `type`. For example, an activity with
+    `"type": "take_image"` needs a declaration with `"name": "take_image"`.
+    - The optional **`parameters`** array on an activity type describes its arguments: each parameter's `name`
+      identifies a key in `arguments`, and its `schema` describes the expected value, such as
+      `{ "type": "string" }` or `{ "type": "int" }`. A declaration containing only `name` is also supported;
+      argument values are preserved without parameter schemas but **may not be displayed correctly in the UI** without types.
+  - **`resource_types`** contains objects with a `name` and `schema`. These definitions *describe* the
+    resources; their recorded values belong in `results.profiles`. Each resource's `name` must exactly match its key
+    in `results.profiles`, and its `schema` should match that profile's `schema`.
+
+- **`results`** is an optional object containing recorded simulation results or telemetry data. When present, it must
+  contain both `spans` and `profiles`; use `[]` and `{}`, respectively, when either is empty:
+  - **`spans`** is an array of recorded activity instances, usually with `duration`s. Each span's `type` refers to a declaration in
+    `model.activity_types`. Its `span_id` must uniquely identify it within the results. An optional `directive_id`
+    links it to an `id` in `activities`; spans without a corresponding directive can omit `directive_id`.
+  - **`profiles`** is an object containing resource profiles keyed by resource name. Each profile contains a `type` of
+    `"real"` or `"discrete"`, a `schema`, and a `segments` array holding its recorded values. This uses the same
+    resource profile format as `profileSet` when [importing external datasets](./external-datasets.md#add-external-dataset-mutation).
+    See that page for real and discrete profile examples, segment durations, and gaps.
+
+The example below contains one activity directive and one recorded span corresponding to it, along with a simple
+resource profile. For historical compatibility reasons,  `start_offset` on a directive is an interval string;
+`start_offset` and `duration` on a span are numbers of microseconds.
+
+```json
+{
+  "version": "3",
+  "name": "camera pass",
+  "start_time": "2030-01-01T00:00:00+00:00",
+  "duration": "01:00:00",
+  "simulation_arguments": {},
+  "activities": [
+    {
+      "id": 1,
+      "anchor_id": null,
+      "anchored_to_start": true,
+      "name": "take image",
+      "type": "take_image",
+      "start_offset": "00:10:00",
+      "arguments": { "target": "crater a" },
+      "metadata": {}
+    }
+  ],
+  "model": {
+    "activity_types": [
+      {
+        "name": "take_image",
+        "parameters": [
+          { "name": "target", "schema": { "type": "string" } }
+        ]
+      }
+    ],
+    "resource_types": [
+      {
+        "name": "/images_taken",
+        "schema": { "type": "int" }
+      }
+    ]
+  },
+  "results": {
+    "spans": [
+      {
+        "span_id": 1,
+        "type": "take_image",
+        "start_offset": 600000000,
+        "duration": 30000000,
+        "arguments": { "target": "crater a" },
+        "directive_id": 1
+      }
+    ],
+    "profiles": {
+      "/images_taken": {
+        "type": "discrete",
+        "schema": { "type": "int" },
+        "segments": [
+          { "duration": 630000000, "dynamics": 0 },
+          { "duration": 2970000000, "dynamics": 1 }
+        ]
+      }
+    }
+  }
+}
+```
+
+See the [complete v3 example](https://github.com/nasa-ammos/plandev-gateway/blob/f558627362fbd940fb2b19d44c40082d58c0f805/test/fixtures/plan-transfer-v3.json) and [format schema](https://github.com/nasa-ammos/plandev-gateway/blob/f558627362fbd940fb2b19d44c40082d58c0f805/src/schemas/plan-transfer-validation-schema.ts) for additional fields and resource profile examples.
+
+## Import the Plan
+
+Once you have a plan file, you can import it the same way as a usual plan:
+
+1. Open the **Plans** page and choose **Import**.
+2. Select the JSON file. PlanDev fills in the plan name and time range from it. You can change the name before creating the plan; the time range comes from the file.
+3. Choose **Create from .json**. When the file contains `model`, you do not select an uploaded mission model.
+4. Wait for the import status to show that it has completed before using the plan. A large file may take time to load its activities and results.
+
+If the import fails, PlanDev will display an error with the import status. Fix the file and import it again.
+
+## Work with the Imported Plan
+
+Once the import completes, you can open the plan to inspect its activity directives, recorded spans, and resource
+profiles. Imported results can be used for constraint checking and sequence template expansion. Sequence templates are
+created for each imported Model-Free Plan; they are not copied automatically when you import another version of the file.
+
+You cannot add, edit, or remove activity directives, change the plan’s time range or model, run a new simulation or
+scheduling run, or branch and merge a Model-Free Plan. To change its contents, update the source file and import it
+as a new plan.
+
+**Keep the original file.** The current **Export plan as .json** action exports the standard plan fields; it does **not**
+export the embedded type definitions and recorded results needed to recreate a Model-Free Plan. In future we plan to
+optionally allow exporting fully self-contained model-free plans from the UI.
