@@ -43,6 +43,13 @@ created revision, regardless of which one the working copy matches.
 4. For the first revision, accept or change **Starting with revision**.
 5. Click **Create Revision**.
 
+import fileRevisionsSidebar from './assets/fileRevisionsSidebar.png';
+
+<figure>
+  <img alt="File Revisions sidebar showing the Create Revision controls, revision history, and working-copy status" src={fileRevisionsSidebar} />
+  <figcaption>The File Revisions sidebar with the Create Revision controls and Revision History. The working-copy status appears above the editor.</figcaption>
+</figure>
+
 The new revision appears at the top of **Revision History**. Continue editing and saving normally, then create another revision
 when you reach the next milestone.
 
@@ -65,6 +72,13 @@ Click an entry to preview it, or open its **More options** menu to download it, 
 Click a revision in **Revision History** to compare it with the file currently open in the editor. The side-by-side view
 highlights changed lines and indicates when file metadata or the file path differs. Unsaved editor changes are
 included in this preview.
+
+import fileRevisionsCompare from './assets/fileRevisionsCompare.png';
+
+<figure>
+  <img alt="Compare to Revision B dialog showing the working copy beside Revision B with changed lines highlighted" src={fileRevisionsCompare} />
+  <figcaption>Comparing the working copy (left) with Revision B (right). Lines added since the revision are highlighted.</figcaption>
+</figure>
 
 Previewing does not change the file. Close the dialog to continue editing or select another revision to inspect.
 
