@@ -87,7 +87,7 @@ state. A `pg_dump` alone does not back up workspace history.
 ### External workspace file changes
 
 Write workspace files through the SeqDev UI or supported workspace APIs, including the `ActionsAPI` file helpers.
-Do not edit files directly in the mounted workspace volume or manipulate its `.git` directory: those changes bypass
+**Do not** edit files directly in the mounted workspace volume or manipulate its `.git` directory: those changes bypass
 the workspace service's managed history, metadata, and concurrency checks.
 
 When the workspace server detects unexpected filesystem changes during a subsequent managed operation, it attempts
@@ -103,7 +103,7 @@ Operators can inspect the affected workspace's recovery directory:
 <workspace-root>/.seqdev/recovery/<incident-id>/files/<original-relative-path>
 ```
 
-`incident.json` records the reason and affected paths; `files/` contains any preserved file contents. The default
+`incident.json` records the reason and affected paths and `files/` contains any preserved file contents. The default
 implementation retains up to **20 recovery incidents per workspace**, so investigate and archive needed files
 promptly. After reviewing them, reapply any intended changes through the UI or workspace API rather than copying
 files directly back into the managed workspace.
