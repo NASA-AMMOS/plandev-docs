@@ -401,6 +401,7 @@ const sidebars = {
       },
       items: [
         'sequencing/editor',
+        'sequencing/file-revisions',
         'sequencing/adaptation',
         'sequencing/actions',
         'sequencing/seqn',
