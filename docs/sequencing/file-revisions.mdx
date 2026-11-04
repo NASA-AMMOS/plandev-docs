@@ -8,10 +8,9 @@ and manage its revisions.
 
 ## Working copies and revisions
 
-The **working copy** is the current saved file in your workspace. Edits remain unsaved in the editor until you click
-**Save**. Saving updates the working copy; it does **not** create a revision.
+The **working copy** is the current saved file in your workspace. Edits you make in the editor remain unsaved until you click **Save**. Saving a file updates the working copy and does not create a revision.
 
-A **revision** is a snapshot you create explicitly. Later edits do not change it. Each file has its own revision
+A **revision** is an immutable snapshot of a file that you create explicitly. Later edits to the file do not change the revision. Each file has its own revision
 history, so creating or restoring a revision affects that file rather than the whole workspace.
 
 ### What a revision includes
@@ -25,13 +24,13 @@ The **Read only** setting is separate from revision history and is not changed b
 
 The editor displays the file's current status:
 
-| Status | Meaning |
-| --- | --- |
-| **Unsaved Changes** | The editor contains changes that have not been saved. |
-| **Unrevisioned** | The file has no revisions yet. |
-| **Working Copy** | The saved file differs from all of its revisions. |
-| **Matches Revision …** | The saved file matches an earlier revision. |
-| **Matches Revision … (Latest)** | The saved file matches its newest revision. |
+| Status                          | Meaning                                               |
+| ------------------------------- | ----------------------------------------------------- |
+| **Unsaved Changes**             | The editor contains changes that have not been saved. |
+| **Unrevisioned**                | The file has no revisions yet.                        |
+| **Working Copy**                | The saved file differs from all of its revisions.     |
+| **Matches Revision …**          | The saved file matches an earlier revision.           |
+| **Matches Revision … (Latest)** | The saved file matches its newest revision.           |
 
 A saved file can match an older revision, for example after a restore. The latest revision remains the most recently
 created revision, regardless of which one the working copy matches.
@@ -44,26 +43,26 @@ created revision, regardless of which one the working copy matches.
 4. For the first revision, accept or change **Starting with revision**.
 5. Click **Create Revision**.
 
-The new revision appears at the top of **History**. Continue editing and saving normally, then create another revision
+The new revision appears at the top of **Revision History**. Continue editing and saving normally, then create another revision
 when you reach the next milestone.
 
-**Create Revision** is unavailable while you have unsaved changes or the saved file already matches the latest
+**Create Revision** is unavailable while you have unsaved changes or if the saved file already matches the latest
 revision. If the file matches an older revision, you can create a new revision to record returning to that state.
 
 ### Revision names
 
 Your SeqDev deployment uses either numeric names (`1`, `2`, `3`, …) or alphabetic names (`A`, `B`, `C`, …).
-You can choose the starting name when creating a file's first revision; subsequent names advance automatically.
+You can choose the starting name when creating a file's first revision and subsequent names will advance automatically.
 Use the description to explain the change rather than trying to include descriptive text in the revision name.
 
 ## Browsing revision history
 
-**History** lists revisions from newest to oldest. Each entry shows its name, description, creator, and creation time.
+**Revision History** lists revisions from newest to oldest. Each entry shows its name, description, creator, and creation time.
 Click an entry to preview it, or open its **More options** menu to download it, restore it, or run a compatible action.
 
 ## Previewing and comparing revisions
 
-Click a revision in **History** to compare it with the file currently open in the editor. The side-by-side view
+Click a revision in **Revision History** to compare it with the file currently open in the editor. The side-by-side view
 highlights changed lines and indicates when file metadata or the file path differs. Unsaved editor changes are
 included in this preview.
 
@@ -74,15 +73,15 @@ Previewing does not change the file. Close the dialog to continue editing or sel
 Restoring replaces the working copy's contents and user metadata with those from the selected revision. Existing
 revisions remain unchanged, and the file keeps its current name and location.
 
-> **Before restoring:** If you want to preserve your current work, save it and create a revision first. Saving alone
-> does not preserve that state in revision history.
+:::info Note
+If you want to preserve your current work, save it and create a revision first. Saving alone does not preserve that state in revision history.
+:::
 
 1. Save or discard any unsaved editor changes.
 2. Open the desired revision's **More options** menu and choose **Restore file to revision …**.
 3. Review the comparison and click **Restore Revision …** to confirm.
 
-The editor reloads the restored file. Restoration does not create a new revision; create one afterward if you want
-to record the restored state as the latest revision.
+The editor will reload the restored file.
 
 ## Downloading files and revisions
 
@@ -92,12 +91,12 @@ before downloading.
 **Download with revision** includes the revision name in the filename, such as `observation.1.seq`. In the editor,
 this option is available when there are no unsaved changes and the working copy matches the latest revision.
 
-To download a specific revision, including an older one, use that revision's **More options** menu in **History**.
+To download a specific revision, including an older one, use that revision's **More options** menu in **Revision History**.
 Choose a download with the original filename or one that includes the revision name. Both contain the selected
 revision's saved contents, and neither changes the working copy.
 
-For sequences, source-file downloads and generated seqJSON downloads are separate. History downloads provide the
-recorded source file; use the sequence editor's output panel to download generated seqJSON.
+For sequences, source-file downloads and generated seqJSON downloads are separate. **Revision History** downloads provide the
+recorded source file. Use the sequence editor's output panel to download generated seqJSON.
 
 ## Running actions on revisions
 
@@ -113,18 +112,18 @@ When selecting a file input for a compatible action, the available choices are:
 Choose a specific revision when the action must use a particular saved snapshot. The file revision is separate from
 the version of the action itself. See [SeqDev Actions](/sequencing/actions/) for more about running actions.
 
-## History after file operations
+## Revision history after file operations
 
-Use the workspace file browser to rename, move, copy, or delete files. These operations affect revision history as follows:
+Workspace file browser operations including rename, move, copy, and delete affect revision history as follows:
 
-| Operation | Revision history at the destination |
-| --- | --- |
-| Rename or move within the same workspace | History follows the file, including when moving its containing folder. |
-| Copy to a new path | The copy starts without revisions. |
-| Move to a new path in another workspace | The destination starts without revisions. |
-| Move within the same workspace and overwrite another file | The destination shows the moved file's history, replacing the overwritten file's history there. |
-| Copy over an existing file, or move from another workspace over an existing file | The destination retains its existing history; the source file's revisions are not transferred. |
-| Delete a file and recreate the same path | The recreated file starts without revisions. |
+| Operation                                                                        | Revision history at the destination                                                             |
+| -------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------- |
+| Rename or move within the same workspace                                         | History follows the file, including when moving its containing folder.                          |
+| Copy to a new path                                                               | The copy starts without revisions.                                                              |
+| Move to a new path in another workspace                                          | The destination starts without revisions.                                                       |
+| Move within the same workspace and overwrite another file                        | The destination shows the moved file's history, replacing the overwritten file's history there. |
+| Copy over an existing file, or move from another workspace over an existing file | The destination retains its existing history. The source file's revisions are not transferred.  |
+| Delete a file and recreate the same path                                         | The recreated file starts without revisions.                                                    |
 
 ## Permissions, read-only files, and conflicts
 
