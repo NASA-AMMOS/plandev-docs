@@ -131,7 +131,7 @@ If the import fails, PlanDev will display an error with the import status. Fix t
 
 Once the import completes, you can open the plan to inspect its activity directives, recorded spans, and resource
 profiles. Imported results can be used for constraint checking and sequence template expansion. Sequence templates are
-created for each imported Model-Free Plan; they are not copied automatically when you import another version of the file.
+tied to the model-free plan they were made against, and are not automatically copied to any other imported plans.
 
 You cannot add, edit, or remove activity directives, change the plan’s time range or model, run a new simulation or
 scheduling run, or branch and merge a Model-Free Plan. To change its contents, update the source file and import it
@@ -140,3 +140,9 @@ as a new plan.
 **Keep the original file.** The current **Export plan as .json** action exports the standard plan fields; it does **not**
 export the embedded type definitions and recorded results needed to recreate a Model-Free Plan. In future we plan to
 optionally allow exporting fully self-contained model-free plans from the UI.
+
+## Known Limitations
+
+PlanDev has been tested with imported model-free plans with sizes up to ~100MB. Significantly larger plans or datasets
+may cause significant slowness or out-of-memory errors. More performance improvements are planned here in future - if
+you are interested in using PlanDev with much larger plans, please let us know.
