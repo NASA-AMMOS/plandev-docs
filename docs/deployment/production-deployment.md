@@ -1,76 +1,120 @@
 # Production Deployment
 
-This document describes some of the things you'll need to consider when deploying PlanDev to a shared production server, and provides a guide for configuring and running PlanDev in your environment. 
+This document describes some of the things you'll need to consider when deploying PlanDev to a shared production server, and provides a guide for configuring and running PlanDev in your environment.
 
 :::danger
 
-PlanDev allows execution of user-provided code in the simulation and scheduling environments, so it is important to protect your environment from being accessed by anonymous Internet users. The safest way to deploy PlanDev is with *network-level access controls*, limiting access to eg. only IP addresses on your local network or VPN. You may want to also use an [authentication adapter](/deployment/advanced-sso/) to implement user-level access controls. Do not run PlanDev on the public internet without one or both of these controls in place!
+PlanDev allows execution of user-provided code in the simulation and scheduling environments, so it is important to protect your environment from being accessed by anonymous Internet users. The safest way to deploy PlanDev is with _network-level access controls_, limiting access to eg. only IP addresses on your local network or VPN. You may want to also use an [authentication adapter](/deployment/advanced-sso/) to implement user-level access controls. Do not run PlanDev on the public internet without one or both of these controls in place!
 
 :::
 
 ## Infrastructure details
 
-Before deployment, consider how you plan to handle these details about your infrastructure: 
+Before deployment, consider how you plan to handle these details about your infrastructure:
 
-* **Domain name** - if you are using a domain name for your PlanDev services, make sure you configure the DNS to point to your server's IP address, whether internal or public. This name will also be used in your docker-compose configuration - see below.
-* **HTTPS** - we recommend that PlanDev deployments, **especially** those on public networks, use HTTPS with a valid TLS certificate. You can use a TLS certificate from an authority like [Let's Encrypt](https://letsencrypt.org/), or a self-signed certificate from your organization for deployments on a private network.
-* **Reverse proxy/load balancer** - _if_ you are using HTTPS, you will need to configure an additional service to be the single ingress point for all (HTTPS) network traffic, strip TLS and forward HTTP traffic to the PlanDev services. One way to accomplish this is with the **[reverse proxy pattern](/deployment/advanced-reverse-proxy/)**, for which an example is provided. If you are using AWS infrastructure, you may find it easier to manage your certificate with [Amazon Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html) and route all traffic through an [Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) instead of using a reverse proxy.
-* **Authentication/SSO** - PlanDev **does not include** its own fully-featured implementation of user authentication, and should either be used with an **"authentication adapter,"** or in a private network with limited access. We provide an adapter for use with JPL CAM, a JPL-internal SSO solution - [instructions here](/deployment/advanced-sso/). Users needing to integrate with other SSO/auth systems may need to write their own auth adapters following the same pattern.
-
+- **Domain name** - if you are using a domain name for your PlanDev services, make sure you configure the DNS to point to your server's IP address, whether internal or public. This name will also be used in your docker-compose configuration - see below.
+- **HTTPS** - we recommend that PlanDev deployments, **especially** those on public networks, use HTTPS with a valid TLS certificate. You can use a TLS certificate from an authority like [Let's Encrypt](https://letsencrypt.org/), or a self-signed certificate from your organization for deployments on a private network.
+- **Reverse proxy/load balancer** - _if_ you are using HTTPS, you will need to configure an additional service to be the single ingress point for all (HTTPS) network traffic, strip TLS and forward HTTP traffic to the PlanDev services. One way to accomplish this is with the **[reverse proxy pattern](/deployment/advanced-reverse-proxy/)**, for which an example is provided. If you are using AWS infrastructure, you may find it easier to manage your certificate with [Amazon Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/acm-overview.html) and route all traffic through an [Application Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/application/introduction.html) instead of using a reverse proxy.
+- **Authentication/SSO** - PlanDev **does not include** its own fully-featured implementation of user authentication, and should either be used with an **"authentication adapter,"** or in a private network with limited access. We provide an adapter for use with JPL CAM, a JPL-internal SSO solution - [instructions here](/deployment/advanced-sso/). Users needing to integrate with other SSO/auth systems may need to write their own auth adapters following the same pattern.
 
 ## Production Deployment Guide
 
 This checklist outlines a set of steps for running a minimal production PlanDev deployment. Note that these will vary somewhat from one environment to another, so feel free to adapt them as needed.
 
 1. Ensure you have **Docker Engine and Docker Compose installed** on your server. We recommend following the official [Engine install guide](https://docs.docker.com/engine/install/) and [Compose install guide](https://docs.docker.com/compose/install/#scenario-two-install-the-docker-compose-plugin) for your platform, as simply running eg. `yum install docker` may install Podman instead of Docker on some platforms.
-2. Ensure your server has the necessary **network ports exposed** for PlanDev services - namely, ports **80, 8080, and 9000**, unless you plan to modify these default ports in the docker-compose file. Port rules are usually configured via your server's firewall settings. See [PlanDev services & images](/deployment/introduction/#plandev-services--images) for details on services and their port assignments.  If you are running on an AWS EC2 instance, you may need to set rules for the instance's *security group* to allow these ports to send & receive TCP traffic.
+2. Ensure your server has the necessary **network ports exposed** for PlanDev services - namely, ports **80, 8080, and 9000**, unless you plan to modify these default ports in the docker-compose file. Port rules are usually configured via your server's firewall settings. See [PlanDev services & images](/deployment/introduction/#plandev-services--images) for details on services and their port assignments. If you are running on an AWS EC2 instance, you may need to set rules for the instance's _security group_ to allow these ports to send & receive TCP traffic.
 3. Copy the `Deployment.zip` file from an [PlanDev release](https://github.com/NASA-AMMOS/plandev/releases) to your server and extract it, for example:
-    ```
-    curl -sLO https://github.com/NASA-AMMOS/plandev/releases/download/v3.1.1/Deployment.zip
-    unzip Deployment.zip
-    tar -xf deployment.tar
+   ```
+   curl -sLO https://github.com/NASA-AMMOS/plandev/releases/download/v3.1.1/Deployment.zip
+   unzip Deployment.zip
+   tar -xf deployment.tar
    ```
 4. Modify the `.env` file to fill in the required variables - see [Environment Variables](/deployment/introduction/#environment-variables). Importantly, all services need usernames and passwords set, and Hasura needs a secret key - see eg. [this completed example](https://github.com/NASA-AMMOS/plandev-mission-model-template/blob/main/.env.template).
 5. Modify the [`docker-compose.yml` file](/deployment/introduction/#docker-composeyml) for your specific environment.
-    - A useful pattern is to **[merge Compose files](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/)** when running PlanDev, to keep your custom compose file changes separate from the original file provided by the deployment, rather than modifying the original. You can create a file called eg. `docker-compose.prod.yml` which contains *only* the overriding changes you want to make to the original file. Then, when running your services, you can pass them both to Compose [with the `-f` flag](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/).
-    - If you are using [CAM/SSO authentication adapters](/deployment/advanced-authentication/) and/or [a reverse proxy](/deployment/advanced-reverse-proxy/), review their docs to determine the Compose file modifications they require.
-    - Regardless of your other settings, your compose file needs to provide the `plandev-ui` service with the **fully-qualified domain names** (FQDNs) it will use to make requests to the other services. This is generally done by adding an additional variable to the `.env` file with your base domain, eg.:
-      ```
-      PLANDEV_HOST="myplandev.myorg.com"
-      ```
-      and then adding the following lines to your `docker-compose.prod.yml` file:
-      ```
-      plandev_ui:
-        environment:
-          ORIGIN: https://${PLANDEV_HOST}
-          PUBLIC_GATEWAY_CLIENT_URL: https://${PLANDEV_HOST}:9000
-          PUBLIC_HASURA_CLIENT_URL: https://${PLANDEV_HOST}:8080/v1/graphql
-          PUBLIC_HASURA_WEB_SOCKET_URL: wss://${PLANDEV_HOST}:8080/v1/graphql
-      ```
-      If you do not have a proper domain name set up yet, you can use your server's IP address or any other FQDN you have available.
+   - A useful pattern is to **[merge Compose files](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/)** when running PlanDev, to keep your custom compose file changes separate from the original file provided by the deployment, rather than modifying the original. You can create a file called eg. `docker-compose.prod.yml` which contains _only_ the overriding changes you want to make to the original file. Then, when running your services, you can pass them both to Compose [with the `-f` flag](https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/).
+   - If you are using [CAM/SSO authentication adapters](/deployment/advanced-authentication/) and/or [a reverse proxy](/deployment/advanced-reverse-proxy/), review their docs to determine the Compose file modifications they require.
+   - Regardless of your other settings, your compose file needs to provide the `plandev-ui` service with the **fully-qualified domain names** (FQDNs) it will use to make requests to the other services. This is generally done by adding an additional variable to the `.env` file with your base domain, eg.:
+     ```
+     PLANDEV_HOST="myplandev.myorg.com"
+     ```
+     and then adding the following lines to your `docker-compose.prod.yml` file:
+     ```
+     plandev_ui:
+       environment:
+         ORIGIN: https://${PLANDEV_HOST}
+         PUBLIC_GATEWAY_CLIENT_URL: https://${PLANDEV_HOST}:9000
+         PUBLIC_HASURA_CLIENT_URL: https://${PLANDEV_HOST}:8080/v1/graphql
+         PUBLIC_HASURA_WEB_SOCKET_URL: wss://${PLANDEV_HOST}:8080/v1/graphql
+     ```
+     If you do not have a proper domain name set up yet, you can use your server's IP address or any other FQDN you have available.
 6. Finally, use the `up` command to run all of the PlanDev services in their docker containers, eg.:
-  ```
-  docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
-  ```
-  After a few seconds, you can check on the status of the services by running `docker ps`. It may take a minute or two to fully initialize the system, but eventually all services should show an "Up" status. If not, check your Docker logs for errors from the services (see [Logging](#logging) below).
+
+```
+docker compose -f docker-compose.yml -f docker-compose.prod.yml up -d
+```
+
+After a few seconds, you can check on the status of the services by running `docker ps`. It may take a minute or two to fully initialize the system, but eventually all services should show an "Up" status. If not, check your Docker logs for errors from the services (see [Logging](#logging) below).
 
 ## Other Considerations
 
 ### Data persistence and backups
+
 It's a good idea to have a strategy for backing up and restoring your PlanDev data in case something goes wrong with your server. PlanDev mainly persists data in two ways:
-* The Postgres database, managed by the `plandev-postgres` container, stores the majority of user-created data such as plans and simulation runs.
-* Some data is also stored in the filesystem of the PlanDev container, such as uploaded mission model JAR files.
+
+- The Postgres database, managed by the `plandev-postgres` container, stores the majority of user-created data such as plans and simulation runs.
+- Some data is also stored in the filesystem of the PlanDev container, such as uploaded mission model JAR files.
 
 Both types of data are persisted using [Docker Volumes](https://docs.docker.com/engine/storage/volumes/). One way to handle backups is simply to copy all data out of the PlanDev volumes (to another location, off of your main instance) on a eg. nightly basis.
 
-It may be useful sometimes to just backup the state of your Postgres database using a utility like `pg_dump` eg. before performing complex database operations - just remember this does not backup the files in the filesystem and therefore is only useful for recovering from database issues. 
+It may be useful sometimes to just backup the state of your Postgres database using a utility like `pg_dump` eg. before performing complex database operations - just remember this does not backup the files in the filesystem and therefore is only useful for recovering from database issues.
+
+#### Workspace files and revision history
+
+SeqDev workspace files are stored outside Postgres. In the provided Docker Compose deployment, the
+`plandev_workspace` service mounts the `workspace_file_store` volume at `/usr/src/ws` (the configured
+`WORKSPACE_STORE` path). Back up the **entire workspace store**, including each workspace's:
+
+- Files and folders, including hidden `.meta.seqdev` metadata files.
+- Hidden `.git` directory, which contains the managed workspace history and named file revisions.
+- Hidden `.seqdev` directory, including recovery incidents and any markers used to resume interrupted operations.
+
+Keep these parts together: copying only visible files or omitting hidden directories does **not** preserve revision
+history and may leave a restored workspace inconsistent. Workspace records and permissions are also stored in
+Postgres, so a complete disaster-recovery backup needs the workspace volume **and** the corresponding database.
+Use a coordinated snapshot or stop writes while taking backups so the filesystem and database represent a consistent
+state. A `pg_dump` alone does not back up workspace history.
+
+### External workspace file changes
+
+Write workspace files through the SeqDev UI or supported workspace APIs, including the `ActionsAPI` file helpers.
+Do not edit files directly in the mounted workspace volume or manipulate its `.git` directory: those changes bypass
+the workspace service's managed history, metadata, and concurrency checks.
+
+When the workspace server detects unexpected filesystem changes during a subsequent managed operation, it attempts
+to preserve the changed files in a recovery incident and restore the workspace to its last recorded state. **Direct
+filesystem changes are not automatically imported into revision history.** Deleted files have no bytes to preserve,
+but their absence is recorded in the incident report. If the workspace cannot be safely verified or recovered, the
+operation can fail instead of proceeding with an inconsistent state.
+
+Operators can inspect the affected workspace's recovery directory:
+
+```text
+<workspace-root>/.seqdev/recovery/<incident-id>/incident.json
+<workspace-root>/.seqdev/recovery/<incident-id>/files/<original-relative-path>
+```
+
+`incident.json` records the reason and affected paths; `files/` contains any preserved file contents. The default
+implementation retains up to **20 recovery incidents per workspace**, so investigate and archive needed files
+promptly. After reviewing them, reapply any intended changes through the UI or workspace API rather than copying
+files directly back into the managed workspace.
 
 ### Upgrading your PlanDev Environment
 
 PlanDev releases new versions roughly every two weeks, and eventually you may want to upgrade your environment to a new version. If you want to preserve your environment's data from the previous version, you should take care to upgrade and migrate your data forward in a safe way:
-* Carefully read the [changelogs on the Releases page](https://github.com/NASA-AMMOS/plandev/releases) and the [upgrade guides](https://nasa-ammos.github.io/plandev-docs/upgrade-guides/3-1-1-to-3-2-0/) for all versions between your old version and the one you're upgrading to, and keep note of any breaking changes.
-* Perform a backup of your database and/or Docker volumes before upgrading.
-* To perform the upgrade: 
+
+- Carefully read the [changelogs on the Releases page](https://github.com/NASA-AMMOS/plandev/releases) and the [upgrade guides](https://nasa-ammos.github.io/plandev-docs/upgrade-guides/3-1-1-to-3-2-0/) for all versions between your old version and the one you're upgrading to, and keep note of any breaking changes.
+- Perform a backup of your database and/or Docker volumes before upgrading.
+- To perform the upgrade:
   - Stop your docker containers with `docker compose down`
   - Update the `DOCKER_TAG` environment variable to the new desired PlanDev version
   - If necessary, modify your docker-compose or any other deployment options to deal with breaking changes
@@ -79,4 +123,4 @@ PlanDev releases new versions roughly every two weeks, and eventually you may wa
 
 ### Logging
 
-By default, Docker saves logs on the local filesystem for all of your PlanDev services, and [displays them with the command `docker logs <container_id>`](https://docs.docker.com/reference/cli/docker/container/logs/). However, these logs are somewhat ephemeral and may be overwritten in time. If you care about retroactively investigating and debugging issues encountered by your users, it's a good idea to have a log rotation strategy and to save your logs in a more permanent archive, outside of your environment. 
+By default, Docker saves logs on the local filesystem for all of your PlanDev services, and [displays them with the command `docker logs <container_id>`](https://docs.docker.com/reference/cli/docker/container/logs/). However, these logs are somewhat ephemeral and may be overwritten in time. If you care about retroactively investigating and debugging issues encountered by your users, it's a good idea to have a log rotation strategy and to save your logs in a more permanent archive, outside of your environment.

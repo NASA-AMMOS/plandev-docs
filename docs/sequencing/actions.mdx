@@ -74,10 +74,10 @@ runs. Users with permission to update action definitions can unarchive archived 
 
 Actions can be run directly on files selected in a SeqDev workspace. To support this, an action can define any of these file-like parameter types:
 
-* `file` - a single workspace file
-* `fileList` - one or more workspace files
-* `sequence` - a single file recognized by SeqDev as a sequence
-* `sequenceList` - one or more files recognized by SeqDev as sequences
+- `file` - a single workspace file
+- `fileList` - one or more workspace files
+- `sequence` - a single file recognized by SeqDev as a sequence
+- `sequenceList` - one or more files recognized by SeqDev as sequences
 
 When an Action is launched from the active file or a workspace file selection, SeqDev can automatically populate a compatible parameter with those file(s).
 If an Action defines more than one file-like parameter, set `primary: true` on the parameter SeqDev should populate automatically.
@@ -86,12 +86,30 @@ For `file` and `fileList` parameters, the optional `pattern` field restricts whi
 supports [Picomatch](https://github.com/micromatch/picomatch) glob patterns and is matched against the filename
 (including extension), not its directory path. For example:
 
-| `pattern`            | matches                                          |
-| -------------------- | ------------------------------------------------ |
-| `*.json` or `.json`  | json files                                       |
-| `thing_*.seq`        | files like `thing_1.seq` and `thing_nav.seq`     |
-| `thing_+([0-9]).seq` | files like `thing_9.seq` and `thing_9384.seq`    |
+| `pattern`            | matches                                       |
+| -------------------- | --------------------------------------------- |
+| `*.json` or `.json`  | json files                                    |
+| `thing_*.seq`        | files like `thing_1.seq` and `thing_nav.seq`  |
+| `thing_+([0-9]).seq` | files like `thing_9.seq` and `thing_9384.seq` |
 
+### Selecting file revisions
+
+When an action supports revisions for a `file`, `fileList`, `sequence`, or `sequenceList` input, the Run Action form
+shows a revision selector for each selected file. Choose one of the following:
+
+- **Working copy:** Use the file's latest saved contents, not unsaved editor changes.
+- **Latest revision:** Use whichever named revision is newest when the action reads the file. This can change between
+  runs if someone creates another revision.
+- **Revision N** (letter or number depending on the deployment): Use that specific revision even if the working copy
+  changes afterward.
+
+Some actions are configured to require a named revision and do not offer **Working copy**. Selecting a new file for such an action
+defaults to **Latest revision**. Choose a specific revision if the input must remain pinned across runs. You can also
+start a compatible action from a revision's **More options** menu in **File Revisions**, which preselects that revision.
+
+The **file revision** is separate from the **action version** selected in the Run Action form. The action version
+chooses which uploaded implementation runs whereas the file revision chooses which saved file snapshot the action reads. See
+[File Revisions](/sequencing/file-revisions/) for more about working copies and revision history.
 
 ## Writing an Action
 
@@ -134,8 +152,8 @@ For example, the code:
 
 ```ts
 export const parameterDefinitions = {
-  myName: { type: "string" },
-  myAge: { type: "int" }
+  myName: { type: 'string' },
+  myAge: { type: 'int' },
 } satisfies ActionParameterDefinitions;
 ```
 
@@ -158,27 +176,27 @@ rejects values that are not listed in `variants`. Non-required variants may be l
 ```ts
 export const parameterDefinitions = {
   commandFile: {
-    type: "sequence",
-    description: "Sequence file to process",
+    type: 'sequence',
+    description: 'Sequence file to process',
     primary: true,
-    required: true
+    required: true,
   },
   mode: {
-    type: "variant",
-    description: "How much processing to perform",
+    type: 'variant',
+    description: 'How much processing to perform',
     variants: [
-      { key: "check", label: "Check only" },
-      { key: "translate", label: "Translate" },
-      { key: "compile", label: "Compile" }
+      { key: 'check', label: 'Check only' },
+      { key: 'translate', label: 'Translate' },
+      { key: 'compile', label: 'Compile' },
     ],
-    defaultValue: "check",
-    required: true
+    defaultValue: 'check',
+    required: true,
   },
   outputName: {
-    type: "string",
-    defaultValue: "translated.seq",
-    required: true
-  }
+    type: 'string',
+    defaultValue: 'translated.seq',
+    required: true,
+  },
 } satisfies ActionParameterDefinitions;
 ```
 
@@ -190,6 +208,60 @@ type MyActionSettings = ActionSettings<typeof settingDefinitions>;
 ```
 
 as these will ensure that your function is provided with correct TS types for the parameters & settings you defined.
+
+### Accepting revision-aware file inputs
+
+By default, `file`, `fileList`, `sequence`, and `sequenceList` parameters provide workspace-relative file paths as
+strings (or arrays of strings). Set `withRevision: true` to let users select a revision for each file instead. The
+action then receives a file reference with a `path` and an optional `revision`, or an array of such references for
+list parameters.
+
+Set `allowWorkingCopy: false` when the action must read a named revision. This option requires
+`withRevision: true`; otherwise, working-copy input is allowed by default.
+
+| Input selection   | File reference value                       | Behavior                                                        |
+| ----------------- | ------------------------------------------ | --------------------------------------------------------------- |
+| Working copy      | `{ path: 'ops.seq' }`                      | Reads the latest saved working copy.                            |
+| Latest revision   | `{ path: 'ops.seq', revision: '@latest' }` | Resolves the newest revision when read; fails if there is none. |
+| Specific revision | `{ path: 'ops.seq', revision: '3' }`       | Reads revision `3`; fails if that revision is unavailable.      |
+
+For example, an action that requires a revisioned sequence can define and read its input as follows:
+
+```ts
+import type {
+  ActionsAPI,
+  ActionParameterDefinitions,
+  ActionParameters,
+  ActionSettingDefinitions,
+  ActionSettings,
+} from '@nasa-jpl/plandev-actions';
+
+export const parameterDefinitions = {
+  sourceSequence: {
+    type: 'sequence',
+    description: 'Revisioned sequence to process',
+    primary: true,
+    required: true,
+    withRevision: true,
+    allowWorkingCopy: false,
+  },
+} satisfies ActionParameterDefinitions;
+
+export const settingDefinitions = {} satisfies ActionSettingDefinitions;
+
+type MyActionParameters = ActionParameters<typeof parameterDefinitions>;
+type MyActionSettings = ActionSettings<typeof settingDefinitions>;
+
+export async function main(parameters: MyActionParameters, _settings: MyActionSettings, actionsAPI: ActionsAPI) {
+  const contents = await actionsAPI.readFile(parameters.sourceSequence);
+  return { status: 'SUCCESS', data: { characters: contents.length } };
+}
+```
+
+Pass the **whole file reference** to `actionsAPI.readFile`, as shown above. Passing only
+`parameters.sourceSequence.path` would discard the selected revision and read the working copy instead. The
+`readFile` helper handles the working copy, `@latest`, and named revisions; it does not silently fall back to the
+working copy if a requested revision cannot be found.
 
 ### The action `main` function
 
@@ -302,7 +374,7 @@ services which may require them. For example:
 
 ```js
 export const parameterDefinitions = {
-    mySecretAuthToken: { type: 'secret' }
+  mySecretAuthToken: { type: 'secret' },
 };
 ```
 
@@ -316,7 +388,7 @@ However, for storing and passing long-lived secrets to your actions, you can mak
 accessible by adding the prefix `PUBLIC_ACTION_` to their name, for example:
 
 ```yaml
-PUBLIC_ACTION_MY_SECRET_API_KEY: "someTokenThatWillLastForAWhile"
+PUBLIC_ACTION_MY_SECRET_API_KEY: 'someTokenThatWillLastForAWhile'
 ```
 
 These will be accessible in the action under the global `process.env`.
@@ -330,7 +402,7 @@ to authenticate with an external service under the user's identity.
 To enable cookie forwarding, set the following environment variables:
 
 | Container        | Variable                            | Description                                                                             |
-|------------------|-------------------------------------|-----------------------------------------------------------------------------------------|
+| ---------------- | ----------------------------------- | --------------------------------------------------------------------------------------- |
 | `plandev_ui`     | `PUBLIC_ACTION_INCLUDE_CREDENTIALS` | Set to `true` to include browser credentials (cookies) in requests to the action server |
 | `plandev_action` | `ACTION_COOKIE_NAMES`               | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)        |
 | `plandev_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`).                    |
@@ -359,7 +431,7 @@ include secret values in your `return` statement's `data` field.
 - If the cookie has **`SameSite=Strict`**, the request must be same-site
 - **`SameSite=Lax`** (the browser default) will send the cookie for same-origin requests and top-level cross-site navigations
 - **`httpOnly`** cookies are supported — this is a key benefit of this feature, since `httpOnly` cookies cannot be read by client-side JavaScript but are still sent by the browser with requests
-:::
+  :::
 
 ### Building your action
 
