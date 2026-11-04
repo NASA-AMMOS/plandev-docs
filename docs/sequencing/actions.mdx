@@ -217,13 +217,13 @@ action then receives a file reference with a `path` and an optional `revision`, 
 list parameters.
 
 Set `allowWorkingCopy: false` when the action must read a named revision. This option requires
-`withRevision: true`; otherwise, working-copy input is allowed by default.
+`withRevision: true` otherwise working-copy input is allowed by default.
 
 | Input selection   | File reference value                       | Behavior                                                        |
 | ----------------- | ------------------------------------------ | --------------------------------------------------------------- |
 | Working copy      | `{ path: 'ops.seq' }`                      | Reads the latest saved working copy.                            |
-| Latest revision   | `{ path: 'ops.seq', revision: '@latest' }` | Resolves the newest revision when read; fails if there is none. |
-| Specific revision | `{ path: 'ops.seq', revision: '3' }`       | Reads revision `3`; fails if that revision is unavailable.      |
+| Latest revision   | `{ path: 'ops.seq', revision: '@latest' }` | Resolves the newest revision when read, fails if there is none. |
+| Specific revision | `{ path: 'ops.seq', revision: '3' }`       | Reads revision `3`, fails if that revision is unavailable.      |
 
 For example, an action that requires a revisioned sequence can define and read its input as follows:
 
@@ -260,7 +260,7 @@ export async function main(parameters: MyActionParameters, _settings: MyActionSe
 
 Pass the **whole file reference** to `actionsAPI.readFile`, as shown above. Passing only
 `parameters.sourceSequence.path` would discard the selected revision and read the working copy instead. The
-`readFile` helper handles the working copy, `@latest`, and named revisions; it does not silently fall back to the
+`readFile` helper handles the working copy, `@latest`, and named revisions. It does not silently fall back to the
 working copy if a requested revision cannot be found.
 
 ### The action `main` function
