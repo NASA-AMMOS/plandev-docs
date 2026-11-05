@@ -458,49 +458,13 @@ const revision = await actionsAPI.createFileRevision('output.seq', { message: 'G
 Writing and creating a revision are **two separate operations**. If revision creation fails, the write has already
 succeeded.
 
-#### Optional protection against concurrent edits {#conditional-operations}
+#### Optional content checks {#conditional-operations}
 
-These checks are **optional**. Use them when an action reads a file and later creates a revision or restores the
-file based on what it read. A user or another action might edit the file in between. Checking the contents before
-the operation prevents the action from bookmarking content it did not validate or overwriting someone else's edits.
-
-An **ETag** is a value returned by the server that identifies a file's saved contents. Use
-`readFileWithEtag(path)` to read both the contents and their ETag as `{ content, etag }`. Pass that ETag as the
-`ifMatch` option to `createFileRevision` or `restoreFileRevision`. The server compares it with the file's saved
-contents before performing the operation. If they do not match, the operation is rejected and the SDK throws an
-error. Let that error fail the action, or read the file again and repeat the relevant work before retrying.
-
-For example, to create a revision of the same contents the action validated:
-
-```ts
-const file = await actionsAPI.readFileWithEtag('sequences/example.seq');
-if (file.etag === null) throw new Error('The workspace server did not return an ETag');
-
-// Validate file.content here. Throw an error if validation fails.
-const revision = await actionsAPI.createFileRevision('sequences/example.seq', {
-  ifMatch: file.etag,
-  message: 'Passed validation',
-});
-const historicalContent = await actionsAPI.readFileAtRevision('sequences/example.seq', revision.name);
-```
-
-For a restore, pass the ETag of the working copy you intend to replace, not the historical revision's name.
-This prevents the restore from overwriting a working copy whose contents differ from what the action read.
-
-These checks compare file contents only, not metadata. Each check applies to a single request: it does not reserve
-the file while the action runs or make writing a file and creating a revision atomic. `writeFile` does not accept
-`ifMatch`.
-
-- Pass the ETag exactly as returned, including its quotes. If the server omits the ETag header, `etag` is `null`;
-  the example fails rather than proceeding without the check.
-- Omitting `ifMatch`, or passing `"*"`, skips the content comparison. The SDK sends `If-Match: *` when the option
-  is omitted. Permissions, read-only restrictions, and the requirement that the file exist apply in either case.
-- An ETag identifies file content only; it does not detect metadata-only changes.
-- The check applies to one revision-creation or restore request. It does not reserve the file while the action is
-  running or make writing a file and creating a revision a single operation. `writeFile` does not accept `ifMatch`.
-- The SDK does not replace a supplied ETag with `"*"` after a failed check.
-- A successful restore returns a `FileWriteResult` containing `{ success: true, etag }`, where `etag` identifies
-  the restored contents, or is `null` if the server omits the header.
+Revision creation and restore support an **optional content check** to avoid capturing contents different from
+those your action validated, or restoring over intervening edits. Read `{ content, etag }` with
+`readFileWithEtag(path)`, require a non-null `etag`, and pass that value unchanged as `{ ifMatch: etag }` to
+`createFileRevision` or `restoreFileRevision`; the operation throws an error if the saved contents do not match.
+This checks file contents only, not metadata, and does not protect `writeFile` calls.
 
 #### Errors and exported types {#revision-errors-and-types}
 
