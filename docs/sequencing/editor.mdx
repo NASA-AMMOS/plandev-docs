@@ -79,6 +79,20 @@ a zip file, preserving folder structure where needed.
 When moving or copying files, SeqDev checks for conflicting destination files and lets users choose whether to overwrite
 or skip conflicts.
 
+Workspace files are stored in an underlying Docker volume. Files should *only* be written through the SeqDev UI or
+supported workspace APIs, including the `ActionsAPI` file helpers. **Do not edit files directly** in the mounted
+volume, as those changes would bypass the workspace's managed history.
+
+## File revisions
+
+[File Revisions](/sequencing/file-revisions/) are named snapshots of individual workspace files. Saving updates the **working copy** but does not
+create a revision. Use revisions to compare changes, restore earlier contents, download a named version, or run a
+compatible action against a saved snapshot.
+
+Open a file and select **File Revisions** in the right sidebar to create or browse its revisions. See
+[File Revisions](/sequencing/file-revisions/) for details about revision status, restoring, and how file operations
+affect history.
+
 ## Workspace error console
 
 The workspace error console gathers errors and logs from the current workspace session. It includes action runs,
@@ -90,6 +104,9 @@ column references when available, and action entries can link to the action run 
 SeqDev maintains metadata for workspace files. Metadata files are managed by the workspace service, stored as hidden
 `.meta.seqdev` files, and not shown in normal workspace file listings. In most cases, users interact with this metadata
 through the read-only checkbox or the Metadata right panel.
+
+User metadata is included in [file revisions](/sequencing/file-revisions/). Restoring a revision restores its user
+metadata as well as its contents, but does not roll back the **Read only** setting or system-managed metadata.
 
 ### Managed metadata
 

@@ -1,16 +1,11 @@
 # SeqDev Actions
 
-:::caution
-Actions are a beta feature under active development. They are available for use in SeqDev, but their APIs and UI may
-continue to change as the feature matures. Please let us know if you have feedback on their future development.
-:::
-
 Actions are _custom tasks_ that developers can write and upload to a SeqDev Sequencing **workspace**, in order to
 traceably automate operations on the sequences and files within the workspace. Actions may _read from_ and _write to_ the contents of the
 workspace, and may communicate with other services to provide things such as translation, static checking or compilation.
 More info about this decision and its intentions can be found in [ADR-0101 - SeqDev Actions](/overview/design/arch-decision-records/adr-0101-seqdev-actions).
 
-This document describes the _current state_ of the Actions feature as it exists today.
+This guide covers using Actions in SeqDev and writing actions with the `plandev-actions` package.
 
 ## Using Actions
 
@@ -48,7 +43,8 @@ complete URL to request.
 This will take you to the **action run detail page** for this run, which will show information about the status of this
 particular run. After a few seconds, you should either see a green "success" status with results showing information
 about the `plandev` repo from the GitHub API, or a red "failure" status. If you see a failure, check to make sure your
-settings and parameters were set correctly.
+settings and parameters were set correctly. If the action returns a Markdown report, it appears in a
+**Report** block above the structured **Results**.
 
 Finally, you can go back to the main Actions page for your workspace, which should show your just-completed run in the
 list and gives you access to the list of all past runs, for purposes of traceability. Each run saves the settings
@@ -74,10 +70,10 @@ runs. Users with permission to update action definitions can unarchive archived 
 
 Actions can be run directly on files selected in a SeqDev workspace. To support this, an action can define any of these file-like parameter types:
 
-* `file` - a single workspace file
-* `fileList` - one or more workspace files
-* `sequence` - a single file recognized by SeqDev as a sequence
-* `sequenceList` - one or more files recognized by SeqDev as sequences
+- `file` - a single workspace file
+- `fileList` - one or more workspace files
+- `sequence` - a single file recognized by SeqDev as a sequence
+- `sequenceList` - one or more files recognized by SeqDev as sequences
 
 When an Action is launched from the active file or a workspace file selection, SeqDev can automatically populate a compatible parameter with those file(s).
 If an Action defines more than one file-like parameter, set `primary: true` on the parameter SeqDev should populate automatically.
@@ -86,12 +82,30 @@ For `file` and `fileList` parameters, the optional `pattern` field restricts whi
 supports [Picomatch](https://github.com/micromatch/picomatch) glob patterns and is matched against the filename
 (including extension), not its directory path. For example:
 
-| `pattern`            | matches                                          |
-| -------------------- | ------------------------------------------------ |
-| `*.json` or `.json`  | json files                                       |
-| `thing_*.seq`        | files like `thing_1.seq` and `thing_nav.seq`     |
-| `thing_+([0-9]).seq` | files like `thing_9.seq` and `thing_9384.seq`    |
+| `pattern`            | matches                                       |
+| -------------------- | --------------------------------------------- |
+| `*.json` or `.json`  | json files                                    |
+| `thing_*.seq`        | files like `thing_1.seq` and `thing_nav.seq`  |
+| `thing_+([0-9]).seq` | files like `thing_9.seq` and `thing_9384.seq` |
 
+### Selecting file revisions
+
+When an action supports revisions for a `file`, `fileList`, `sequence`, or `sequenceList` input, the Run Action form
+shows a revision selector for each selected file. Choose one of the following:
+
+- **Working copy:** Use the file's latest saved contents, not unsaved editor changes.
+- **Latest revision:** Use whichever named revision is newest when the action reads the file. This can change between
+  runs if someone creates another revision.
+- **Revision N** (letter or number depending on the deployment): Use that specific revision even if the working copy
+  changes afterward.
+
+Some actions are configured to require a named revision and do not offer **Working copy**. Selecting a new file for such an action
+defaults to **Latest revision**. Choose a specific revision if the input must remain pinned across runs. You can also
+start a compatible action from a revision's **More options** menu in **File Revisions**, which preselects that revision.
+
+The **file revision** is separate from the **action version** selected in the Run Action form. The action version
+chooses which uploaded implementation runs whereas the file revision chooses which saved file snapshot the action reads. See
+[File Revisions](/sequencing/file-revisions/) for more about working copies and revision history.
 
 ## Writing an Action
 
@@ -105,14 +119,16 @@ We provide two resources for developers who want to write a new action:
 - The **[plandev-actions](https://github.com/NASA-AMMOS/plandev-actions)** JS package, a library of utilities used by actions
 
 We recommend starting a new action by forking or copying the **[plandev-examples](https://github.com/NASA-AMMOS/plandev-examples)**
-repository and using it as a starting point. Once you have a local copy, `cd` to it and run the following commands:
+repository and using it as a starting point. Once you have a local copy, `cd` to it and run the following commands to
+build the basic-action example:
 
-- `cd examples/actions`
+- `cd examples/actions/basic-action`
 - `nvm use` - (optional, but ensures you're using the correct `node` version. You may have to [install NVM](https://github.com/nvm-sh/nvm) first)
 - `npm install` to install dependencies
 - `npm run build` to make sure you are setup correctly to build
 
-Files in the `/dist` folder are generated and should not be modified directly - the action's source files are in the
+The build produces `dist/action.js` inside `examples/actions/basic-action`, which you can upload through **New Action**
+or **Upload New Version**. Files in the `/dist` folder are generated and should not be modified directly - the action's source files are in the
 `/src` directory. Open, for example, [`basic-action/src/index.ts`](https://github.com/NASA-AMMOS/plandev-examples/blob/main/examples/actions/basic-action/src/index.ts)
 in your code editor to start working on your action. You'll see at the top of the file the utilities that are imported
 from `plandev-actions`, which we'll discuss below.
@@ -128,15 +144,17 @@ by the user on every run of the action.
 
 #### Definitions
 
-You must define your parameters and settings as shown in the template structure: the variables **must** be called `parameterDefinitions`
-and `settingDefinitions`, but you should replace the contents with your desired parameter/setting names and their types.
+You must define your parameters and settings as [shown in the template structure](https://github.com/NASA-AMMOS/plandev-examples/blob/main/examples/actions/basic-action/src/index.ts):
+the variables **must** be called `parameterDefinitions` and `settingDefinitions`, but you should replace the contents
+with your desired parameter/setting names and their types.
 For example, the code:
 
 ```ts
-export const parameterDefinitions = {
-  myName: { type: "string" },
-  myAge: { type: "int" }
-} satisfies ActionParameterDefinitions;
+import { defineParameters } from '@nasa-jpl/plandev-actions';
+export const parameterDefinitions = defineParameters({
+  myName: { type: 'string' },
+  myAge: { type: 'int' },
+});
 ```
 
 defines two user-provided parameters, a string called `myName` and an integer called `myAge`. The full list of
@@ -158,27 +176,27 @@ rejects values that are not listed in `variants`. Non-required variants may be l
 ```ts
 export const parameterDefinitions = {
   commandFile: {
-    type: "sequence",
-    description: "Sequence file to process",
+    type: 'sequence',
+    description: 'Sequence file to process',
     primary: true,
-    required: true
+    required: true,
   },
   mode: {
-    type: "variant",
-    description: "How much processing to perform",
+    type: 'variant',
+    description: 'How much processing to perform',
     variants: [
-      { key: "check", label: "Check only" },
-      { key: "translate", label: "Translate" },
-      { key: "compile", label: "Compile" }
+      { key: 'check', label: 'Check only' },
+      { key: 'translate', label: 'Translate' },
+      { key: 'compile', label: 'Compile' },
     ],
-    defaultValue: "check",
-    required: true
+    defaultValue: 'check',
+    required: true,
   },
   outputName: {
-    type: "string",
-    defaultValue: "translated.seq",
-    required: true
-  }
+    type: 'string',
+    defaultValue: 'translated.seq',
+    required: true,
+  },
 } satisfies ActionParameterDefinitions;
 ```
 
@@ -190,6 +208,71 @@ type MyActionSettings = ActionSettings<typeof settingDefinitions>;
 ```
 
 as these will ensure that your function is provided with correct TS types for the parameters & settings you defined.
+
+<span id="choosing-revisions-for-file-parameters" />
+
+### Accepting revision-aware file inputs
+
+By default, `file`, `fileList`, `sequence`, and `sequenceList` parameters provide workspace-relative file paths as
+strings (or arrays of strings). Set `withRevision: true` to let users select a revision for each file instead. The
+action then receives a `FileRef` with a `path` and an optional `revision`, or a `FileRef[]` for list parameters:
+
+```ts
+type FileRef = { path: string; revision?: string };
+```
+
+Set `allowWorkingCopy: false` when the action must read a revision. This option requires `withRevision: true`;
+working-copy input is allowed by default. With `allowWorkingCopy: false`, the action receives `revision` on each
+`FileRef` (typed as `Required<FileRef>`), and a run that is missing one is rejected before the action starts.
+
+A pinned revision is immutable. Working-copy and `@latest` inputs are resolved when the action reads the file,
+so they are not reproducible snapshots: a re-run can read different contents.
+
+| Input selection   | File reference value                       | Behavior                                                        |
+| ----------------- | ------------------------------------------ | --------------------------------------------------------------- |
+| Working copy      | `{ path: 'ops.seq' }`                      | Reads the latest saved working copy.                            |
+| Latest revision   | `{ path: 'ops.seq', revision: '@latest' }` | Resolves the newest revision when read, fails if there is none. |
+| Specific revision | `{ path: 'ops.seq', revision: '3' }`       | Reads revision `3`, fails if that revision is unavailable.      |
+
+For example, an action that requires a revisioned sequence can define and read its input as follows:
+
+```ts
+import type {
+  ActionsAPI,
+  ActionParameterDefinitions,
+  ActionParameters,
+  ActionSettingDefinitions,
+  ActionSettings,
+} from '@nasa-jpl/plandev-actions';
+
+export const parameterDefinitions = {
+  sourceSequence: {
+    type: 'sequence',
+    description: 'Revisioned sequence to process',
+    primary: true,
+    required: true,
+    withRevision: true,
+    allowWorkingCopy: false,
+  },
+} satisfies ActionParameterDefinitions;
+
+export const settingDefinitions = {} satisfies ActionSettingDefinitions;
+
+type MyActionParameters = ActionParameters<typeof parameterDefinitions>;
+type MyActionSettings = ActionSettings<typeof settingDefinitions>;
+
+export async function main(parameters: MyActionParameters, _settings: MyActionSettings, actionsAPI: ActionsAPI) {
+  const contents = await actionsAPI.readFile(parameters.sourceSequence);
+  return { status: 'SUCCESS', data: { characters: contents.length } };
+}
+```
+
+Pass the **whole file reference** to `actionsAPI.readFile`, as shown above. Passing only
+`parameters.sourceSequence.path` would discard the selected revision and read the working copy instead. The
+`readFile` helper handles the working copy, `@latest`, and named revisions. It does not silently fall back to the
+working copy if a requested revision cannot be found.
+
+See [Workspace file revisions](#workspace-file-revisions) for reading history, creating revisions, and restoring files.
 
 ### The action `main` function
 
@@ -241,12 +324,67 @@ Be careful that you **do not `console.log()` any sensitive information**
 such as authentication tokens, passwords or opcodes, that you do not want to be persisted in the database in plaintext.
 :::
 
+#### Action reports {#action-reports}
+
+An action can also return an optional `report` alongside its `data`. The relevant `ActionResult` fields are:
+
+```ts
+type ActionResult = {
+  status: 'FAILED' | 'SUCCESS';
+  data: any; // machine-readable output (rendered as raw JSON in the "Results" block)
+  report?: string; // optional human-facing Markdown summary (rendered in the "Report" block)
+};
+```
+
+- **`data`** is the structured, machine-readable output. The UI shows it as pretty-printed JSON in the **Results** block.
+- **`report`** is an optional **Markdown** string for human-readable summaries, links, and tables. The UI renders it in a **Report** block above Results.
+
+**Example**
+
+```ts
+export async function main(parameters, settings, actionsAPI) {
+  // ... do work ...
+  return {
+    status: 'SUCCESS',
+    data: { violations: 2, checked: 148 },
+    report: [
+      '## Constraint check complete',
+      '',
+      'Checked **148** constraints — <span style="color: #c00">2 violations</span> found.',
+      '',
+      '| Constraint | Result |',
+      '| --- | --- |',
+      '| Power margin | <span style="color: green">OK</span> |',
+      '| Thermal window | <span style="color: #c00">**Violated** at 04:12Z</span> |',
+      '',
+      'See the [full report](https://example.com/runs/123) for details.',
+    ].join('\n'),
+  };
+}
+```
+
+**Supported Markdown**
+
+The Report block accepts a curated, GitHub-flavored Markdown subset:
+
+- Headings, paragraphs, line breaks, horizontal rules
+- **Bold**, _italic_, ~~strikethrough~~, `inline code` and fenced code blocks
+- Ordered/unordered lists, blockquotes
+- Tables
+- Hyperlinks (open in a new tab)
+- Inline text color via `<span style="color: ...">` — `color` and `background-color` only, with validated color values (named, `#hex`, `rgb()`/`hsl()`). Works in text and inside table cells.
+
+**Not supported (stripped for safety)**
+
+Report content is sanitized. Unsupported HTML, media, scripts, and styles are removed; only the Markdown and
+color styling listed above are rendered.
+
 ### Using `actionsAPI` functions to read and write workspace files
 
 The third argument passed to your `main` function is an instance of the `ActionsAPI` class [defined in `plandev-actions`](https://github.com/NASA-AMMOS/plandev-actions/blob/main/src/index.ts#L94). This object contains a connection to the PlanDev database,
-and allows you to asynchronously **read from** and **write to** files in your workspace. More documentation for
-these functions can be found in the [`plandev-actions` repo](https://github.com/NASA-AMMOS/plandev-actions/blob/main/README.md),
-and examples can be found in the `plandev-action-examples`. The basic methods are:
+and allows you to asynchronously **read from** and **write to** files in your workspace. Working examples can be
+found in the [Actions section of the plandev-examples repo](https://github.com/NASA-AMMOS/plandev-examples/tree/main/examples/actions).
+The basic methods are:
 
 ```js
 // return a list of files in a workspace directory:
@@ -277,6 +415,65 @@ terminated and any unprocessed results will be dropped.
 
 :::
 
+### Workspace file revisions {#workspace-file-revisions}
+
+These methods require a workspace server with the file-revisions endpoints. They use the action's workspace,
+authorization token, and role. The server enforces permissions and read-only restrictions on these operations.
+
+| Method                                          | Result                                                            |
+| ----------------------------------------------- | ----------------------------------------------------------------- |
+| `listFileRevisions(path)`                       | `{ revisions: FileRevision[], matchingRevision: string \| null }` |
+| `readFileAtRevision(path, revision)`            | Historical file contents as a string                              |
+| `getFileRevisionMetadata(path, revision)`       | `{ versionMetadata: FileRevision, fileMetadata: FileMetadata }`   |
+| `createFileRevision(path, options?)`            | `{ name: string }`                                                |
+| `restoreFileRevision(path, revision, options?)` | `FileWriteResult`                                                |
+
+All methods are asynchronous. Paths are relative to the workspace and identify the file at its **current** path;
+`pathAtRevision` in the returned metadata records its historical path. Revision names are assigned by the server and
+are scoped to a file's history. Lists are newest first. `matchingRevision: null` means the saved content and metadata
+match no listed revision; the list may still contain revisions. `FileRevision` also includes `message`,
+`createdBy`, `createdAt`, and nullable `lastEditedBy`/`lastEditedAt`. Timestamps are strings.
+
+Creating a revision bookmarks the saved state without changing the file. Restoring writes the historical content
+and user metadata into the existing file, preserves its current read-only setting and system metadata, and does not
+create another named revision. These endpoints cannot retrieve or restore revisions through a deleted path.
+
+To create a revision of a saved file and later restore that snapshot:
+
+```ts
+const revision = await actionsAPI.createFileRevision('sequences/example.seq', {
+  message: 'Before updating instrument timing',
+});
+// After editing and saving the file, you can restore the recorded snapshot:
+await actionsAPI.restoreFileRevision('sequences/example.seq', revision.name);
+```
+
+To save generated output and create a revision:
+
+```ts
+await actionsAPI.writeFile('output.seq', generatedContent, true);
+const revision = await actionsAPI.createFileRevision('output.seq', { message: 'Generated output' });
+```
+
+Writing and creating a revision are **two separate operations**. If revision creation fails, the write has already
+succeeded.
+
+#### Optional content checks {#conditional-operations}
+
+Revision creation and restore support an **optional content check** to avoid capturing contents different from
+those your action validated, or restoring over intervening edits. Read `{ content, etag }` with
+`readFileWithEtag(path)`, require a non-null `etag`, and pass that value unchanged as `{ ifMatch: etag }` to
+`createFileRevision` or `restoreFileRevision`; the operation throws an error if the saved contents do not match.
+This checks file contents only, not metadata, and does not protect `writeFile` calls.
+
+#### Errors and exported types {#revision-errors-and-types}
+
+Workspace HTTP errors throw an `Error` with a message formatted as `"status - response body"`. Network failures
+throw the error produced by `fetch`.
+
+The SDK does not retry requests automatically. If the server creates a revision but its response is lost, retrying
+the request can create an additional revision.
+
 ### Accessing secrets in actions
 
 When an action is run, PlanDev automatically provides several **secrets** to your action via `actionsAPI.config.SECRETS`.
@@ -302,7 +499,7 @@ services which may require them. For example:
 
 ```js
 export const parameterDefinitions = {
-    mySecretAuthToken: { type: 'secret' }
+  mySecretAuthToken: { type: 'secret' },
 };
 ```
 
@@ -316,7 +513,7 @@ However, for storing and passing long-lived secrets to your actions, you can mak
 accessible by adding the prefix `PUBLIC_ACTION_` to their name, for example:
 
 ```yaml
-PUBLIC_ACTION_MY_SECRET_API_KEY: "someTokenThatWillLastForAWhile"
+PUBLIC_ACTION_MY_SECRET_API_KEY: 'someTokenThatWillLastForAWhile'
 ```
 
 These will be accessible in the action under the global `process.env`.
@@ -330,7 +527,7 @@ to authenticate with an external service under the user's identity.
 To enable cookie forwarding, set the following environment variables:
 
 | Container        | Variable                            | Description                                                                             |
-|------------------|-------------------------------------|-----------------------------------------------------------------------------------------|
+| ---------------- | ----------------------------------- | --------------------------------------------------------------------------------------- |
 | `plandev_ui`     | `PUBLIC_ACTION_INCLUDE_CREDENTIALS` | Set to `true` to include browser credentials (cookies) in requests to the action server |
 | `plandev_action` | `ACTION_COOKIE_NAMES`               | Comma-separated list of cookie names to forward (e.g. `ssosession,other_cookie`)        |
 | `plandev_action` | `ACTION_CORS_ALLOWED_ORIGIN`        | The origin of the PlanDev UI (e.g. `https://your-host.example.com`).                    |
@@ -347,7 +544,7 @@ export async function main(parameters, settings, actionsAPI) {
 :::caution
 **Do not `console.log()` secret values.** Log contents are saved to the database in plaintext. Secret values
 are automatically redacted in logs, but return values from your action are **not** redacted — be careful not to
-include secret values in your `return` statement's `data` field.
+include secret values in your `return` statement's `data` or `report` fields.
 :::
 
 :::info Deployment notes
