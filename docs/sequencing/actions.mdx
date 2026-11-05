@@ -454,8 +454,7 @@ const revision = await actionsAPI.createFileRevision('output.seq', { message: 'G
 ```
 
 Writing and creating a revision are **two separate operations**. If revision creation fails, the write has already
-succeeded. Revision creation captures the saved state when the server handles the request, including any edits
-made between the two operations.
+succeeded.
 
 #### Optional protection against concurrent edits {#conditional-operations}
 
@@ -592,7 +591,7 @@ include secret values in your `return` statement's `data` or `report` fields.
 - If the cookie has **`SameSite=Strict`**, the request must be same-site
 - **`SameSite=Lax`** (the browser default) will send the cookie for same-origin requests and top-level cross-site navigations
 - **`httpOnly`** cookies are supported — this is a key benefit of this feature, since `httpOnly` cookies cannot be read by client-side JavaScript but are still sent by the browser with requests
-  :::
+:::
 
 ### Building your action
 

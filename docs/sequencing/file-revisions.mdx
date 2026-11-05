@@ -59,8 +59,14 @@ revision. If the file matches an older revision, you can create a new revision t
 ### Revision names
 
 Your SeqDev deployment uses either numeric names (`1`, `2`, `3`, …) or alphabetic names (`A`, `B`, `C`, …) for revisions.
-You can choose the starting name when creating a file's first revision and subsequent names will advance automatically.
-Use the description to explain the change rather than trying to include descriptive text in the revision name.
+You can choose the starting name when creating a file's first revision (usually "1" for numeric names or "A" for alphabetic)
+and subsequent names will advance automatically.
+
+To change your deployment's naming convention to use alphabetic names (vs. the default numeric), you need to set two
+environment variables in your `docker-compose` file.
+ - In `plandev_workspace`, set `WORKSPACE_REVISION_NAMING_CONVENTION=ALPHABETIC`
+ - In `plandev_ui`, set `PUBLIC_WORKSPACE_REVISION_NAMING_CONVENTION=ALPHABETIC`
+
 
 ## Browsing revision history
 
