@@ -72,7 +72,7 @@ It may be useful sometimes to just backup the state of your Postgres database us
 
 SeqDev workspace files are stored outside Postgres. In the provided Docker Compose deployment, the
 `plandev_workspace` service mounts the `workspace_file_store` volume at `/usr/src/ws` (the configured
-`WORKSPACE_STORE` path). Back up the **entire workspace store**, including each workspace's:
+`WORKSPACE_STORE` path). Back up the **entire workspace store volume**, including each workspace's:
 
 - Files and folders, including hidden `.meta.seqdev` metadata files.
 - Hidden `.git` directory, which contains the managed workspace history and named file revisions.

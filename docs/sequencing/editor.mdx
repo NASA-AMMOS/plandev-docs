@@ -79,6 +79,10 @@ a zip file, preserving folder structure where needed.
 When moving or copying files, SeqDev checks for conflicting destination files and lets users choose whether to overwrite
 or skip conflicts.
 
+Workspace files are stored in an underlying Docker volume. Files should *only* be written through the SeqDev UI or
+supported workspace APIs, including the `ActionsAPI` file helpers. **Do not edit files directly** in the mounted
+volume, as those changes would bypass the workspace's managed history.
+
 ## File revisions
 
 File revisions are named snapshots of individual workspace files. Saving updates the **working copy** but does not
