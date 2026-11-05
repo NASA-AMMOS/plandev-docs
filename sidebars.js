@@ -520,6 +520,7 @@ const sidebars = {
     },
   ],
   upgradeGuides: [
+    'upgrade-guides/4-4-0-to-4-5-0',
     'upgrade-guides/4-3-0-to-4-4-0',
     'upgrade-guides/4-2-1-to-4-3-0',
     'upgrade-guides/4-2-0-to-4-2-1',
