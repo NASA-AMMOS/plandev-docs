@@ -119,14 +119,16 @@ We provide two resources for developers who want to write a new action:
 - The **[plandev-actions](https://github.com/NASA-AMMOS/plandev-actions)** JS package, a library of utilities used by actions
 
 We recommend starting a new action by forking or copying the **[plandev-examples](https://github.com/NASA-AMMOS/plandev-examples)**
-repository and using it as a starting point. Once you have a local copy, `cd` to it and run the following commands:
+repository and using it as a starting point. Once you have a local copy, `cd` to it and run the following commands to
+build the basic-action example:
 
-- `cd examples/actions`
+- `cd examples/actions/basic-action`
 - `nvm use` - (optional, but ensures you're using the correct `node` version. You may have to [install NVM](https://github.com/nvm-sh/nvm) first)
 - `npm install` to install dependencies
 - `npm run build` to make sure you are setup correctly to build
 
-Files in the `/dist` folder are generated and should not be modified directly - the action's source files are in the
+The build produces `dist/action.js` inside `examples/actions/basic-action`, which you can upload through **New Action**
+or **Upload New Version**. Files in the `/dist` folder are generated and should not be modified directly - the action's source files are in the
 `/src` directory. Open, for example, [`basic-action/src/index.ts`](https://github.com/NASA-AMMOS/plandev-examples/blob/main/examples/actions/basic-action/src/index.ts)
 in your code editor to start working on your action. You'll see at the top of the file the utilities that are imported
 from `plandev-actions`, which we'll discuss below.
@@ -142,12 +144,13 @@ by the user on every run of the action.
 
 #### Definitions
 
-You must define your parameters and settings as [shown in the template structure]((https://github.com/NASA-AMMOS/plandev-examples/blob/main/examples/actions/basic-action/src/index.ts)):
+You must define your parameters and settings as [shown in the template structure](https://github.com/NASA-AMMOS/plandev-examples/blob/main/examples/actions/basic-action/src/index.ts):
 the variables **must** be called `parameterDefinitions` and `settingDefinitions`, but you should replace the contents
 with your desired parameter/setting names and their types.
 For example, the code:
 
 ```ts
+import { defineParameters } from '@nasa-jpl/plandev-actions';
 export const parameterDefinitions = defineParameters({
   myName: { type: 'string' },
   myAge: { type: 'int' },
@@ -373,7 +376,8 @@ The Report block accepts a curated, GitHub-flavored Markdown subset:
 
 **Not supported (stripped for safety)**
 
-The UI **sanitizes** report content because it is rendered in other users' browsers. The following are removed: `<script>` and event handlers, `javascript:`/`data:` links, images and video (`<img>`/`<video>`), `<iframe>`/embeds, other raw HTML, and **any CSS other than `color`/`background-color`** (so a `style` can't carry `url(...)`, `position`, etc.). Treat `report` as untrusted display content — only the supported subset above is rendered.
+Report content is sanitized. Unsupported HTML, media, scripts, and styles are removed; only the Markdown and
+color styling listed above are rendered.
 
 ### Using `actionsAPI` functions to read and write workspace files
 
@@ -434,12 +438,14 @@ Creating a revision bookmarks the saved state without changing the file. Restori
 and user metadata into the existing file, preserves its current read-only setting and system metadata, and does not
 create another named revision. These endpoints cannot retrieve or restore revisions through a deleted path.
 
-To create a revision of a saved file or restore it to a revision:
+To create a revision of a saved file and later restore that snapshot:
 
 ```ts
-await actionsAPI.createFileRevision('sequences/example.seq');
-await actionsAPI.createFileRevision('sequences/example.seq', { message: 'Generated output' });
-await actionsAPI.restoreFileRevision('sequences/example.seq', 'b');
+const revision = await actionsAPI.createFileRevision('sequences/example.seq', {
+  message: 'Before updating instrument timing',
+});
+// After editing and saving the file, you can restore the recorded snapshot:
+await actionsAPI.restoreFileRevision('sequences/example.seq', revision.name);
 ```
 
 To save generated output and create a revision:
@@ -481,7 +487,9 @@ const historicalContent = await actionsAPI.readFileAtRevision('sequences/example
 For a restore, pass the ETag of the working copy you intend to replace, not the historical revision's name.
 This prevents the restore from overwriting a working copy whose contents differ from what the action read.
 
-Keep the following details in mind:
+These checks compare file contents only, not metadata. Each check applies to a single request: it does not reserve
+the file while the action runs or make writing a file and creating a revision atomic. `writeFile` does not accept
+`ifMatch`.
 
 - Pass the ETag exactly as returned, including its quotes. If the server omits the ETag header, `etag` is `null`;
   the example fails rather than proceeding without the check.
@@ -501,9 +509,6 @@ throw the error produced by `fetch`.
 
 The SDK does not retry requests automatically. If the server creates a revision but its response is lost, retrying
 the request can create an additional revision.
-
-The package exports the types `FileRef`, `FileRevision`, `FileRevisionList`, `FileRevisionMetadata`, `CreateFileRevisionOptions`,
-`CreateFileRevisionResult`, `RevisionWriteOptions`, `FileReadResult`, and `FileWriteResult` (used by restore).
 
 ### Accessing secrets in actions
 
