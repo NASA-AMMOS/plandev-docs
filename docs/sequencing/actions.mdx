@@ -147,15 +147,16 @@ by the user on every run of the action.
 
 #### Definitions
 
-You must define your parameters and settings as shown in the template structure: the variables **must** be called `parameterDefinitions`
-and `settingDefinitions`, but you should replace the contents with your desired parameter/setting names and their types.
+You must define your parameters and settings as [shown in the template structure]((https://github.com/NASA-AMMOS/plandev-examples/blob/main/examples/actions/basic-action/src/index.ts)):
+the variables **must** be called `parameterDefinitions` and `settingDefinitions`, but you should replace the contents
+with your desired parameter/setting names and their types.
 For example, the code:
 
 ```ts
-export const parameterDefinitions = {
+export const parameterDefinitions = defineParameters({
   myName: { type: 'string' },
   myAge: { type: 'int' },
-} satisfies ActionParameterDefinitions;
+});
 ```
 
 defines two user-provided parameters, a string called `myName` and an integer called `myAge`. The full list of
