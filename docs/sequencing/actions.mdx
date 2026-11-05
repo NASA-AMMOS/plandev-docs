@@ -2,7 +2,7 @@
 
 :::caution
 Actions are a beta feature under active development. They are available for use in SeqDev, but their APIs and UI may
-continue to change as the feature matures. Please let us know if you have feedback on their future development.
+change as the feature matures. Please let us know if you have feedback on their development.
 :::
 
 Actions are _custom tasks_ that developers can write and upload to a SeqDev Sequencing **workspace**, in order to
@@ -10,7 +10,7 @@ traceably automate operations on the sequences and files within the workspace. A
 workspace, and may communicate with other services to provide things such as translation, static checking or compilation.
 More info about this decision and its intentions can be found in [ADR-0101 - SeqDev Actions](/overview/design/arch-decision-records/adr-0101-seqdev-actions).
 
-This document describes the _current state_ of the Actions feature as it exists today.
+This guide covers using Actions in SeqDev and writing actions with the `plandev-actions` package.
 
 ## Using Actions
 
@@ -48,7 +48,8 @@ complete URL to request.
 This will take you to the **action run detail page** for this run, which will show information about the status of this
 particular run. After a few seconds, you should either see a green "success" status with results showing information
 about the `plandev` repo from the GitHub API, or a red "failure" status. If you see a failure, check to make sure your
-settings and parameters were set correctly.
+settings and parameters were set correctly. If the action returns a Markdown report, it appears in a
+**Report** block above the structured **Results**.
 
 Finally, you can go back to the main Actions page for your workspace, which should show your just-completed run in the
 list and gives you access to the list of all past runs, for purposes of traceability. Each run saves the settings
@@ -209,15 +210,24 @@ type MyActionSettings = ActionSettings<typeof settingDefinitions>;
 
 as these will ensure that your function is provided with correct TS types for the parameters & settings you defined.
 
+<span id="choosing-revisions-for-file-parameters" />
+
 ### Accepting revision-aware file inputs
 
 By default, `file`, `fileList`, `sequence`, and `sequenceList` parameters provide workspace-relative file paths as
 strings (or arrays of strings). Set `withRevision: true` to let users select a revision for each file instead. The
-action then receives a file reference with a `path` and an optional `revision`, or an array of such references for
-list parameters.
+action then receives a `FileRef` with a `path` and an optional `revision`, or a `FileRef[]` for list parameters:
 
-Set `allowWorkingCopy: false` when the action must read a named revision. This option requires
-`withRevision: true` otherwise working-copy input is allowed by default.
+```ts
+type FileRef = { path: string; revision?: string };
+```
+
+Set `allowWorkingCopy: false` when the action must read a revision. This option requires `withRevision: true`;
+working-copy input is allowed by default. With `allowWorkingCopy: false`, the action receives `revision` on each
+`FileRef` (typed as `Required<FileRef>`), and a run that is missing one is rejected before the action starts.
+
+A pinned revision is immutable. Working-copy and `@latest` inputs are resolved when the action reads the file,
+so they are not reproducible snapshots: a re-run can read different contents.
 
 | Input selection   | File reference value                       | Behavior                                                        |
 | ----------------- | ------------------------------------------ | --------------------------------------------------------------- |
@@ -262,6 +272,8 @@ Pass the **whole file reference** to `actionsAPI.readFile`, as shown above. Pass
 `parameters.sourceSequence.path` would discard the selected revision and read the working copy instead. The
 `readFile` helper handles the working copy, `@latest`, and named revisions. It does not silently fall back to the
 working copy if a requested revision cannot be found.
+
+See [Workspace file revisions](#workspace-file-revisions) for reading history, creating revisions, and restoring files.
 
 ### The action `main` function
 
@@ -313,12 +325,66 @@ Be careful that you **do not `console.log()` any sensitive information**
 such as authentication tokens, passwords or opcodes, that you do not want to be persisted in the database in plaintext.
 :::
 
+#### Action reports {#action-reports}
+
+An action can also return an optional `report` alongside its `data`. The relevant `ActionResult` fields are:
+
+```ts
+type ActionResult = {
+  status: 'FAILED' | 'SUCCESS';
+  data: any; // machine-readable output (rendered as raw JSON in the "Results" block)
+  report?: string; // optional human-facing Markdown summary (rendered in the "Report" block)
+};
+```
+
+- **`data`** is the structured, machine-readable output. The UI shows it as pretty-printed JSON in the **Results** block.
+- **`report`** is an optional **Markdown** string for human-readable summaries, links, and tables. The UI renders it in a **Report** block above Results.
+
+**Example**
+
+```ts
+export async function main(parameters, settings, actionsAPI) {
+  // ... do work ...
+  return {
+    status: 'SUCCESS',
+    data: { violations: 2, checked: 148 },
+    report: [
+      '## Constraint check complete',
+      '',
+      'Checked **148** constraints — <span style="color: #c00">2 violations</span> found.',
+      '',
+      '| Constraint | Result |',
+      '| --- | --- |',
+      '| Power margin | <span style="color: green">OK</span> |',
+      '| Thermal window | <span style="color: #c00">**Violated** at 04:12Z</span> |',
+      '',
+      'See the [full report](https://example.com/runs/123) for details.',
+    ].join('\n'),
+  };
+}
+```
+
+**Supported Markdown**
+
+The Report block accepts a curated, GitHub-flavored Markdown subset:
+
+- Headings, paragraphs, line breaks, horizontal rules
+- **Bold**, _italic_, ~~strikethrough~~, `inline code` and fenced code blocks
+- Ordered/unordered lists, blockquotes
+- Tables
+- Hyperlinks (open in a new tab)
+- Inline text color via `<span style="color: ...">` — `color` and `background-color` only, with validated color values (named, `#hex`, `rgb()`/`hsl()`). Works in text and inside table cells.
+
+**Not supported (stripped for safety)**
+
+The UI **sanitizes** report content because it is rendered in other users' browsers. The following are removed: `<script>` and event handlers, `javascript:`/`data:` links, images and video (`<img>`/`<video>`), `<iframe>`/embeds, other raw HTML, and **any CSS other than `color`/`background-color`** (so a `style` can't carry `url(...)`, `position`, etc.). Treat `report` as untrusted display content — only the supported subset above is rendered.
+
 ### Using `actionsAPI` functions to read and write workspace files
 
 The third argument passed to your `main` function is an instance of the `ActionsAPI` class [defined in `plandev-actions`](https://github.com/NASA-AMMOS/plandev-actions/blob/main/src/index.ts#L94). This object contains a connection to the PlanDev database,
-and allows you to asynchronously **read from** and **write to** files in your workspace. More documentation for
-these functions can be found in the [`plandev-actions` repo](https://github.com/NASA-AMMOS/plandev-actions/blob/main/README.md),
-and examples can be found in the `plandev-action-examples`. The basic methods are:
+and allows you to asynchronously **read from** and **write to** files in your workspace. Working examples can be
+found in the [Actions section of the plandev-examples repo](https://github.com/NASA-AMMOS/plandev-examples/tree/main/examples/actions).
+The basic methods are:
 
 ```js
 // return a list of files in a workspace directory:
@@ -348,6 +414,101 @@ your `main` function returns/resolves. After the `main` Promise is resolved, the
 terminated and any unprocessed results will be dropped.
 
 :::
+
+### Workspace file revisions {#workspace-file-revisions}
+
+These methods require a workspace server with the file-revisions endpoints. They use the action's workspace,
+authorization token, and role. The server enforces permissions and read-only restrictions on these operations.
+
+| Method                                          | Result                                                            |
+| ----------------------------------------------- | ----------------------------------------------------------------- |
+| `listFileRevisions(path)`                       | `{ revisions: FileRevision[], matchingRevision: string \| null }` |
+| `readFileAtRevision(path, revision)`            | Historical file contents as a string                              |
+| `getFileRevisionMetadata(path, revision)`       | `{ versionMetadata: FileRevision, fileMetadata: FileMetadata }`   |
+| `createFileRevision(path, options?)`            | `{ name: string }`                                                |
+| `restoreFileRevision(path, revision, options?)` | `FileWriteResult`                                                |
+
+All methods are asynchronous. Paths are relative to the workspace and identify the file at its **current** path;
+`pathAtRevision` in the returned metadata records its historical path. Revision names are assigned by the server and
+are scoped to a file's history. Lists are newest first. `matchingRevision: null` means the saved content and metadata
+match no listed revision; the list may still contain revisions. `FileRevision` also includes `message`,
+`createdBy`, `createdAt`, and nullable `lastEditedBy`/`lastEditedAt`. Timestamps are strings.
+
+Creating a revision bookmarks the saved state without changing the file. Restoring writes the historical content
+and user metadata into the existing file, preserves its current read-only setting and system metadata, and does not
+create another named revision. These endpoints cannot retrieve or restore revisions through a deleted path.
+
+To create a revision of a saved file or restore it to a revision:
+
+```ts
+await actionsAPI.createFileRevision('sequences/example.seq');
+await actionsAPI.createFileRevision('sequences/example.seq', { message: 'Generated output' });
+await actionsAPI.restoreFileRevision('sequences/example.seq', 'b');
+```
+
+To save generated output and create a revision:
+
+```ts
+await actionsAPI.writeFile('output.seq', generatedContent, true);
+const revision = await actionsAPI.createFileRevision('output.seq', { message: 'Generated output' });
+```
+
+Writing and creating a revision are **two separate operations**. If revision creation fails, the write has already
+succeeded. Revision creation captures the saved state when the server handles the request, including any edits
+made between the two operations.
+
+#### Optional protection against concurrent edits {#conditional-operations}
+
+These checks are **optional**. Use them when an action reads a file and later creates a revision or restores the
+file based on what it read. A user or another action might edit the file in between. Checking the contents before
+the operation prevents the action from bookmarking content it did not validate or overwriting someone else's edits.
+
+An **ETag** is a value returned by the server that identifies a file's saved contents. Use
+`readFileWithEtag(path)` to read both the contents and their ETag as `{ content, etag }`. Pass that ETag as the
+`ifMatch` option to `createFileRevision` or `restoreFileRevision`. The server compares it with the file's saved
+contents before performing the operation. If they do not match, the operation is rejected and the SDK throws an
+error. Let that error fail the action, or read the file again and repeat the relevant work before retrying.
+
+For example, to create a revision of the same contents the action validated:
+
+```ts
+const file = await actionsAPI.readFileWithEtag('sequences/example.seq');
+if (file.etag === null) throw new Error('The workspace server did not return an ETag');
+
+// Validate file.content here. Throw an error if validation fails.
+const revision = await actionsAPI.createFileRevision('sequences/example.seq', {
+  ifMatch: file.etag,
+  message: 'Passed validation',
+});
+const historicalContent = await actionsAPI.readFileAtRevision('sequences/example.seq', revision.name);
+```
+
+For a restore, pass the ETag of the working copy you intend to replace, not the historical revision's name.
+This prevents the restore from overwriting a working copy whose contents differ from what the action read.
+
+Keep the following details in mind:
+
+- Pass the ETag exactly as returned, including its quotes. If the server omits the ETag header, `etag` is `null`;
+  the example fails rather than proceeding without the check.
+- Omitting `ifMatch`, or passing `"*"`, skips the content comparison. The SDK sends `If-Match: *` when the option
+  is omitted. Permissions, read-only restrictions, and the requirement that the file exist apply in either case.
+- An ETag identifies file content only; it does not detect metadata-only changes.
+- The check applies to one revision-creation or restore request. It does not reserve the file while the action is
+  running or make writing a file and creating a revision a single operation. `writeFile` does not accept `ifMatch`.
+- The SDK does not replace a supplied ETag with `"*"` after a failed check.
+- A successful restore returns a `FileWriteResult` containing `{ success: true, etag }`, where `etag` identifies
+  the restored contents, or is `null` if the server omits the header.
+
+#### Errors and exported types {#revision-errors-and-types}
+
+Workspace HTTP errors throw an `Error` with a message formatted as `"status - response body"`. Network failures
+throw the error produced by `fetch`.
+
+The SDK does not retry requests automatically. If the server creates a revision but its response is lost, retrying
+the request can create an additional revision.
+
+The package exports the types `FileRef`, `FileRevision`, `FileRevisionList`, `FileRevisionMetadata`, `CreateFileRevisionOptions`,
+`CreateFileRevisionResult`, `RevisionWriteOptions`, `FileReadResult`, and `FileWriteResult` (used by restore).
 
 ### Accessing secrets in actions
 
@@ -419,7 +580,7 @@ export async function main(parameters, settings, actionsAPI) {
 :::caution
 **Do not `console.log()` secret values.** Log contents are saved to the database in plaintext. Secret values
 are automatically redacted in logs, but return values from your action are **not** redacted — be careful not to
-include secret values in your `return` statement's `data` field.
+include secret values in your `return` statement's `data` or `report` fields.
 :::
 
 :::info Deployment notes
