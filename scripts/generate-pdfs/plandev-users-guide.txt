@@ -18,10 +18,8 @@ http://localhost:3000/plandev-docs/scheduling-and-constraints/declarative/schedu
 http://localhost:3000/plandev-docs/scheduling-and-constraints/execution/
 http://localhost:3000/plandev-docs/command-expansion/introduction/
 http://localhost:3000/plandev-docs/command-expansion/upload-command-dictionary/
-http://localhost:3000/plandev-docs/command-expansion/expansion-rules/
-http://localhost:3000/plandev-docs/command-expansion/expansion-sets/
-http://localhost:3000/plandev-docs/command-expansion/sequences/
-http://localhost:3000/plandev-docs/command-expansion/run-expansion/
+http://localhost:3000/plandev-docs/command-expansion/authoring-templates/
+http://localhost:3000/plandev-docs/command-expansion/expanding-templates/
 http://localhost:3000/plandev-docs/sequencing/introduction/
 http://localhost:3000/plandev-docs/sequencing/editor/
 http://localhost:3000/plandev-docs/sequencing/adaptation/
